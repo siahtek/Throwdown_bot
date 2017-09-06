@@ -1,0 +1,67 @@
+3.0		View READ ME First			
+				
+				Status			
+		Disabled - To Enable: Menu > Throwdown > Enable	
+		Adventure Energy: 21/54		Arena Energy: 1/10		
+		Disabled at 09-06-2017 02:00 PM	
+					
+				User Info			
+		User_ID															View READ ME for more info
+		User_Token														View READ ME for more info
+					
+				Options			
+		Energy Check				Enabled								Wait for energy to fill before running (Recommended to leave this enabled.. Only Disable for manual running.) Adboost will still run.
+		Energy Check section		Adventure							What Energy to check (Recommended to leave this on Adventure.. )
+		Ad Crate					Enabled								Auto open ad crates.
+		Ad Boost					Enabled								Auto boost ads to level 3.
+						
+				Cards			
+		Auto buy and recycle		Enabled								Auto buy all cards above the set limit. Auto recycles.
+		Cards rarities to recycle	2									1 = Gray 2 = Green & Gray 3 = Blue & Green & Gray 4 = Purple & Blue & Green & Gray 
+		Auto buy limit				100000								The amount of money to start buying cards after.
+		Auto Buy/Upgrade Mission		Enabled								Auto buy 3 card packs and upgrade 3 cards to complete daily mission.  Auto recycles Gray and Green cards only
+					
+				Refill Challenge			
+		Auto Refill Challenge		Enabled								Use all Refill Challenge Energy
+		Refill Challenge Deck		1									Deck to attack with. 1 = Top (First deck) 2 = Middle (2nd Deck) 3 = Bottom (Third Deck)
+					
+				Non-Refill Challenge			
+		Auto Non-Refill Challenge	Enabled								Use all Non-Refill Challenge Energy
+		Non-Refill Challenge Deck	1									Deck to attack with. 1 = Top (First deck) 2 = Middle (2nd Deck) 3 = Bottom (Third Deck)
+					
+				Rumble - Not working			
+		Auto Rumble					Disabled							Auto rumble any attacks you have left after time reached (Panic time)
+		Rumble Deck					1									Deck to attack with. 1 = Top (First deck) 2 = Middle (2nd Deck) 3 = Bottom (Third Deck)
+		Rumble Energy Check			Enabled								Only attack if you have 10 energy unused(Stops it from attack if you are doing it yourself)
+		Panic time					15									Time in minutes to Auto rumble at.
+					
+				Adventure			
+		Auto Adventure				Disabled							Use all Adventure Energy
+		Adventure Deck				1									Deck to attack with. 1 = Top (First deck) 2 = Middle (2nd Deck) 3 = Bottom (Third Deck)
+		Island to farm				26-1								Select the island you want to farm
+					
+				Arena			
+		Auto Arena					Disabled							Use all Arena Energy
+		Arena Deck					1									Deck to attack with. 1 = Top (First deck) 2 = Middle (2nd Deck) 3 = Bottom (Third Deck)
+		Token Search				Disabled							Refresh until it finds a Token you set below
+		Search Timeout				10									Amount of times to refresh/search before just attacking.
+		Brian						Disabled		
+		Stewie						Disabled		
+		Louise						Disabled		
+		Steve						Disabled		
+		Bender						Disabled		
+		Dale						Disabled		
+		Bob							Disabled		
+		Roger						Disabled		
+		Leela						Disabled		
+		Bobby						Disabled		
+		Peter						Disabled		
+		Tina						Disabled		
+		Stan						Disabled		
+		Fry							Disabled		
+		Hank						Disabled		
+		Consuela					Disabled		
+		Ricky Spanish				Disabled		
+		Gene						Disabled		
+		Zapp Brannigan				Disabled		
+					

@@ -1,0 +1,53 @@
+			
+		How to get a copy of CAT bot	
+	Step-1	Make a Copy: Menu > File > Make a copy...	
+	Step-2	Save and continue.	
+			
+			
+		How to get Kong Token & User id	
+	Step-1 		Open and login to Animation Throwdown	
+				http://www.kongregate.com/games/Throwdown/animation-throwdown	
+			
+	Step-2		Open the browser Console	
+				https://webmasters.stackexchange.com/questions/8525/how-do-i-open-the-javascript-console-in-different-browsers	
+				Chrome: Ctrl+Shift+J > Console tab	
+				Firefox: Ctrl+Shift+k > Console tab	
+			
+	Step-3		Paste this code into the command line and press enter (Might ask to allow pasting code)	
+				alert('UserID: '+active_user.id()+'\nGameAuthToken: '+active_user.gameAuthToken());	
+			
+	Step-4		Copy the User_ID and User_Token to User Info under settings	
+			
+			
+		How to start the bot	
+	Step-1		Get and fill in the User_Id and User_Token	
+	Step-2		To start: Menu > Throwdown > Enable	
+	Step-3		Allow Authorization > Continue	
+	Step-4		Choose an account	
+	Step-5		Advanced > Go to ThrowDownBot (unsafe)	
+	Step-6		Might ask you to type "Continue" > Allow	
+			
+			
+			If you have any issues please leave a comment on the section with the issue.	
+			https://docs.google.com/spreadsheets/d/1pqge7eNXOYM2n-BHdUpx-oC2AmzZ229wopivvhi0mk0/edit#gid=0	
+			
+			
+	Do this after you update or delete your bot.	
+	Step-1		open an existing sheet or create a new sheet	
+	Step-2		Menu > Tools > Script Editor..	
+	Step-3		Menu > Edit > All your triggers (Might ask you to create a new project, just press ok)	
+	Step-4		Delete all triggers with "Load" and "_RumbleTrigger"	
+			
+		This is due to an issue with google sheets thats been around for years... 	
+		The issue is sometimes google won't delete all the triggers after the sheets been deleted.	
+			
+			
+		The script is slow to run due to limitations in javascript & Kongregate.	
+		The script shows as (unsafe) due to a policy by google regarding remote links.	
+		The script will run a check every 30 minutes.	
+		No information is tracked or saved on our end. Ever. Period	
+			
+			
+			
+			
+			
