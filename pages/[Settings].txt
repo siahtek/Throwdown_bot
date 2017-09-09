@@ -36,12 +36,12 @@
 		Panic time					15									Time in minutes to Auto rumble at.
 					
 				Adventure			
-		Auto Adventure				Disabled							Use all Adventure Energy
+		Auto Adventure				Disabled							Enable: Use all Arena Energy - Energy overflow control: Only attacks until your energy is just under full(allows for more to load)
 		Adventure Deck				1									Deck to attack with. 1 = Top (First deck) 2 = Middle (2nd Deck) 3 = Bottom (Third Deck)
 		Island to farm				26-1								Select the island you want to farm
 					
 				Arena			
-		Auto Arena					Disabled							Use all Arena Energy
+		Auto Arena					Disabled							Use all Arena Energy - Energy overflow control: Only attacks until your energy is just under full(allows for more to load)
 		Arena Deck					1									Deck to attack with. 1 = Top (First deck) 2 = Middle (2nd Deck) 3 = Bottom (Third Deck)
 		Token Search				Disabled							Refresh until it finds a Token you set below
 		Search Timeout				10									Amount of times to refresh/search before just attacking.

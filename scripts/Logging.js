@@ -88,6 +88,6 @@ function RewardsParse(rewards) {
   if(xp != 0){string = string +' xp:'+xp}
   if(RatingChange != 0){string = string +' RatingChange:'+RatingChange}
   if(items != ''){string = string +' items:'+items}
-  if(string == ''){string = 'No rewards'}
+  if(string == ''){string = 'No rewards/Failed to load rewards'}
   return string
 }
