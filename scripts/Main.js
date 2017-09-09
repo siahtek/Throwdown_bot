@@ -257,16 +257,16 @@ function GetEnergy() { //Returns Current and Max energy.
   var Arena_Max = Energy_Json.user_data.max_stamina
   var Adventure = Energy_Json.user_data.energy
   var Adventure_Max = Energy_Json.user_data.max_energy
-  if(Energy_Json.hasOwnProperty('102000'))
+  if(Challenge_Json.active_events.hasOwnProperty('102000'))
   {var Challenge = Challenge_Json.active_events[102000].challenge_data.energy.current_value;}
   else{var Challenge = 0}
-  if(Energy_Json.hasOwnProperty('102000'))
+  if(Challenge_Json.active_events.hasOwnProperty('102000'))
   {var Challenge_Max = Challenge_Json.active_events[102000].challenge_data.energy.max_value;}
   else{var Challenge_Max = 8}
-  if(Energy_Json.hasOwnProperty('103001'))
+  if(Challenge_Json.active_events.hasOwnProperty('103001'))
   {var NonRefillChallenge = Challenge_Json.active_events[103001].challenge_data.energy.current_value;}
   else{var NonRefillChallenge = 0}
-  if(Energy_Json.hasOwnProperty('103001'))
+  if(Challenge_Json.active_events.hasOwnProperty('103001'))
   {var NonRefillChallenge_Max = Challenge_Json.active_events[103001].challenge_data.energy.max_value;}
   else{var NonRefillChallenge_Max = 10}
   return [parseInt(Adventure), parseInt(Arena), parseInt(Challenge), parseInt(NonRefillChallenge), parseInt(Adventure_Max), parseInt(Arena_Max), parseInt(Challenge_Max), parseInt(NonRefillChallenge_Max)]
