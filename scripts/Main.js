@@ -64,8 +64,6 @@ function Main() {
     var Loaded = LoadUserSettings();
     var User_Auth = AuthenticateUser( getProperty( 'User_ID' ), getProperty( 'User_Token' ) );
     if ( User_Auth == false ) {
-        UpdateStatus( 'Login failed.. Check User_Ud & User_Token ' + TimeFormated() );
-        Logger.log( 'User Auth fail' );
         return false
     }
     if ( getProperty( 'Ad Boost' ) == 'Enabled' ) {
@@ -199,9 +197,9 @@ function _Farming() {
     }
     _CompleteAchievemnts( getProperty( '_url' ), '5009' );
     _CompleteAchievemnts( getProperty( '_url' ), '5010' );
-    if ( getProperty( 'Auto Buy/Upgade Mission' ) == "Enabled" && _CheckAchievemnts( getProperty( '_url' ), '5009' ) == true ) {
+    if ( getProperty( 'Auto Buy/Upgrade Mission' ) == "Enabled" && _CheckAchievemnts( getProperty( '_url' ), '5009' ) == true ) {
         UpdateStatus( 'Account ' + getProperty( '_name' ) + ' Daily Mission ' + TimeFormated() );
-        Logger.log( '- - - - Auto Buy/Upgade Mission Start - - - -' );
+        Logger.log( '- - - - Auto Buy/Upgrade Mission Start - - - -' );
         var result = _BuyCardAndUpgrade();
         Logger.log( '- - - - Auto Buy/Upgrade Mission End - - - -' );
     }
