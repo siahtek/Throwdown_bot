@@ -13,14 +13,16 @@ function _Enable() {
     _properties = PropertiesService.getScriptProperties()
     _sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName( 'Settings' );
     LoadUserSettings();
-    var User_Auth = AuthenticateUser( _getp( 'User_ID' ), _getp( 'User_Token' ) );
-    if ( User_Auth == false ) {return false}
+    var User_Auth = AuthenticateUser( getProperty( 'User_ID' ), getProperty( 'User_Token' ) );
+    if ( User_Auth == false ) {
+        return false
+    }
     if ( _CheckTrigger( 'Trigger_loaded' ) == false ) {
         _CreateTrigger( 'Trigger_loaded' );
         UpdateNext( true )
-        UpdateStatus( 'Account ' + _getp( '_name' ) + ' Enabled, Waiting for next check ' );
+        UpdateStatus( 'Account ' + getProperty( '_name' ) + ' Enabled, Waiting for next check ' );
     } else {
-        UpdateStatus( 'Account ' + _getp( '_name' ) + ' refresh finished' );
+        UpdateStatus( 'Account ' + getProperty( '_name' ) + ' refresh finished' );
     }
     var Energy = GetEnergy();
     EnergyUpdate( Energy[ 1 ], Energy[ 5 ], 'Arena' )
@@ -60,66 +62,66 @@ function Main() {
     UpdateStatus( 'Started, logging in ' + TimeFormated() );
     VersionCheck()
     var Loaded = LoadUserSettings();
-    var User_Auth = AuthenticateUser( _getp( 'User_ID' ), _getp( 'User_Token' ) );
+    var User_Auth = AuthenticateUser( getProperty( 'User_ID' ), getProperty( 'User_Token' ) );
     if ( User_Auth == false ) {
         UpdateStatus( 'Login failed.. Check User_Ud & User_Token ' + TimeFormated() );
         Logger.log( 'User Auth fail' );
         return false
     }
-    if ( _getp( 'Ad Boost' ) == 'Enabled' ) {
-        UpdateStatus( 'Account ' + _getp( '_name' ) + ' Loading AdBoost ' + TimeFormated() );
-        var Boost = AdBoost(); //Boost every 30 minutes? why not!
+    if ( getProperty( 'Ad Boost' ) == 'Enabled' ) {
+        UpdateStatus( 'Account ' + getProperty( '_name' ) + ' Loading boostAds ' + TimeFormated() );
+        var Boost = boostAds(); //Boost every 30 minutes? why not!
         Logger.log( 'Ad Boost:' + Boost );
     }
     var Energy = GetEnergy();
     EnergyUpdate( Energy[ 1 ], Energy[ 5 ], 'Arena' )
     EnergyUpdate( Energy[ 0 ], Energy[ 4 ], 'Adventure' )
-    if ( _CheckActive( _getp( '_url' ) ) == true ) {
-        UpdateStatus( 'Account ' + _getp( '_name' ) + ' Active Session found. Waiting 30 mins ' + TimeFormated() );
+    if ( _CheckActive( getProperty( '_url' ) ) == true ) {
+        UpdateStatus( 'Account ' + getProperty( '_name' ) + ' Active Session found. Waiting 30 mins ' + TimeFormated() );
         Logger.log( 'Active session found' );
         return false
     }
-    if ( _getp( 'Energy Check' ) == 'Enabled' ) {
+    if ( getProperty( 'Energy Check' ) == 'Enabled' ) {
         var AdvMax = Energy[ 4 ] - 2;
-        if ( _getp( 'Auto Adventure' ) == "Energy overflow control" ) {
+        if ( getProperty( 'Auto Adventure' ) == "Energy overflow control" ) {
             AdvMax = Energy[ 4 ];
         }
         var AreMax = Energy[ 5 ] - 1;
-        if ( _getp( 'Auto Arena' ) == "Energy overflow control" ) {
+        if ( getProperty( 'Auto Arena' ) == "Energy overflow control" ) {
             AreMax = Energy[ 5 ];
         }
-        if ( _getp( 'Energy Check section' ) == 'Adventure' && Energy[ 0 ] < AdvMax ) {
-            UpdateStatus( 'Account ' + _getp( '_name' ) + ' Adventure not full. ' + TimeFormated() );
-            Logger.log( 'Adventure not full' );
+        if ( getProperty( 'Energy Check section' ) == 'playAdventure' && Energy[ 0 ] < AdvMax ) {
+            UpdateStatus( 'Account ' + getProperty( '_name' ) + ' playAdventure not full. ' + TimeFormated() );
+            Logger.log( 'playAdventure not full' );
             return false;
         }
-        if ( _getp( 'Energy Check section' ) == 'Arena' && Energy[ 1 ] < AdvMax ) {
-            UpdateStatus( 'Account ' + _getp( '_name' ) + ' Arena not full. ' + TimeFormated() );
+        if ( getProperty( 'Energy Check section' ) == 'Arena' && Energy[ 1 ] < AdvMax ) {
+            UpdateStatus( 'Account ' + getProperty( '_name' ) + ' Arena not full. ' + TimeFormated() );
             Logger.log( 'Arena not full' );
             return false;
         }
-        if ( ( _getp( 'Energy Check section' ) == 'Adventure or Arena' && Energy[ 1 ] >= AreMax ) || ( _getp( 'Energy Check section' ) == 'Adventure or Arena' && Energy[ 0 ] >= AdvMax ) ) {
+        if ( ( getProperty( 'Energy Check section' ) == 'Adventure or Arena' && Energy[ 1 ] >= AreMax ) || ( getProperty( 'Energy Check section' ) == 'Adventure or Arena' && Energy[ 0 ] >= AdvMax ) ) {
             Logger.log( 'FAIL!!!' )
         } else {
-            UpdateStatus( 'Account ' + _getp( '_name' ) + ' Neither are full. ' + TimeFormated() );
+            UpdateStatus( 'Account ' + getProperty( '_name' ) + ' Neither are full. ' + TimeFormated() );
             Logger.log( 'Neither are full' );
             return false;
         }
     }
-    UpdateStatus( 'Account ' + _getp( '_name' ) + ' Starting ' + TimeFormated() );
+    UpdateStatus( 'Account ' + getProperty( '_name' ) + ' Starting ' + TimeFormated() );
     Logger.log( GetEnergy() );
     _Farming();
     Logger.log( GetEnergy() );
-    UpdateStatus( 'Account ' + _getp( '_name' ) + ' Finished ' + TimeFormated() );
+    UpdateStatus( 'Account ' + getProperty( '_name' ) + ' Finished ' + TimeFormated() );
 }
 
 function _Farming() {
     var Energy = GetEnergy();
-    // if (_getp('Auto Rumble') == "Enabled") {Logger.log(Rumble());}
-    if ( _getp( 'Auto Refill Challenge' ) == "Enabled" && Energy[ 2 ] > 0 ) {
+    // if (getProperty('Auto Rumble') == "Enabled") {Logger.log(Rumble());}
+    if ( getProperty( 'Auto Refill Challenge' ) == "Enabled" && Energy[ 2 ] > 0 ) {
         Logger.log( '- - - - RefillChallenge Start - - - -' );
         for ( var i = 0; i < Energy[ 6 ]; i++ ) {
-            UpdateStatus( 'Account ' + _getp( '_name' ) + ' Loading Refill Challenge ' + TimeFormated() );
+            UpdateStatus( 'Account ' + getProperty( '_name' ) + ' Loading Refill Challenge ' + TimeFormated() );
             var result = RefillChallenge();
             if ( result != false ) {
                 AddLog( '_logs_RefillChallenge', result )
@@ -131,10 +133,10 @@ function _Farming() {
         }
         Logger.log( '- - - - RefillChallenge End - - - -' );
     }
-    if ( _getp( 'Auto Non-Refill Challenge' ) == "Enabled" && Energy[ 3 ] > 0 ) {
+    if ( getProperty( 'Auto Non-Refill Challenge' ) == "Enabled" && Energy[ 3 ] > 0 ) {
         Logger.log( '- - - - NonRefillChallenge Start - - - -' );
         for ( var i = 0; i < Energy[ 7 ]; i++ ) {
-            UpdateStatus( 'Account ' + _getp( '_name' ) + ' Loading Non-Refill Challenge ' + TimeFormated() );
+            UpdateStatus( 'Account ' + getProperty( '_name' ) + ' Loading Non-Refill Challenge ' + TimeFormated() );
             var result = NoneRefillChallenge();
             if ( result != false ) {
                 AddLog( '_logs_NoneRefillChallenge', result )
@@ -147,36 +149,36 @@ function _Farming() {
         Logger.log( '- - - - NonRefillChallenge End - - - -' );
     }
     var Energy = GetEnergy();
-    if ( ( _getp( 'Auto Adventure' ) == "Enabled" && Energy[ 0 ] > _getp( '_IslandCost')) || ( _getp( 'Auto Adventure' ) == "Energy overflow control" && Energy[ 0 ] >= Energy[ 4 ] ) ) {
+    if ( ( getProperty( 'Auto Adventure' ) == "Enabled" && Energy[ 0 ] > getProperty( '_IslandCost')) || ( getProperty( 'Auto Adventure' ) == "Energy overflow control" && Energy[ 0 ] >= Energy[ 4 ] ) ) {
         Logger.log( '- - - - Adventure Start - - - -' );
         var SearchLength = Energy[ 4 ];
         Logger.log( 'SearchLength:' + SearchLength )
         for ( var i = 0; i < SearchLength; i++ ) {
-            UpdateStatus( 'Account ' + _getp( '_name' ) + ' Loading Adventure ' + TimeFormated() );
-            var result = Adventure();
+            UpdateStatus( 'Account ' + getProperty( '_name' ) + ' Loading Adventure ' + TimeFormated() );
+            var result = playAdventure();
             if ( result != false ) {
                 AddLog( '_logs_Adventure', result )
             }
             Logger.log( result );
             var Energy = GetEnergy();
-            EnergyUpdate( Energy[ 0 ], Energy[ 4 ], 'Adventure' )
-            if ( _getp( 'Auto Adventure' ) == "Energy overflow control" && Energy[ 0 ] < Energy[ 4 ] ) {
+            EnergyUpdate( Energy[ 0 ], Energy[ 4 ], 'playAdventure' )
+            if ( getProperty( 'Auto Adventure' ) == "Energy overflow control" && Energy[ 0 ] < Energy[ 4 ] ) {
                 break;
             }
             if ( result == false ) {
                 break;
             }
         }
-        _CompleteAchievemnts( _getp( '_url' ), '5007' );
-        Logger.log( '- - - - Adventure End - - - -' );
+        _CompleteAchievemnts( getProperty( '_url' ), '5007' );
+        Logger.log( '- - - - playAdventure End - - - -' );
     }
     var Energy = GetEnergy();
-    if ( ( _getp( 'Auto Arena' ) == "Enabled" && Energy[ 1 ] > 0 ) || ( _getp( 'Auto Arena' ) == "Energy overflow control" && Energy[ 1 ] >= Energy[ 5 ] ) ) {
+    if ( ( getProperty( 'Auto Arena' ) == "Enabled" && Energy[ 1 ] > 0 ) || ( getProperty( 'Auto Arena' ) == "Energy overflow control" && Energy[ 1 ] >= Energy[ 5 ] ) ) {
         Logger.log( '- - - - Arena Start - - - -' );
         var SearchLength = Energy[ 1 ];
         Logger.log( 'SearchLength:' + SearchLength )
         for ( var i = 0; i < SearchLength; i++ ) {
-            UpdateStatus( 'Account ' + _getp( '_name' ) + ' Loading Arena ' + TimeFormated() );
+            UpdateStatus( 'Account ' + getProperty( '_name' ) + ' Loading Arena ' + TimeFormated() );
             var result = Arena();
             if ( result != false ) {
                 AddLog( '_logs_Arena', result )
@@ -184,7 +186,7 @@ function _Farming() {
             Logger.log( result );
             var Energy = GetEnergy();
             EnergyUpdate( Energy[ 1 ], Energy[ 5 ], 'Arena' )
-            if ( _getp( 'Auto Arena' ) == "Energy overflow control" && Energy[ 1 ] < Energy[ 5 ] ) {
+            if ( getProperty( 'Auto Arena' ) == "Energy overflow control" && Energy[ 1 ] < Energy[ 5 ] ) {
                 break;
             }
             if ( result == false ) {
@@ -192,54 +194,54 @@ function _Farming() {
             }
             Utilities.sleep( 2000 );
         }
-        _CompleteAchievemnts( _getp( '_url' ), '5008' );
+        _CompleteAchievemnts( getProperty( '_url' ), '5008' );
         Logger.log( '- - - - Arena End - - - -' );
     }
-    _CompleteAchievemnts( _getp( '_url' ), '5009' );
-    _CompleteAchievemnts( _getp( '_url' ), '5010' );
-    if ( _getp( 'Auto Buy/Upgrade Mission' ) == "Enabled" && _CheckAchievemnts( _getp( '_url' ), '5009' ) == true ) {
-        UpdateStatus( 'Account ' + _getp( '_name' ) + ' Daily Mission ' + TimeFormated() );
-        Logger.log( '- - - - Auto Buy/Upgrade Mission Start - - - -' );
+    _CompleteAchievemnts( getProperty( '_url' ), '5009' );
+    _CompleteAchievemnts( getProperty( '_url' ), '5010' );
+    if ( getProperty( 'Auto Buy/Upgade Mission' ) == "Enabled" && _CheckAchievemnts( getProperty( '_url' ), '5009' ) == true ) {
+        UpdateStatus( 'Account ' + getProperty( '_name' ) + ' Daily Mission ' + TimeFormated() );
+        Logger.log( '- - - - Auto Buy/Upgade Mission Start - - - -' );
         var result = _BuyCardAndUpgrade();
         Logger.log( '- - - - Auto Buy/Upgrade Mission End - - - -' );
     }
-    if ( _getp( 'Auto buy and recycle' ) == "Enabled" ) {
-        UpdateStatus( 'Account ' + _getp( '_name' ) + ' Buying & Recycling cards ' + TimeFormated() );
+    if ( getProperty( 'Auto buy and recycle' ) == "Enabled" ) {
+        UpdateStatus( 'Account ' + getProperty( '_name' ) + ' Buying & Recycling cards ' + TimeFormated() );
         Logger.log( '- - - - Auto buy and recycle Start - - - -' );
         var result = _BuyCardAndRecycle();
-        _CompleteAchievemnts( _getp( '_url' ), '5010' );
+        _CompleteAchievemnts( getProperty( '_url' ), '5010' );
         Logger.log( '- - - - Auto buy and recycle End - - - -' );
     }
-    if ( _getp( 'Ad Crate' ) == 'Enabled' ) {
-        UpdateStatus( 'Account ' + _getp( '_name' ) + ' Opening AdCrates ' + TimeFormated() );
-        var Crate = UseAdcrate();
+    if ( getProperty( 'Ad Crate' ) == 'Enabled' ) {
+        UpdateStatus( 'Account ' + getProperty( '_name' ) + ' Opening AdCrates ' + TimeFormated() );
+        var Crate = useAdCrates();
         Logger.log( 'Ad Crates:' + Crate );
     }
     var Energy = GetEnergy();
     EnergyUpdate( Energy[ 1 ], Energy[ 5 ], 'Arena' )
     EnergyUpdate( Energy[ 0 ], Energy[ 4 ], 'Adventure' )
-    _CompleteAchievemnts( _getp( '_url' ), '5012' );
+    _CompleteAchievemnts( getProperty( '_url' ), '5012' );
     var check = false;
-    if ( _getp( '_logs_RefillChallenge' + '_count' ) != 0 || "" ) {
+    if ( getProperty( '_logs_RefillChallenge' + '_count' ) != 0 || "" ) {
         check = true;
     }
-    if ( _getp( '_logs_NoneRefillChallenge' + '_count' ) != 0 || "" ) {
+    if ( getProperty( '_logs_NoneRefillChallenge' + '_count' ) != 0 || "" ) {
         check = true;
     }
-    if ( _getp( '_logs_Adventure' + '_count' ) != 0 || "" ) {
+    if ( getProperty( '_logs_playAdventure' + '_count' ) != 0 || "" ) {
         check = true;
     }
-    if ( _getp( '_logs_Arena' + '_count' ) != 0 || "" ) {
+    if ( getProperty( '_logs_Arena' + '_count' ) != 0 || "" ) {
         check = true;
     }
-    if ( _getp( 'BuyCardAndUpgrade' + '_count' ) != 0 || "" ) {
+    if ( getProperty( 'BuyCardAndUpgrade' + '_count' ) != 0 || "" ) {
         check = true;
     }
-    if ( _getp( 'BuyCardAndRecycle' + '_count' ) != 0 || "" ) {
+    if ( getProperty( 'BuyCardAndRecycle' + '_count' ) != 0 || "" ) {
         check = true;
     }
     if ( check == true ) {
-        UpdateStatus( 'Account ' + _getp( '_name' ) + ' Writing Logs ' + TimeFormated() );
+        UpdateStatus( 'Account ' + getProperty( '_name' ) + ' Writing Logs ' + TimeFormated() );
         WriteLogs( '_logs_RefillChallenge', 'B' );
         WriteLogs( '_logs_NoneRefillChallenge', 'C' );
         WriteLogs( '_logs_Adventure', 'D' );
@@ -248,13 +250,13 @@ function _Farming() {
         WriteLogs( 'BuyCardAndRecycle', 'G' );
         WriteLogs( '_time', 'A' );
     }
-    _CompleteAchievemnts( _getp( '_url' ), '5001' );
+    _CompleteAchievemnts( getProperty( '_url' ), '5001' );
 }
 
 function GetEnergy() { //Returns Current and Max energy.
-    // 0-Adventure : 1-Arena : 2-Challenge : 3-NonRefillChallenge 
-    // 4-MaxAdventure : 5-MaxArena : 6-MaxChallenge : 7-MaxNonRefillChallenge
-    var url = _getp( '_url' );
+    // 0-playAdventure : 1-Arena : 2-Challenge : 3-NonRefillChallenge 
+    // 4-MaxplayAdventure : 5-MaxplayArena : 6-MaxChallenge : 7-MaxNonRefillChallenge
+    var url = getProperty( '_url' );
     var Energy = UrlFetchApp.fetch( url + '&message=getUserAccount' );
     var Energy_Json = JSON.parse( Energy );
     var Challenge = UrlFetchApp.fetch( url + '&message=startChallenge' );
@@ -283,7 +285,7 @@ function GetEnergy() { //Returns Current and Max energy.
     } else {
         var NonRefillChallenge_Max = 10
     }
-    return [ parseInt( Adventure ), parseInt( Arena ), parseInt( Challenge ), parseInt( NonRefillChallenge ), parseInt( Adventure_Max ), parseInt( Arena_Max ), parseInt( Challenge_Max ), parseInt( NonRefillChallenge_Max ) ]
+    return [ parseInt( playAdventure ), parseInt( Arena ), parseInt( Challenge ), parseInt( NonRefillChallenge ), parseInt( Adventure_Max ), parseInt( Arena_Max ), parseInt( Challenge_Max ), parseInt( NonRefillChallenge_Max ) ]
 }
 
 function VersionCheck() {

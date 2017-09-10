@@ -86,9 +86,9 @@ function LoadUserSettings() { //Read settings
         'Rumble Deck': _MenuGetSetting( Range, 'Rumble Deck' ),
         'Rumble Energy Check': _MenuGetSetting( Range, 'Rumble Energy Check' ),
         'Panic time': _MenuGetSetting( Range, 'Panic time' ),
-        //Adventure
-        'Auto Adventure': _MenuGetSetting( Range, 'Auto Adventure' ),
-        'Adventure Deck': _MenuGetSetting( Range, 'Adventure Deck' ),
+        //playAdventure
+        'Auto playAdventure': _MenuGetSetting( Range, 'Auto playAdventure' ),
+        'playAdventure Deck': _MenuGetSetting( Range, 'playAdventure Deck' ),
         'Island to farm': _ConvertIsland( _MenuGetSetting( Range, 'Island to farm' ) ) + '',
         //Arena
         'Auto Arena': _MenuGetSetting( Range, 'Auto Arena' ),
@@ -139,7 +139,7 @@ function _ConvertIsland( info ) {
     return math;
 }
 
-function AuthenticateUser( Id, Token ) { //Check if use is valid & create user URL
+function AuthenticateUser( Id, Token ) { //Check if use is valid & create user myUrl
     var KONG_URL = 'https://cb-live.synapse-games.com/api.php?';
     var User_Auth = UrlFetchApp.fetch( KONG_URL + 'message=getUserAccount&kong_id=' + Id + '&kong_token=' + Token );
     var User_auth_Json = JSON.parse( User_Auth );
@@ -152,9 +152,8 @@ function AuthenticateUser( Id, Token ) { //Check if use is valid & create user U
         Logger.log( 'User Auth fail' );
         return false
     }
-  
-    var URL = KONG_URL + 'user_id=' + USER_ID + '&password=' + USER_PASSWORD;
-    _setp( '_url', URL );
+    var myUrl = KONG_URL + 'user_id=' + USER_ID + '&password=' + USER_PASSWORD;
+    _setp( '_url', myUrl );
     _setp( '_name', USER_NAME );
   
   if ( _getp( 'Auto Adventure' ) == "Enabled"||"Energy overflow control"){

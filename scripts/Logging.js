@@ -1,6 +1,6 @@
 function AddLogCards( Section, Reward ) {
-    var string = _getp( Section );
-    var Count = _getp( Section + '_count' );
+    var string = getProperty( Section );
+    var Count = getProperty( Section + '_count' );
     if ( string == null ) {
         string = ''
     }
@@ -34,8 +34,8 @@ function AddLog( Section, Reward ) {
     var rewards = RewardsParse( Reward );
     var string = ''
     var Count = 0
-    string = _getp( Section );
-    Count = _getp( Section + '_count' );
+    string = getProperty( Section );
+    Count = getProperty( Section + '_count' );
     string = string + rewards + '\n';
     _setp( Section, string );
     _setp( Section + '_count', parseInt( Count ) + 1 );
@@ -45,8 +45,8 @@ function WriteLogs( Section, Row ) {
     var empty = getFirstEmptyRow();
     var Count = 0
     var string = ''
-    var string = _getp( Section );
-    Count = _getp( Section + '_count' );
+    var string = getProperty( Section );
+    Count = getProperty( Section + '_count' );
     var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName( 'Logs' );
     if ( string != null ) {
         sheet.getRange( Row + "" + empty ).setNote( string );
@@ -68,7 +68,7 @@ function getFirstEmptyRow() {
 }
 
 function RewardsParse( rewards ) {
-    var ItemInfo = UrlFetchApp.fetch( _getp( '_url' ) + '&message=useItem' );
+    var ItemInfo = UrlFetchApp.fetch( getProperty( '_url' ) + '&message=useItem' );
     var ItemInfo_json = JSON.parse( ItemInfo );
     var rewards_Json = JSON.parse( rewards )[ 0 ]
     if ( rewards_Json.gold != null ) {
