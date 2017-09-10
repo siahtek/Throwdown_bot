@@ -6,7 +6,7 @@ function Attack( url ) { //Attack script..
     }
     if ( Start_Json.battle_data.hasOwnProperty( 'battle_id' ) != false ) {
         var Battle_id = Start_Json.battle_data.battle_id;
-        var End = UrlFetchApp.fetch( _getp( '_url' ) + '&message=playCard&battle_id=' + Battle_id + '&skip=True' );
+        var End = UrlFetchApp.fetch( getProperty( '_url' ) + '&message=playCard&battle_id=' + Battle_id + '&skip=True' );
         var End_Json = JSON.parse( End );
         var Rewards = JSON.stringify( End_Json.battle_data.rewards );
         return Rewards
@@ -20,7 +20,7 @@ function _setp( loc, data ) { //Save data to google sheet
     _properties.setProperty( loc, data );
 }
 
-function _getp( loc ) { //get data from google sheet
+function getProperty( loc ) { //get data from google sheet
     // var _properties = PropertiesService.getScriptProperties();
     return _properties.getProperty( loc );
 }
@@ -50,8 +50,8 @@ function TimeFormatedNext() { //return formated time
     return time
 }
 
-function _CheckActive( URL ) { //True = Found battle.
-    var Active = UrlFetchApp.fetch( URL + '&message=playCard' );
+function _CheckActive( myUrl ) { //True = Found battle.
+    var Active = UrlFetchApp.fetch( myUrl + '&message=playCard' );
     var Active_Json = JSON.parse( Active );
     if ( Active_Json.battle_data.upkept != null ) {
         return true;
@@ -60,26 +60,26 @@ function _CheckActive( URL ) { //True = Found battle.
     }
 }
 
-function _SaveDeck( URL ) { //Save starting attack deck
-    var Use_Item = UrlFetchApp.fetch( URL + '&message=getUserAccount' );
+function _SaveDeck( myUrl ) { //Save starting attack deck
+    var Use_Item = UrlFetchApp.fetch( myUrl + '&message=getUserAccount' );
     var Use_Item_json = JSON.parse( Use_Item );
     var USER_DECK = Use_Item_json.user_data.active_deck;
     _setp( '_deck', USER_DECK );
 }
 
-function _ChangeDeck( URL, Deck ) { //Change attack deck
-    var Use_Item = UrlFetchApp.fetch( URL + '&message=setActiveDeck&deck_id=' + Deck );
+function _ChangeDeck( myUrl, Deck ) { //Change attack deck
+    var Use_Item = UrlFetchApp.fetch( myUrl + '&message=setActiveDeck&deck_id=' + Deck );
 }
 
-function _CheckAchievemnts( URL, ID ) {
+function _CheckAchievemnts( myUrl, ID ) {
     //5001 - Daily - Nine to Five
-    //5007 - Daily - Adventure Battles
+    //5007 - Daily - playAdventure Battles
     //5008 - Daily - To The Arena
     //5009 - Daily - Upgrade Cards
     //5010 - Daily - Buy Packs
     //5012 - Daily - Play 5 Combos
-    _CompleteAchievemnts( URL, ID );
-    var DailyMission = UrlFetchApp.fetch( URL + '&message=init' );
+    _CompleteAchievemnts( myUrl, ID );
+    var DailyMission = UrlFetchApp.fetch( myUrl + '&message=init' );
     var DailyMission_Json = JSON.parse( DailyMission );
     if ( DailyMission_Json.user_achievements.hasOwnProperty( ID ) != false ) {
         return true
@@ -88,6 +88,6 @@ function _CheckAchievemnts( URL, ID ) {
     }
 }
 
-function _CompleteAchievemnts( URL, ID ) {
-    UrlFetchApp.fetch( URL + '&message=completeAchievement&achievement_id=' + ID );
+function _CompleteAchievemnts( myUrl, ID ) {
+    UrlFetchApp.fetch( myUrl + '&message=completeAchievement&achievement_id=' + ID );
 }
