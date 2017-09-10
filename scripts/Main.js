@@ -147,7 +147,7 @@ function _Farming() {
         Logger.log( '- - - - NonRefillChallenge End - - - -' );
     }
     var Energy = GetEnergy();
-    if ( ( _getp( 'Auto Adventure' ) == "Enabled" && Energy[ 0 ] > 0 ) || ( _getp( 'Auto Adventure' ) == "Energy overflow control" && Energy[ 0 ] >= Energy[ 4 ] ) ) {
+    if ( ( _getp( 'Auto Adventure' ) == "Enabled" && Energy[ 0 ] > _getp( '_IslandCost')) || ( _getp( 'Auto Adventure' ) == "Energy overflow control" && Energy[ 0 ] >= Energy[ 4 ] ) ) {
         Logger.log( '- - - - Adventure Start - - - -' );
         var SearchLength = Energy[ 4 ];
         Logger.log( 'SearchLength:' + SearchLength )

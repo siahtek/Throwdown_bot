@@ -11,11 +11,11 @@ function Adventure() {
     return Adventure
 }
 
-function _CheckIsland(URL, Island) {
+function _CheckIsland(URL, ID) {
     var Island = UrlFetchApp.fetch( URL + '&message=init' );
     var Island_Json = JSON.parse( Island );
-    if (Island_Json.current_missions.hasOwnProperty(Island) != false ) {
-      var IslandCost = Island_Json.current_missions[Island].energy
+    if (Island_Json.current_missions.hasOwnProperty(ID) != false ) {
+      var IslandCost = Island_Json.current_missions[ID].energy
         return IslandCost
     } else {
         return false
