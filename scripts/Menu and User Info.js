@@ -74,7 +74,7 @@ function LoadUserSettings() { //Read settings
         'Auto buy and recycle': _MenuGetSetting( Range, 'Auto buy and recycle' ),
         'Cards rarities to recycle': _MenuGetSetting( Range, 'Cards rarities to recycle' ),
         'Auto buy limit': _MenuGetSetting( Range, 'Auto buy limit' ),
-        'Auto Buy/Upgrade Mission': _MenuGetSetting( Range, 'Auto Buy/Upgrade Mission' ),
+        'Auto Buy/Upgrade Mission': _MenuGetSetting( Range, 'Auto Buy/Upgade Mission' ),
         //Refill Challenge
         'Auto Refill Challenge': _MenuGetSetting( Range, 'Auto Refill Challenge' ),
         'Refill Challenge Deck': _MenuGetSetting( Range, 'Refill Challenge Deck' ),

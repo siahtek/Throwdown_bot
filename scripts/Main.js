@@ -197,11 +197,11 @@ function _Farming() {
     }
     _CompleteAchievemnts( _getp( '_url' ), '5009' );
     _CompleteAchievemnts( _getp( '_url' ), '5010' );
-    if ( _getp( 'Auto Buy/Upgade Mission' ) == "Enabled" && _CheckAchievemnts( _getp( '_url' ), '5009' ) == true ) {
+    if ( _getp( 'Auto Buy/Upgrade Mission' ) == "Enabled" && _CheckAchievemnts( _getp( '_url' ), '5009' ) == true ) {
         UpdateStatus( 'Account ' + _getp( '_name' ) + ' Daily Mission ' + TimeFormated() );
-        Logger.log( '- - - - Auto Buy/Upgade Mission Start - - - -' );
+        Logger.log( '- - - - Auto Buy/Upgrade Mission Start - - - -' );
         var result = _BuyCardAndUpgrade();
-        Logger.log( '- - - - Auto Buy/Upgade Mission End - - - -' );
+        Logger.log( '- - - - Auto Buy/Upgrade Mission End - - - -' );
     }
     if ( _getp( 'Auto buy and recycle' ) == "Enabled" ) {
         UpdateStatus( 'Account ' + _getp( '_name' ) + ' Buying & Recycling cards ' + TimeFormated() );
