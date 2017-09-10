@@ -4,7 +4,7 @@ function Attack( url ) { //Attack script..
     if ( Start_Json.result_message != null ) {
         return false
     }
-    if ( Start_Json.battle_data.hasOwnProperty( 'battle_id' ) != null ) {
+    if ( Start_Json.battle_data.hasOwnProperty( 'battle_id' ) != false ) {
         var Battle_id = Start_Json.battle_data.battle_id;
         var End = UrlFetchApp.fetch( _getp( '_url' ) + '&message=playCard&battle_id=' + Battle_id + '&skip=True' );
         var End_Json = JSON.parse( End );
@@ -81,7 +81,7 @@ function _CheckAchievemnts( URL, ID ) {
     _CompleteAchievemnts( URL, ID );
     var DailyMission = UrlFetchApp.fetch( URL + '&message=init' );
     var DailyMission_Json = JSON.parse( DailyMission );
-    if ( DailyMission_Json.user_achievements.hasOwnProperty( ID ) != null ) {
+    if ( DailyMission_Json.user_achievements.hasOwnProperty( ID ) != false ) {
         return true
     } else {
         return false
