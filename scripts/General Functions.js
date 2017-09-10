@@ -4,11 +4,13 @@ function Attack(url) {//Attack script..
   var Start = UrlFetchApp.fetch(url);
   var Start_Json = JSON.parse(Start);
   if (Start_Json.result_message != null) {return false}
+  if (Start_Json.battle_data.hasOwnProperty('battle_id') != null) {
   var Battle_id = Start_Json.battle_data.battle_id;
   var End = UrlFetchApp.fetch(_getp('_url') + '&message=playCard&battle_id=' + Battle_id + '&skip=True');
   var End_Json = JSON.parse(End);
   var Rewards = JSON.stringify(End_Json.battle_data.rewards);
   return Rewards
+  }else{return ''}
 }
 
 function _setp(loc, data) {//Save data to google sheet
@@ -73,7 +75,7 @@ function _CheckAchievemnts(URL, ID) {
     _CompleteAchievemnts(URL,ID);
     var DailyMission = UrlFetchApp.fetch(URL + '&message=init');
     var DailyMission_Json = JSON.parse(DailyMission);
-    if (DailyMission_Json.user_achievements.hasOwnProperty(ID)) {
+    if (DailyMission_Json.user_achievements.hasOwnProperty(ID) != null) {
         return true
     } else {
         return false
