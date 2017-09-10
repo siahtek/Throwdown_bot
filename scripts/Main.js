@@ -15,8 +15,6 @@ function _Enable() {
     LoadUserSettings();
     var User_Auth = AuthenticateUser( getProperty( 'User_ID' ), getProperty( 'User_Token' ) );
     if ( User_Auth == false ) {
-        UpdateStatus( 'Login failed.. Check User_Ud & User_Token ' + TimeFormated() );
-        Logger.log( 'User Auth fail' );
         return false
     }
     if ( _CheckTrigger( 'Trigger_loaded' ) == false ) {
@@ -30,11 +28,6 @@ function _Enable() {
     EnergyUpdate( Energy[ 1 ], Energy[ 5 ], 'Arena' )
     EnergyUpdate( Energy[ 0 ], Energy[ 4 ], 'Adventure' )
     VersionCheck()
-    var User_Auth = AuthenticateUser( getProperty( 'User_ID' ), getProperty( 'User_Token' ) );
-    if ( User_Auth == false ) {
-        Logger.log( 'User Auth fail' );
-        return false
-    }
 }
 
 function _Disable() {
@@ -156,8 +149,8 @@ function _Farming() {
         Logger.log( '- - - - NonRefillChallenge End - - - -' );
     }
     var Energy = GetEnergy();
-    if ( ( getProperty( 'Auto Adventure' ) == "Enabled" && Energy[ 0 ] > 0 ) || ( getProperty( 'Auto playAdventure' ) == "Energy overflow control" && Energy[ 0 ] >= Energy[ 4 ] ) ) {
-        Logger.log( '- - - - playAdventure Start - - - -' );
+    if ( ( getProperty( 'Auto Adventure' ) == "Enabled" && Energy[ 0 ] > getProperty( '_IslandCost')) || ( getProperty( 'Auto Adventure' ) == "Energy overflow control" && Energy[ 0 ] >= Energy[ 4 ] ) ) {
+        Logger.log( '- - - - Adventure Start - - - -' );
         var SearchLength = Energy[ 4 ];
         Logger.log( 'SearchLength:' + SearchLength )
         for ( var i = 0; i < SearchLength; i++ ) {
@@ -210,7 +203,7 @@ function _Farming() {
         UpdateStatus( 'Account ' + getProperty( '_name' ) + ' Daily Mission ' + TimeFormated() );
         Logger.log( '- - - - Auto Buy/Upgade Mission Start - - - -' );
         var result = _BuyCardAndUpgrade();
-        Logger.log( '- - - - Auto Buy/Upgade Mission End - - - -' );
+        Logger.log( '- - - - Auto Buy/Upgrade Mission End - - - -' );
     }
     if ( getProperty( 'Auto buy and recycle' ) == "Enabled" ) {
         UpdateStatus( 'Account ' + getProperty( '_name' ) + ' Buying & Recycling cards ' + TimeFormated() );

@@ -74,7 +74,7 @@ function LoadUserSettings() { //Read settings
         'Auto buy and recycle': _MenuGetSetting( Range, 'Auto buy and recycle' ),
         'Cards rarities to recycle': _MenuGetSetting( Range, 'Cards rarities to recycle' ),
         'Auto buy limit': _MenuGetSetting( Range, 'Auto buy limit' ),
-        'Auto Buy/Upgrade Mission': _MenuGetSetting( Range, 'Auto Buy/Upgrade Mission' ),
+        'Auto Buy/Upgrade Mission': _MenuGetSetting( Range, 'Auto Buy/Upgade Mission' ),
         //Refill Challenge
         'Auto Refill Challenge': _MenuGetSetting( Range, 'Auto Refill Challenge' ),
         'Refill Challenge Deck': _MenuGetSetting( Range, 'Refill Challenge Deck' ),
@@ -147,13 +147,24 @@ function AuthenticateUser( Id, Token ) { //Check if use is valid & create user m
     var USER_PASSWORD = User_auth_Json.new_password;
     var USER_NAME = User_auth_Json.new_name;
     var CHECK = User_auth_Json.result;
-    if ( CHECK == true ) {
+      if ( CHECK == true ) {
+        UpdateStatus( 'Login failed.. Check User_Ud & User_Token ' + TimeFormated() );
+        Logger.log( 'User Auth fail' );
         return false
     }
     var myUrl = KONG_URL + 'user_id=' + USER_ID + '&password=' + USER_PASSWORD;
     _setp( '_url', myUrl );
     _setp( '_name', USER_NAME );
-    return true
+  
+  if ( _getp( 'Auto Adventure' ) == "Enabled"||"Energy overflow control"){
+    var check = _CheckIsland(URL, _getp('Island to farm'));
+    if(check != false){
+      _setp( '_IslandCost', check+'');
+    }else{
+      UpdateStatus( 'Account ' + _getp( '_name' ) + ' Island unavailable to farm ' + TimeFormated() );
+      return false
+    }
+  }
 }
 
 function UpdateStatus( Status ) { //Update status section on the menu
