@@ -1,4 +1,4 @@
-function useAdCrates() 
+function useAdCrates() {
     var myUrl = getProperty( '_url' );
     var myCrateCheck = UrlFetchApp.fetch( myUrl + '&message=useItem' );
     var myCrateCheckJson = JSON.parse( myCrateCheck );

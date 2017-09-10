@@ -177,7 +177,7 @@ function _Farming() {
         Logger.log( 'SearchLength:' + SearchLength )
         for ( var i = 0; i < SearchLength; i++ ) {
             UpdateStatus( 'Account ' + getProperty( '_name' ) + ' Loading Arena ' + TimeFormated() );
-            var result = Arena();
+            var result = playArena();
             if ( result != false ) {
                 AddLog( '_logs_Arena', result )
             }
@@ -226,7 +226,7 @@ function _Farming() {
     if ( getProperty( '_logs_NoneRefillChallenge' + '_count' ) != 0 || "" ) {
         check = true;
     }
-    if ( getProperty( '_logs_playAdventure' + '_count' ) != 0 || "" ) {
+    if ( getProperty( '_logs_Adventure' + '_count' ) != 0 || "" ) {
         check = true;
     }
     if ( getProperty( '_logs_Arena' + '_count' ) != 0 || "" ) {
@@ -283,7 +283,7 @@ function GetEnergy() { //Returns Current and Max energy.
     } else {
         var NonRefillChallenge_Max = 10
     }
-    return [ parseInt( playAdventure ), parseInt( Arena ), parseInt( Challenge ), parseInt( NonRefillChallenge ), parseInt( Adventure_Max ), parseInt( Arena_Max ), parseInt( Challenge_Max ), parseInt( NonRefillChallenge_Max ) ]
+    return [ parseInt( Adventure ), parseInt( Arena ), parseInt( Challenge ), parseInt( NonRefillChallenge ), parseInt( Adventure_Max ), parseInt( Arena_Max ), parseInt( Challenge_Max ), parseInt( NonRefillChallenge_Max ) ]
 }
 
 function VersionCheck() {

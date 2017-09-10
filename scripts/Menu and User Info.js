@@ -86,9 +86,9 @@ function LoadUserSettings() { //Read settings
         'Rumble Deck': _MenuGetSetting( Range, 'Rumble Deck' ),
         'Rumble Energy Check': _MenuGetSetting( Range, 'Rumble Energy Check' ),
         'Panic time': _MenuGetSetting( Range, 'Panic time' ),
-        //playAdventure
-        'Auto playAdventure': _MenuGetSetting( Range, 'Auto playAdventure' ),
-        'playAdventure Deck': _MenuGetSetting( Range, 'playAdventure Deck' ),
+        //Adventure
+        'Auto Adventure': _MenuGetSetting( Range, 'Auto Adventure' ),
+        'Adventure Deck': _MenuGetSetting( Range, 'Adventure Deck' ),
         'Island to farm': _ConvertIsland( _MenuGetSetting( Range, 'Island to farm' ) ) + '',
         //Arena
         'Auto Arena': _MenuGetSetting( Range, 'Auto Arena' ),
@@ -156,12 +156,12 @@ function AuthenticateUser( Id, Token ) { //Check if use is valid & create user m
     _setp( '_url', myUrl );
     _setp( '_name', USER_NAME );
   
-  if ( _getp( 'Auto Adventure' ) == "Enabled"||"Energy overflow control"){
-    var check = _CheckIsland(URL, _getp('Island to farm'));
+  if ( getProperty( 'Auto Adventure' ) == "Enabled"||"Energy overflow control"){
+    var check = _CheckIsland(myUrl, getProperty('Island to farm'));
     if(check != false){
       _setp( '_IslandCost', check+'');
     }else{
-      UpdateStatus( 'Account ' + _getp( '_name' ) + ' Island unavailable to farm ' + TimeFormated() );
+      UpdateStatus( 'Account ' + getProperty( '_name' ) + ' Island unavailable to farm ' + TimeFormated() );
       return false
     }
   }
