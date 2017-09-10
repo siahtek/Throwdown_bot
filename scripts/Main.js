@@ -233,7 +233,7 @@ function _Farming() {
   EnergyUpdate(Energy[1],Energy[5],'Arena')
   EnergyUpdate(Energy[0],Energy[4],'Adventure')
   _CompleteAchievemnts(_getp('_url'), '5012');
-  UpdateStatus('Account '+_getp('_name')+' Writing Logs '+ TimeFormated());
+ 
   var check = false;
   if(_getp('_logs_RefillChallenge'+'_count') != 0||""){check = true;}
   if(_getp('_logs_NoneRefillChallenge'+'_count') != 0||""){check = true;}
@@ -243,6 +243,7 @@ function _Farming() {
   if(_getp('BuyCardAndRecycle'+'_count') != 0||""){check = true;}
 
   if(check == true){
+     UpdateStatus('Account '+_getp('_name')+' Writing Logs '+ TimeFormated());
   WriteLogs('_logs_RefillChallenge', 'B');
   WriteLogs('_logs_NoneRefillChallenge', 'C');
   WriteLogs('_logs_Adventure', 'D');
