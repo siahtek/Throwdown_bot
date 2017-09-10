@@ -234,6 +234,15 @@ function _Farming() {
   EnergyUpdate(Energy[0],Energy[4],'Adventure')
   _CompleteAchievemnts(_getp('_url'), '5012');
   UpdateStatus('Account '+_getp('_name')+' Writing Logs '+ TimeFormated());
+  var check = false;
+  if(_getp('_logs_RefillChallenge'+'_count') != 0||""){check = true;}
+  if(_getp('_logs_NoneRefillChallenge'+'_count') != 0||""){check = true;}
+  if(_getp('_logs_Adventure'+'_count') != 0||""){check = true;}
+  if(_getp('_logs_Arena'+'_count') !=0||""){check = true;}
+  if(_getp('BuyCardAndUpgrade'+'_count') != 0||""){check = true;}
+  if(_getp('BuyCardAndRecycle'+'_count') != 0||""){check = true;}
+
+  if(check == true){
   WriteLogs('_logs_RefillChallenge', 'B');
   WriteLogs('_logs_NoneRefillChallenge', 'C');
   WriteLogs('_logs_Adventure', 'D');
@@ -241,6 +250,7 @@ function _Farming() {
   WriteLogs('BuyCardAndUpgrade', 'F');
   WriteLogs('BuyCardAndRecycle', 'G');
   WriteLogs('_time', 'A');
+  }
   _CompleteAchievemnts(_getp('_url'), '5001');
   
 }
