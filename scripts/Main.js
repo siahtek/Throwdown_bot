@@ -14,11 +14,7 @@ function _Enable() {
     _sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName( 'Settings' );
     LoadUserSettings();
     var User_Auth = AuthenticateUser( _getp( 'User_ID' ), _getp( 'User_Token' ) );
-    if ( User_Auth == false ) {
-        UpdateStatus( 'Login failed.. Check User_Ud & User_Token ' + TimeFormated() );
-        Logger.log( 'User Auth fail' );
-        return false
-    }
+    if ( User_Auth == false ) {return false}
     if ( _CheckTrigger( 'Trigger_loaded' ) == false ) {
         _CreateTrigger( 'Trigger_loaded' );
         UpdateNext( true )
@@ -30,11 +26,6 @@ function _Enable() {
     EnergyUpdate( Energy[ 1 ], Energy[ 5 ], 'Arena' )
     EnergyUpdate( Energy[ 0 ], Energy[ 4 ], 'Adventure' )
     VersionCheck()
-    var User_Auth = AuthenticateUser( _getp( 'User_ID' ), _getp( 'User_Token' ) );
-    if ( User_Auth == false ) {
-        Logger.log( 'User Auth fail' );
-        return false
-    }
 }
 
 function _Disable() {

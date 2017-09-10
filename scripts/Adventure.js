@@ -10,3 +10,14 @@ function Adventure() {
     _ChangeDeck( URL, _getp( '_deck' ) );
     return Adventure
 }
+
+function _CheckIsland(URL, Island) {
+    var Island = UrlFetchApp.fetch( URL + '&message=init' );
+    var Island_Json = JSON.parse( Island );
+    if (Island_Json.current_missions.hasOwnProperty(Island) != false ) {
+      var IslandCost = Island_Json.current_missions[Island].energy
+        return IslandCost
+    } else {
+        return false
+    }
+}
