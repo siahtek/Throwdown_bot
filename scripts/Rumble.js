@@ -1,3 +1,3 @@
 function Rumble() {
-  Logger.log('Rumble')
+    Logger.log( 'Rumble' )
 }
