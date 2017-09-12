@@ -1,31 +1,31 @@
-function RefillChallenge() {
+function playRefillChallenge() {
     var myUrl = getProperty( '_url' );
-    if ( _CheckActive( myUrl ) == true ) {
+    if ( checkIfActive( myUrl ) == true ) {
         return false
     }
-    _SaveDeck( myUrl );
-    _ChangeDeck( myUrl, getProperty( 'Refill Challenge Deck' ) );
-    var Challenge = Attack( myUrl + '&message=startChallenge&challenge_id=' + _GetChallengeID( myUrl, 102000 ) );
-    _ChangeDeck( myUrl, getProperty( '_deck' ) );
-    return Challenge
+    saveDeck( myUrl );
+    setDeck( myUrl, getProperty( 'Refill Challenge Deck' ) );
+    var myChallenge = playCard( myUrl + '&message=startChallenge&challenge_id=' + getChallengeId( myUrl, 102000 ) );
+    setDeck( myUrl, getProperty( '_deck' ) );
+    return myChallenge
 }
 
-function NoneRefillChallenge() {
+function playNonRefillChallenge() {
     var myUrl = getProperty( '_url' );
-    if ( _CheckActive( myUrl ) == true ) {
+    if ( checkIfActive( myUrl ) == true ) {
         return false
     }
-    _SaveDeck( myUrl )
-    _ChangeDeck( myUrl, getProperty( 'Non-Refill Challenge Deck' ) )
-    var Challenge = Attack( myUrl + '&message=startChallenge&challenge_id=' + _GetChallengeID( myUrl, 103001 ) );
-    _ChangeDeck( myUrl, getProperty( '_deck' ) )
-    return Challenge
+    saveDeck( myUrl )
+    setDeck( myUrl, getProperty( 'Non-Refill Challenge Deck' ) )
+    var myChallenge = playCard( myUrl + '&message=startChallenge&challenge_id=' + getChallengeId( myUrl, 103001 ) );
+    setDeck( myUrl, getProperty( '_deck' ) )
+    return myChallenge
 }
 
-function _GetChallengeID( myUrl, id ) { //Gets a different challenge id for starting.
-    var Events = UrlFetchApp.fetch( myUrl + '&message=startChallenge' );
-    var Events_Json = JSON.parse( Events );
-    var ActiveEvents_id = Events_Json.active_events[ id ].challenge;
-    var UserAchievements = Events_Json.user_achievements;
-    return ActiveEvents_id
+function getChallengeId( aUrl, aId ) { //Gets a different challenge id for starting.
+    var myEventsSite = UrlFetchApp.fetch( aUrl + '&message=startChallenge' );
+    var myEventsJson = JSON.parse( myEventsSite );
+    var myActiveEventsId = myEventsJson.active_events[ aId ].challenge;
+    var myAchievements = myEventsJson.user_achievements;
+    return myActiveEventsId
 }
