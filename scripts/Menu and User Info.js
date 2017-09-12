@@ -1,109 +1,109 @@
-function LoadUserSettings() { //Read settings
-    var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName( 'Settings' );
-    var Range = sheet.getRange( "C1:D80" ).getValues();
-    var _properties = PropertiesService.getScriptProperties();
-    var XML = UrlFetchApp.fetch( 'https://cb-live.synapse-games.com/assets/cards.xml' ).getContentText();
-    var Search = '';
-    if ( _MenuGetSetting( Range, 'Brian' ) == 'Enabled' ) {
-        Search = Search + ',1003'
+function loadUserSettings() { //Read settings
+    var mySheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName( 'Settings' );
+    var myRange = mySheet.getRange( "C1:D80" ).getValues();
+    var myProperties = PropertiesService.getScriptProperties();
+    var myXml = UrlFetchApp.fetch( 'https://cb-live.synapse-games.com/assets/cards.xml' ).getContentText();
+    var mySearch = '';
+    if ( getSetting( myRange, 'Brian' ) == 'Enabled' ) {
+        mySearch = mySearch + ',1003'
     }
-    if ( _MenuGetSetting( Range, 'Stewie' ) == 'Enabled' ) {
-        Search = Search + ',1002'
+    if ( getSetting( myRange, 'Stewie' ) == 'Enabled' ) {
+        mySearch = mySearch + ',1002'
     }
-    if ( _MenuGetSetting( Range, 'Louise' ) == 'Enabled' ) {
-        Search = Search + ',3002'
+    if ( getSetting( myRange, 'Louise' ) == 'Enabled' ) {
+        mySearch = mySearch + ',3002'
     }
-    if ( _MenuGetSetting( Range, 'Steve' ) == 'Enabled' ) {
-        Search = Search + ',2003'
+    if ( getSetting( myRange, 'Steve' ) == 'Enabled' ) {
+        mySearch = mySearch + ',2003'
     }
-    if ( _MenuGetSetting( Range, 'Bender' ) == 'Enabled' ) {
-        Search = Search + ',5016'
+    if ( getSetting( myRange, 'Bender' ) == 'Enabled' ) {
+        mySearch = mySearch + ',5016'
     }
-    if ( _MenuGetSetting( Range, 'Dale' ) == 'Enabled' ) {
-        Search = Search + ',4003'
+    if ( getSetting( myRange, 'Dale' ) == 'Enabled' ) {
+        mySearch = mySearch + ',4003'
     }
-    if ( _MenuGetSetting( Range, 'Bob' ) == 'Enabled' ) {
-        Search = Search + ',3001'
+    if ( getSetting( myRange, 'Bob' ) == 'Enabled' ) {
+        mySearch = mySearch + ',3001'
     }
-    if ( _MenuGetSetting( Range, 'Roger' ) == 'Enabled' ) {
-        Search = Search + ',2001'
+    if ( getSetting( myRange, 'Roger' ) == 'Enabled' ) {
+        mySearch = mySearch + ',2001'
     }
-    if ( _MenuGetSetting( Range, 'Leela' ) == 'Enabled' ) {
-        Search = Search + ',5018'
+    if ( getSetting( myRange, 'Leela' ) == 'Enabled' ) {
+        mySearch = mySearch + ',5018'
     }
-    if ( _MenuGetSetting( Range, 'Bobby' ) == 'Enabled' ) {
-        Search = Search + ',4002'
+    if ( getSetting( myRange, 'Bobby' ) == 'Enabled' ) {
+        mySearch = mySearch + ',4002'
     }
-    if ( _MenuGetSetting( Range, 'Peter' ) == 'Enabled' ) {
-        Search = Search + ',1001'
+    if ( getSetting( myRange, 'Peter' ) == 'Enabled' ) {
+        mySearch = mySearch + ',1001'
     }
-    if ( _MenuGetSetting( Range, 'Tina' ) == 'Enabled' ) {
-        Search = Search + ',3003'
+    if ( getSetting( myRange, 'Tina' ) == 'Enabled' ) {
+        mySearch = mySearch + ',3003'
     }
-    if ( _MenuGetSetting( Range, 'Stan' ) == 'Enabled' ) {
-        Search = Search + ',2002'
+    if ( getSetting( myRange, 'Stan' ) == 'Enabled' ) {
+        mySearch = mySearch + ',2002'
     }
-    if ( _MenuGetSetting( Range, 'Fry' ) == 'Enabled' ) {
-        Search = Search + ',5017'
+    if ( getSetting( myRange, 'Fry' ) == 'Enabled' ) {
+        mySearch = mySearch + ',5017'
     }
-    if ( _MenuGetSetting( Range, 'Hank' ) == 'Enabled' ) {
-        Search = Search + ',4001'
+    if ( getSetting( myRange, 'Hank' ) == 'Enabled' ) {
+        mySearch = mySearch + ',4001'
     }
-    if ( _MenuGetSetting( Range, 'Consuela' ) == 'Enabled' ) {
-        Search = Search + ',1004'
+    if ( getSetting( myRange, 'Consuela' ) == 'Enabled' ) {
+        mySearch = mySearch + ',1004'
     }
-    if ( _MenuGetSetting( Range, 'Ricky Spanish' ) == 'Enabled' ) {
-        Search = Search + ',2005'
+    if ( getSetting( myRange, 'Ricky Spanish' ) == 'Enabled' ) {
+        mySearch = mySearch + ',2005'
     }
-    if ( _MenuGetSetting( Range, 'Gene' ) == 'Enabled' ) {
-        Search = Search + ',3304'
+    if ( getSetting( myRange, 'Gene' ) == 'Enabled' ) {
+        mySearch = mySearch + ',3304'
     }
-    if ( _MenuGetSetting( Range, 'Zapp Brannigan' ) == 'Enabled' ) {
-        Search = Search + ',5019'
+    if ( getSetting( myRange, 'Zapp Brannigan' ) == 'Enabled' ) {
+        mySearch = mySearch + ',5019'
     }
-    _properties.setProperties( {
+    myProperties.setProperties( {
         //User info
-        'User_ID': _MenuGetSetting( Range, 'User_ID' ),
-        'User_Token': _MenuGetSetting( Range, 'User_Token' ),
+        'User_ID': getSetting( myRange, 'User_ID' ),
+        'User_Token': getSetting( myRange, 'User_Token' ),
         //Options
-        'Energy Check': _MenuGetSetting( Range, 'Energy Check' ),
-        'Energy Check section': _MenuGetSetting( Range, 'Energy Check section' ),
-        'Ad Crate': _MenuGetSetting( Range, 'Ad Crate' ),
-        'Ad Boost': _MenuGetSetting( Range, 'Ad Boost' ),
+        'Energy Check': getSetting( myRange, 'Energy Check' ),
+        'Energy Check section': getSetting( myRange, 'Energy Check section' ),
+        'Ad Crate': getSetting( myRange, 'Ad Crate' ),
+        'Ad Boost': getSetting( myRange, 'Ad Boost' ),
         //Cards
-        'Auto buy and recycle': _MenuGetSetting( Range, 'Auto buy and recycle' ),
-        'Cards rarities to recycle': _MenuGetSetting( Range, 'Cards rarities to recycle' ),
-        'Auto buy limit': _MenuGetSetting( Range, 'Auto buy limit' ),
-        'Auto Buy/Upgrade Mission': _MenuGetSetting( Range, 'Auto Buy/Upgrade Mission' ),
+        'Auto buy and recycle': getSetting( myRange, 'Auto buy and recycle' ),
+        'Cards rarities to recycle': getSetting( myRange, 'Cards rarities to recycle' ),
+        'Auto buy limit': getSetting( myRange, 'Auto buy limit' ),
+        'Auto Buy/Upgrade Mission': getSetting( myRange, 'Auto Buy/Upgrade Mission' ),
         //Refill Challenge
-        'Auto Refill Challenge': _MenuGetSetting( Range, 'Auto Refill Challenge' ),
-        'Refill Challenge Deck': _MenuGetSetting( Range, 'Refill Challenge Deck' ),
+        'Auto Refill Challenge': getSetting( myRange, 'Auto Refill Challenge' ),
+        'Refill Challenge Deck': getSetting( myRange, 'Refill Challenge Deck' ),
         //Non-Refill Challenge
-        'Auto Non-Refill Challenge': _MenuGetSetting( Range, 'Auto Non-Refill Challenge' ),
-        'Non-Refill Challenge Deck': _MenuGetSetting( Range, 'Non-Refill Challenge Deck' ),
+        'Auto Non-Refill Challenge': getSetting( myRange, 'Auto Non-Refill Challenge' ),
+        'Non-Refill Challenge Deck': getSetting( myRange, 'Non-Refill Challenge Deck' ),
         //Rumble
-        'Auto Rumble': _MenuGetSetting( Range, 'Auto Rumble' ),
-        'Rumble Deck': _MenuGetSetting( Range, 'Rumble Deck' ),
-        'Rumble Energy Check': _MenuGetSetting( Range, 'Rumble Energy Check' ),
-        'Panic time': _MenuGetSetting( Range, 'Panic time' ),
+        'Auto Rumble': getSetting( myRange, 'Auto Rumble' ),
+        'Rumble Deck': getSetting( myRange, 'Rumble Deck' ),
+        'Rumble Energy Check': getSetting( myRange, 'Rumble Energy Check' ),
+        'Panic time': getSetting( myRange, 'Panic time' ),
         //Adventure
-        'Auto Adventure': _MenuGetSetting( Range, 'Auto Adventure' ),
-        'Adventure Deck': _MenuGetSetting( Range, 'Adventure Deck' ),
-        'Island to farm': _ConvertIsland( _MenuGetSetting( Range, 'Island to farm' ) ) + '',
+        'Auto Adventure': getSetting( myRange, 'Auto Adventure' ),
+        'Adventure Deck': getSetting( myRange, 'Adventure Deck' ),
+        'Island to farm': convertIsland( getSetting( myRange, 'Island to farm' ) ) + '',
         //Arena
-        'Auto Arena': _MenuGetSetting( Range, 'Auto Arena' ),
-        'Arena Deck': _MenuGetSetting( Range, 'Arena Deck' ),
+        'Auto Arena': getSetting( myRange, 'Auto Arena' ),
+        'Arena Deck': getSetting( myRange, 'Arena Deck' ),
         //Token Search
-        'Token Search': _MenuGetSetting( Range, 'Token Search' ),
-        'Search Timeout': _MenuGetSetting( Range, 'Search Timeout' ),
-        'Arena_Target': Search,
-        'Consuela': _MenuGetSetting( Range, 'Consuela' ),
-        'Ricky Spanish': _MenuGetSetting( Range, 'Ricky Spanish' ),
-        'Gene': _MenuGetSetting( Range, 'Gene' ),
-        'Zapp Brannigan': _MenuGetSetting( Range, 'Zapp Brannigan' ),
+        'Token Search': getSetting( myRange, 'Token Search' ),
+        'Search Timeout': getSetting( myRange, 'Search Timeout' ),
+        'Arena_Target': mySearch,
+        'Consuela': getSetting( myRange, 'Consuela' ),
+        'Ricky Spanish': getSetting( myRange, 'Ricky Spanish' ),
+        'Gene': getSetting( myRange, 'Gene' ),
+        'Zapp Brannigan': getSetting( myRange, 'Zapp Brannigan' ),
         //Other
-        '_currenttime': TimeFormated(),
-        '_time_count': TimeFormated(),
+        '_currenttime': formattedTime(),
+        '_time_count': formattedTime(),
         //Logging
         '_logs_RefillChallenge': '',
         '_logs_RefillChallenge_count': 0,
@@ -119,54 +119,54 @@ function LoadUserSettings() { //Read settings
         'BuyCardAndUpgrade_count': 0,
     } )
 
-    function _MenuGetSetting( array, setting ) {
-        for ( var i = 0; i < array.length; i++ ) {
-            if ( array[ i ][ 0 ] == setting ) {
-                return array[ i ][ 1 ]
+    function getSetting( aArray, aSetting ) {
+        for ( var i = 0; i < aArray.length; i++ ) {
+            if ( aArray[ i ][ 0 ] == aSetting ) {
+                return aArray[ i ][ 1 ]
             }
         }
     }
     return true
 }
 
-function _ConvertIsland( info ) {
+function convertIsland( info ) {
     if ( info.length < 4 ) {
         info = "0" + info
     }
-    var island = parseInt( info.substring( 0, 2 ) );
-    var pos = parseInt( info.substring( 3, 4 ) );
-    var math = ( island * 3 ) - ( 3 - pos ) + ( 100 ) + '';
-    return math;
+    var myIsland = parseInt( info.substring( 0, 2 ) );
+    var myPos = parseInt( info.substring( 3, 4 ) );
+    var myMath = ( myIsland * 3 ) - ( 3 - myPos ) + ( 100 ) + '';
+    return myMath;
 }
 
-function AuthenticateUser( Id, Token ) { //Check if use is valid & create user myUrl
-    var KONG_URL = 'https://cb-live.synapse-games.com/api.php?';
-    var User_Auth = UrlFetchApp.fetch( KONG_URL + 'message=getUserAccount&kong_id=' + Id + '&kong_token=' + Token );
-    var User_auth_Json = JSON.parse( User_Auth );
-    var USER_ID = User_auth_Json.new_user;
-    var USER_PASSWORD = User_auth_Json.new_password;
-    var USER_NAME = User_auth_Json.new_name;
-    var CHECK = User_auth_Json.result;
-      if ( CHECK == true ) {
-        UpdateStatus( 'Login failed.. Check User_Ud & User_Token ' + TimeFormated() );
+function authenticateUser( aId, aToken ) { //Check if use is valid & create user myUrl
+    var KONGURL = 'https://cb-live.synapse-games.com/api.php?';
+    var myUserAuth = UrlFetchApp.fetch( KONGURL + 'message=getUserAccount&kong_id=' + aId + '&kong_token=' + aToken );
+    var myUserAuthJson = JSON.parse( myUserAuth );
+    var myUserId = myUserAuthJson.new_user;
+    var myUserPass = myUserAuthJson.new_password;
+    var myUserName = myUserAuthJson.new_name;
+    var myResult = myUserAuthJson.result;
+      if ( myResult == true ) {
+        updateStatus( 'Login failed.. Check User_Ud & User_Token ' + formattedTime() );
         Logger.log( 'User Auth fail' );
         return false
     }
-    var myUrl = KONG_URL + 'user_id=' + USER_ID + '&password=' + USER_PASSWORD;
-    _setp( '_url', myUrl );
-    _setp( '_name', USER_NAME );
+    var myUrl = KONGURL + 'user_id=' + myUserId + '&password=' + myUserPass;
+    setProperty( '_url', myUrl );
+    setProperty( '_name', myUserName );
   
   if ( getProperty( 'Auto Adventure' ) == "Enabled"||"Energy overflow control"){
-    var check = _CheckIsland(myUrl, getProperty('Island to farm'));
-    if(check != false){
-      _setp( '_IslandCost', check+'');
+    var myCheck = checkIsland(myUrl, getProperty('Island to farm'));
+    if(myCheck != false){
+      setProperty( '_IslandCost', myCheck+'');
     }else{
-      UpdateStatus( 'Account ' + getProperty( '_name' ) + ' Island unavailable to farm ' + TimeFormated() );
+      updateStatus( 'Account ' + getProperty( '_name' ) + ' Island unavailable to farm ' + formattedTime() );
       return false
     }
   }
 }
 
-function UpdateStatus( Status ) { //Update status section on the menu
-    _sheet.getRange( "C4" ).setValue( Status );
+function updateStatus( Status ) { //Update status section on the menu
+    theSheet.getRange( "C4" ).setValue( Status );
 }

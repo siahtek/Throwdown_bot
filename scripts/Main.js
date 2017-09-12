@@ -1,8 +1,8 @@
 //Auto Rumble
 //ads?
-var _XML;
-var _properties;
-var _sheet;
+var theXml;
+var theProperties;
+var theSheet;
 
 function onOpen() {
     var ui = SpreadsheetApp.getUi();
@@ -10,72 +10,72 @@ function onOpen() {
 }
 
 function _Enable() {
-    _properties = PropertiesService.getScriptProperties()
-    _sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName( 'Settings' );
-    LoadUserSettings();
-    var User_Auth = AuthenticateUser( getProperty( 'User_ID' ), getProperty( 'User_Token' ) );
+    theProperties = PropertiesService.getScriptProperties()
+    theSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName( 'Settings' );
+    loadUserSettings();
+    var User_Auth = authenticateUser( getProperty( 'User_ID' ), getProperty( 'User_Token' ) );
     if ( User_Auth == false ) {
         return false
     }
-    if ( _CheckTrigger( 'Trigger_loaded' ) == false ) {
-        _CreateTrigger( 'Trigger_loaded' );
-        UpdateNext( true )
-        UpdateStatus( 'Account ' + getProperty( '_name' ) + ' Enabled, Waiting for next check ' );
+    if ( checkTrigger( 'Trigger_loaded' ) == false ) {
+        createTrigger( 'Trigger_loaded' );
+        updateNext( true )
+        updateStatus( 'Account ' + getProperty( '_name' ) + ' Enabled, Waiting for next check ' );
     } else {
-        UpdateStatus( 'Account ' + getProperty( '_name' ) + ' refresh finished' );
+        updateStatus( 'Account ' + getProperty( '_name' ) + ' refresh finished' );
     }
-    var Energy = GetEnergy();
-    EnergyUpdate( Energy[ 1 ], Energy[ 5 ], 'Arena' )
-    EnergyUpdate( Energy[ 0 ], Energy[ 4 ], 'Adventure' )
-    VersionCheck()
+    var myEnergy = GetEnergy();
+    updateEnergy( myEnergy[ 1 ], myEnergy[ 5 ], 'Arena' )
+    updateEnergy( myEnergy[ 0 ], myEnergy[ 4 ], 'Adventure' )
+    checkVersion()
 }
 
 function _Disable() {
-    EnergyUpdate( 0, 0, 'Arena' )
-    EnergyUpdate( 0, 0, 'Adventure' )
-    _properties = PropertiesService.getScriptProperties()
-    _sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName( 'Settings' );
-    UpdateNext( false )
-    UpdateStatus( 'Disabled - To Enable: Menu > Throwdown > Enable' );
-    _RemoveTriggers();
+    updateEnergy( 0, 0, 'Arena' )
+    updateEnergy( 0, 0, 'Adventure' )
+    theProperties = PropertiesService.getScriptProperties()
+    theSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName( 'Settings' );
+    updateNext( false )
+    updateStatus( 'Disabled - To Enable: Menu > Throwdown > Enable' );
+    removeTriggers();
     PropertiesService.getScriptProperties().deleteAllProperties();
 }
 
 function _Run() {
-    if ( _CheckTrigger( 'Trigger_loaded' ) != false ) {
-        _RemoveTriggers();
-        _CreateTrigger( 'Trigger_loaded' );
-        UpdateNext( true )
+    if ( checkTrigger( 'Trigger_loaded' ) != false ) {
+        removeTriggers();
+        createTrigger( 'Trigger_loaded' );
+        updateNext( true )
     }
     Main();
 }
 
 function Trigger_loaded() {
-    UpdateNext( true );
+    updateNext( true );
     Main();
 }
 
 function Main() {
-    _sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName( 'Settings' );
-    _properties = PropertiesService.getScriptProperties()
-    _XML = UrlFetchApp.fetch( 'https://cb-live.synapse-games.com/assets/cards.xml' ).getContentText();
-    UpdateStatus( 'Started, logging in ' + TimeFormated() );
-    VersionCheck()
-    var Loaded = LoadUserSettings();
-    var User_Auth = AuthenticateUser( getProperty( 'User_ID' ), getProperty( 'User_Token' ) );
+    theSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName( 'Settings' );
+    theProperties = PropertiesService.getScriptProperties()
+    theXml = UrlFetchApp.fetch( 'https://cb-live.synapse-games.com/assets/cards.xml' ).getContentText();
+    updateStatus( 'Started, logging in ' + formattedTime() );
+    checkVersion()
+    var Loaded = loadUserSettings();
+    var User_Auth = authenticateUser( getProperty( 'User_ID' ), getProperty( 'User_Token' ) );
     if ( User_Auth == false ) {
         return false
     }
     if ( getProperty( 'Ad Boost' ) == 'Enabled' ) {
-        UpdateStatus( 'Account ' + getProperty( '_name' ) + ' Loading boostAds ' + TimeFormated() );
+        updateStatus( 'Account ' + getProperty( '_name' ) + ' Loading boostAds ' + formattedTime() );
         var Boost = boostAds(); //Boost every 30 minutes? why not!
         Logger.log( 'Ad Boost:' + Boost );
     }
     var Energy = GetEnergy();
-    EnergyUpdate( Energy[ 1 ], Energy[ 5 ], 'Arena' )
-    EnergyUpdate( Energy[ 0 ], Energy[ 4 ], 'Adventure' )
-    if ( _CheckActive( getProperty( '_url' ) ) == true ) {
-        UpdateStatus( 'Account ' + getProperty( '_name' ) + ' Active Session found. Waiting 30 mins ' + TimeFormated() );
+    updateEnergy( Energy[ 1 ], Energy[ 5 ], 'Arena' )
+    updateEnergy( Energy[ 0 ], Energy[ 4 ], 'Adventure' )
+    if ( checkIfActive( getProperty( '_url' ) ) == true ) {
+        updateStatus( 'Account ' + getProperty( '_name' ) + ' Active Session found. Waiting 30 mins ' + formattedTime() );
         Logger.log( 'Active session found' );
         return false
     }
@@ -89,40 +89,40 @@ function Main() {
             AreMax = Energy[ 5 ];
         }
         if ( getProperty( 'Energy Check section' ) == 'playAdventure' && Energy[ 0 ] < AdvMax ) {
-            UpdateStatus( 'Account ' + getProperty( '_name' ) + ' playAdventure not full. ' + TimeFormated() );
+            updateStatus( 'Account ' + getProperty( '_name' ) + ' playAdventure not full. ' + formattedTime() );
             Logger.log( 'playAdventure not full' );
             return false;
         }
         if ( getProperty( 'Energy Check section' ) == 'Arena' && Energy[ 1 ] < AdvMax ) {
-            UpdateStatus( 'Account ' + getProperty( '_name' ) + ' Arena not full. ' + TimeFormated() );
+            updateStatus( 'Account ' + getProperty( '_name' ) + ' Arena not full. ' + formattedTime() );
             Logger.log( 'Arena not full' );
             return false;
         }
         if ( ( getProperty( 'Energy Check section' ) == 'Adventure or Arena' && Energy[ 1 ] >= AreMax ) || ( getProperty( 'Energy Check section' ) == 'Adventure or Arena' && Energy[ 0 ] >= AdvMax ) ) {
             Logger.log( 'FAIL!!!' )
         } else {
-            UpdateStatus( 'Account ' + getProperty( '_name' ) + ' Neither are full. ' + TimeFormated() );
+            updateStatus( 'Account ' + getProperty( '_name' ) + ' Neither are full. ' + formattedTime() );
             Logger.log( 'Neither are full' );
             return false;
         }
     }
-    UpdateStatus( 'Account ' + getProperty( '_name' ) + ' Starting ' + TimeFormated() );
+    updateStatus( 'Account ' + getProperty( '_name' ) + ' Starting ' + formattedTime() );
     Logger.log( GetEnergy() );
     _Farming();
     Logger.log( GetEnergy() );
-    UpdateStatus( 'Account ' + getProperty( '_name' ) + ' Finished ' + TimeFormated() );
+    updateStatus( 'Account ' + getProperty( '_name' ) + ' Finished ' + formattedTime() );
 }
 
 function _Farming() {
-    var Energy = GetEnergy();
+    var myEnergy = GetEnergy();
     // if (getProperty('Auto Rumble') == "Enabled") {Logger.log(Rumble());}
-    if ( getProperty( 'Auto Refill Challenge' ) == "Enabled" && Energy[ 2 ] > 0 ) {
+    if ( getProperty( 'Auto Refill Challenge' ) == "Enabled" && myEnergy[ 2 ] > 0 ) {
         Logger.log( '- - - - RefillChallenge Start - - - -' );
-        for ( var i = 0; i < Energy[ 6 ]; i++ ) {
-            UpdateStatus( 'Account ' + getProperty( '_name' ) + ' Loading Refill Challenge ' + TimeFormated() );
-            var result = RefillChallenge();
+        for ( var i = 0; i < myEnergy[ 6 ]; i++ ) {
+            updateStatus( 'Account ' + getProperty( '_name' ) + ' Loading Refill Challenge ' + formattedTime() );
+            var result = playRefillChallenge();
             if ( result != false ) {
-                AddLog( '_logs_RefillChallenge', result )
+                addLog( '_logs_RefillChallenge', result )
             }
             Logger.log( result );
             if ( result == false ) {
@@ -131,13 +131,13 @@ function _Farming() {
         }
         Logger.log( '- - - - RefillChallenge End - - - -' );
     }
-    if ( getProperty( 'Auto Non-Refill Challenge' ) == "Enabled" && Energy[ 3 ] > 0 ) {
+    if ( getProperty( 'Auto Non-Refill Challenge' ) == "Enabled" && myEnergy[ 3 ] > 0 ) {
         Logger.log( '- - - - NonRefillChallenge Start - - - -' );
-        for ( var i = 0; i < Energy[ 7 ]; i++ ) {
-            UpdateStatus( 'Account ' + getProperty( '_name' ) + ' Loading Non-Refill Challenge ' + TimeFormated() );
-            var result = NoneRefillChallenge();
+        for ( var i = 0; i < myEnergy[ 7 ]; i++ ) {
+            updateStatus( 'Account ' + getProperty( '_name' ) + ' Loading Non-Refill Challenge ' + formattedTime() );
+            var result = playNonRefillChallenge();
             if ( result != false ) {
-                AddLog( '_logs_NoneRefillChallenge', result )
+                addLog( '_logs_NoneRefillChallenge', result )
             }
             Logger.log( result );
             if ( result == false ) {
@@ -146,45 +146,45 @@ function _Farming() {
         }
         Logger.log( '- - - - NonRefillChallenge End - - - -' );
     }
-    var Energy = GetEnergy();
-    if ( ( getProperty( 'Auto Adventure' ) == "Enabled" && Energy[ 0 ] > getProperty( '_IslandCost')) || ( getProperty( 'Auto Adventure' ) == "Energy overflow control" && Energy[ 0 ] >= Energy[ 4 ] ) ) {
+    var myEnergy = GetEnergy();
+    if ( ( getProperty( 'Auto Adventure' ) == "Enabled" && myEnergy[ 0 ] > getProperty( '_IslandCost')) || ( getProperty( 'Auto Adventure' ) == "Energy overflow control" && myEnergy[ 0 ] >= myEnergy[ 4 ] ) ) {
         Logger.log( '- - - - Adventure Start - - - -' );
-        var SearchLength = Energy[ 4 ];
+        var SearchLength = myEnergy[ 4 ];
         Logger.log( 'SearchLength:' + SearchLength )
         for ( var i = 0; i < SearchLength; i++ ) {
-            UpdateStatus( 'Account ' + getProperty( '_name' ) + ' Loading Adventure ' + TimeFormated() );
+            updateStatus( 'Account ' + getProperty( '_name' ) + ' Loading Adventure ' + formattedTime() );
             var result = playAdventure();
             if ( result != false ) {
-                AddLog( '_logs_Adventure', result )
+                addLog( '_logs_Adventure', result )
             }
             Logger.log( result );
-            var Energy = GetEnergy();
-            EnergyUpdate( Energy[ 0 ], Energy[ 4 ], 'playAdventure' )
-            if ( getProperty( 'Auto Adventure' ) == "Energy overflow control" && Energy[ 0 ] < Energy[ 4 ] ) {
+            var myEnergy = GetEnergy();
+            updateEnergy( myEnergy[ 0 ], myEnergy[ 4 ], 'playAdventure' )
+            if ( getProperty( 'Auto Adventure' ) == "Energy overflow control" && myEnergy[ 0 ] < myEnergy[ 4 ] ) {
                 break;
             }
             if ( result == false ) {
                 break;
             }
         }
-        _CompleteAchievemnts( getProperty( '_url' ), '5007' );
+        completeAchievements( getProperty( '_url' ), '5007' );
         Logger.log( '- - - - playAdventure End - - - -' );
     }
-    var Energy = GetEnergy();
-    if ( ( getProperty( 'Auto Arena' ) == "Enabled" && Energy[ 1 ] > 0 ) || ( getProperty( 'Auto Arena' ) == "Energy overflow control" && Energy[ 1 ] >= Energy[ 5 ] ) ) {
+    var myEnergy = GetEnergy();
+    if ( ( getProperty( 'Auto Arena' ) == "Enabled" && myEnergy[ 1 ] > 0 ) || ( getProperty( 'Auto Arena' ) == "Energy overflow control" && myEnergy[ 1 ] >= myEnergy[ 5 ] ) ) {
         Logger.log( '- - - - Arena Start - - - -' );
-        var SearchLength = Energy[ 1 ];
+        var SearchLength = myEnergy[ 1 ];
         Logger.log( 'SearchLength:' + SearchLength )
         for ( var i = 0; i < SearchLength; i++ ) {
-            UpdateStatus( 'Account ' + getProperty( '_name' ) + ' Loading Arena ' + TimeFormated() );
+            updateStatus( 'Account ' + getProperty( '_name' ) + ' Loading Arena ' + formattedTime() );
             var result = playArena();
             if ( result != false ) {
-                AddLog( '_logs_Arena', result )
+                addLog( '_logs_Arena', result )
             }
             Logger.log( result );
-            var Energy = GetEnergy();
-            EnergyUpdate( Energy[ 1 ], Energy[ 5 ], 'Arena' )
-            if ( getProperty( 'Auto Arena' ) == "Energy overflow control" && Energy[ 1 ] < Energy[ 5 ] ) {
+            var myEnergy = GetEnergy();
+            updateEnergy( myEnergy[ 1 ], myEnergy[ 5 ], 'Arena' )
+            if ( getProperty( 'Auto Arena' ) == "Energy overflow control" && myEnergy[ 1 ] < myEnergy[ 5 ] ) {
                 break;
             }
             if ( result == false ) {
@@ -192,63 +192,63 @@ function _Farming() {
             }
             Utilities.sleep( 2000 );
         }
-        _CompleteAchievemnts( getProperty( '_url' ), '5008' );
+        completeAchievements( getProperty( '_url' ), '5008' );
         Logger.log( '- - - - Arena End - - - -' );
     }
-    _CompleteAchievemnts( getProperty( '_url' ), '5009' );
-    _CompleteAchievemnts( getProperty( '_url' ), '5010' );
-    if ( getProperty( 'Auto Buy/Upgrade Mission' ) == "Enabled" && _CheckAchievemnts( getProperty( '_url' ), '5009' ) == true ) {
-        UpdateStatus( 'Account ' + getProperty( '_name' ) + ' Daily Mission ' + TimeFormated() );
+    completeAchievements( getProperty( '_url' ), '5009' );
+    completeAchievements( getProperty( '_url' ), '5010' );
+    if ( getProperty( 'Auto Buy/Upgrade Mission' ) == "Enabled" && checkAchievements( getProperty( '_url' ), '5009' ) == true ) {
+        updateStatus( 'Account ' + getProperty( '_name' ) + ' Daily Mission ' + formattedTime() );
         Logger.log( '- - - - Auto Buy/Upgrade Mission Start - - - -' );
-        var result = _BuyCardAndUpgrade();
+        var result = buyAndUpgradeCards();
         Logger.log( '- - - - Auto Buy/Upgrade Mission End - - - -' );
     }
     if ( getProperty( 'Auto buy and recycle' ) == "Enabled" ) {
-        UpdateStatus( 'Account ' + getProperty( '_name' ) + ' Buying & Recycling cards ' + TimeFormated() );
+        updateStatus( 'Account ' + getProperty( '_name' ) + ' Buying & Recycling cards ' + formattedTime() );
         Logger.log( '- - - - Auto buy and recycle Start - - - -' );
-        var result = _BuyCardAndRecycle();
-        _CompleteAchievemnts( getProperty( '_url' ), '5010' );
+        var result = buyAndRecycleCards();
+        completeAchievements( getProperty( '_url' ), '5010' );
         Logger.log( '- - - - Auto buy and recycle End - - - -' );
     }
     if ( getProperty( 'Ad Crate' ) == 'Enabled' ) {
-        UpdateStatus( 'Account ' + getProperty( '_name' ) + ' Opening AdCrates ' + TimeFormated() );
+        updateStatus( 'Account ' + getProperty( '_name' ) + ' Opening AdCrates ' + formattedTime() );
         var Crate = useAdCrates();
         Logger.log( 'Ad Crates:' + Crate );
     }
-    var Energy = GetEnergy();
-    EnergyUpdate( Energy[ 1 ], Energy[ 5 ], 'Arena' )
-    EnergyUpdate( Energy[ 0 ], Energy[ 4 ], 'Adventure' )
-    _CompleteAchievemnts( getProperty( '_url' ), '5012' );
-    var check = false;
+    var myEnergy = GetEnergy();
+    updateEnergy( myEnergy[ 1 ], myEnergy[ 5 ], 'Arena' )
+    updateEnergy( myEnergy[ 0 ], myEnergy[ 4 ], 'Adventure' )
+    completeAchievements( getProperty( '_url' ), '5012' );
+    var myCheck = false;
     if ( getProperty( '_logs_RefillChallenge' + '_count' ) != 0 || "" ) {
-        check = true;
+        myCheck = true;
     }
     if ( getProperty( '_logs_NoneRefillChallenge' + '_count' ) != 0 || "" ) {
-        check = true;
+        myCheck = true;
     }
     if ( getProperty( '_logs_Adventure' + '_count' ) != 0 || "" ) {
-        check = true;
+        myCheck = true;
     }
     if ( getProperty( '_logs_Arena' + '_count' ) != 0 || "" ) {
-        check = true;
+        myCheck = true;
     }
     if ( getProperty( 'BuyCardAndUpgrade' + '_count' ) != 0 || "" ) {
-        check = true;
+        myCheck = true;
     }
     if ( getProperty( 'BuyCardAndRecycle' + '_count' ) != 0 || "" ) {
-        check = true;
+        myCheck = true;
     }
-    if ( check == true ) {
-        UpdateStatus( 'Account ' + getProperty( '_name' ) + ' Writing Logs ' + TimeFormated() );
-        WriteLogs( '_logs_RefillChallenge', 'B' );
-        WriteLogs( '_logs_NoneRefillChallenge', 'C' );
-        WriteLogs( '_logs_Adventure', 'D' );
-        WriteLogs( '_logs_Arena', 'E' );
-        WriteLogs( 'BuyCardAndUpgrade', 'F' );
-        WriteLogs( 'BuyCardAndRecycle', 'G' );
-        WriteLogs( '_time', 'A' );
+    if ( myCheck == true ) {
+        updateStatus( 'Account ' + getProperty( '_name' ) + ' Writing Logs ' + formattedTime() );
+        writeLogs( '_logs_RefillChallenge', 'B' );
+        writeLogs( '_logs_NoneRefillChallenge', 'C' );
+        writeLogs( '_logs_Adventure', 'D' );
+        writeLogs( '_logs_Arena', 'E' );
+        writeLogs( 'BuyCardAndUpgrade', 'F' );
+        writeLogs( 'BuyCardAndRecycle', 'G' );
+        writeLogs( '_time', 'A' );
     }
-    _CompleteAchievemnts( getProperty( '_url' ), '5001' );
+    completeAchievements( getProperty( '_url' ), '5001' );
 }
 
 function GetEnergy() { //Returns Current and Max energy.
@@ -286,12 +286,12 @@ function GetEnergy() { //Returns Current and Max energy.
     return [ parseInt( Adventure ), parseInt( Arena ), parseInt( Challenge ), parseInt( NonRefillChallenge ), parseInt( Adventure_Max ), parseInt( Arena_Max ), parseInt( Challenge_Max ), parseInt( NonRefillChallenge_Max ) ]
 }
 
-function VersionCheck() {
-    var Sheet = SpreadsheetApp.openById( '1e6Ru4wgPUD4CtKPVZDTKZ804w23Ulg9_iooKcgkC5Rk' ).getSheetByName( "Settings" );
-    var NewVersion = Sheet.getRange( "A1" ).getValue();
-    var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName( "Settings" );
-    var CurrentVersion = sheet.getRange( "A1" ).getValue();
-    if ( NewVersion > CurrentVersion ) {
-        sheet.getRange( 'C1' ).setValue( 'New Version Available -> http://tiny.cc/atbot' );
+function checkVersion() {
+    var mySettingsSheet = SpreadsheetApp.openById( '1e6Ru4wgPUD4CtKPVZDTKZ804w23Ulg9_iooKcgkC5Rk' ).getSheetByName( "Settings" );
+    var myNewVersion = mySettingsSheet.getRange( "A1" ).getValue();
+    var myActiveSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName( "Settings" );
+    var myCurrentVersion = myActiveSheet.getRange( "A1" ).getValue();
+    if ( myNewVersion > myCurrentVersion ) {
+        myActiveSheet.getRange( 'C1' ).setValue( 'New Version Available -> http://tiny.cc/atbot' );
     }
 }

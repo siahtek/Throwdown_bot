@@ -1,93 +1,93 @@
-function Attack( url ) { //Attack script..
-    var Start = UrlFetchApp.fetch( url );
-    var Start_Json = JSON.parse( Start );
-    if ( Start_Json.result_message != null ) {
+function playCard( aUrl ) { //Attack script..
+    var myStart = UrlFetchApp.fetch( aUrl );
+    var myStartJson = JSON.parse( myStart );
+    if ( myStartJson.result_message != null ) {
         return false
     }
-    if ( Start_Json.hasOwnProperty('battle_data') != false ) {
-        var Battle_id = Start_Json.battle_data.battle_id;
-        var End = UrlFetchApp.fetch( getProperty( '_url' ) + '&message=playCard&battle_id=' + Battle_id + '&skip=True' );
-        var End_Json = JSON.parse( End );
-        var Rewards = JSON.stringify( End_Json.battle_data.rewards );
-        return Rewards
+    if ( myStartJson.hasOwnProperty('battle_data') != false ) {
+        var myBattleId = myStartJson.battle_data.battle_id;
+        var myEnd = UrlFetchApp.fetch( getProperty( '_url' ) + '&message=playCard&battle_id=' + myBattleId + '&skip=True' );
+        var myEndJson = JSON.parse( myEnd );
+        var myRewards = JSON.stringify( myEndJson.battle_data.rewards );
+        return myRewards
     } else {
         return ''
     }
 }
 
-function _setp( loc, data ) { //Save data to google sheet
+function setProperty( aLoc, aData ) { //Save data to google sheet
     // var _properties = PropertiesService.getScriptProperties();
-    _properties.setProperty( loc, data );
+    theProperties.setProperty( aLoc, aData );
 }
 
-function getProperty( loc ) { //get data from google sheet
+function getProperty( aLoc ) { //get data from google sheet
     // var _properties = PropertiesService.getScriptProperties();
-    return _properties.getProperty( loc );
+    return theProperties.getProperty( aLoc );
 }
 
-function TimeFormated() { //return formated time
-    var d = new Date();
+function formattedTime() { //return formated time
+    var myDate = new Date();
     var ampm = 'AM'
-    var hours = d.getHours();
-    if ( hours > 12 ) {
+    var myHours = myDate.getHours();
+    if ( myHours > 12 ) {
         ampm = 'PM';
-        hours -= 12
+        myHours -= 12
     }
-    var time = ( "0" + ( d.getMonth() + 1 ) ).slice( -2 ) + "-" + ( "0" + d.getDate() ).slice( -2 ) + "-" + d.getFullYear() + " " + ( "0" + hours ).slice( -2 ) + ":" + ( "0" + d.getMinutes() ).slice( -2 ) + ' ' + ampm;
-    return time
+    var myTime = ( "0" + ( myDate.getMonth() + 1 ) ).slice( -2 ) + "-" + ( "0" + myDate.getDate() ).slice( -2 ) + "-" + myDate.getFullYear() + " " + ( "0" + myHours ).slice( -2 ) + ":" + ( "0" + myDate.getMinutes() ).slice( -2 ) + ' ' + ampm;
+    return myTime
 }
 
-function TimeFormatedNext() { //return formated time
-    var d = new Date();
-    d.setMinutes( d.getMinutes() + 30 );
+function myFormattedTimeNext() { //return formated time
+    var mydate = new Date();
+    mydate.setMinutes( mydate.getMinutes() + 30 );
     var ampm = 'AM'
-    var hours = d.getHours();
-    if ( hours > 12 ) {
+    var myHours = mydate.getHours();
+    if ( myHours > 12 ) {
         ampm = 'PM';
-        hours -= 12
+        myHours -= 12
     }
-    var time = ( "0" + ( d.getMonth() + 1 ) ).slice( -2 ) + "-" + ( "0" + d.getDate() ).slice( -2 ) + "-" + d.getFullYear() + " " + ( "0" + hours ).slice( -2 ) + ":" + ( "0" + d.getMinutes() ).slice( -2 ) + ' ' + ampm;
-    return time
+    var myTime = ( "0" + ( mydate.getMonth() + 1 ) ).slice( -2 ) + "-" + ( "0" + mydate.getDate() ).slice( -2 ) + "-" + mydate.getFullYear() + " " + ( "0" + myHours ).slice( -2 ) + ":" + ( "0" + mydate.getMinutes() ).slice( -2 ) + ' ' + ampm;
+    return myTime
 }
 
-function _CheckActive( myUrl ) { //True = Found battle.
-    var Active = UrlFetchApp.fetch( myUrl + '&message=playCard' );
-    var Active_Json = JSON.parse( Active );
-    if ( Active_Json.battle_data.upkept != null ) {
+function checkIfActive( myUrl ) { //True = Found battle.
+    var myActive = UrlFetchApp.fetch( myUrl + '&message=playCard' );
+    var myActiveJson = JSON.parse( myActive );
+    if ( myActiveJson.battle_data.upkept != null ) {
         return true;
     } else {
         return false;
     }
 }
 
-function _SaveDeck( myUrl ) { //Save starting attack deck
-    var Use_Item = UrlFetchApp.fetch( myUrl + '&message=getUserAccount' );
-    var Use_Item_json = JSON.parse( Use_Item );
-    var USER_DECK = Use_Item_json.user_data.active_deck;
-    _setp( '_deck', USER_DECK );
+function saveDeck( aUrl ) { //Save starting attack deck
+    var myUseItem = UrlFetchApp.fetch( aUrl + '&message=getUserAccount' );
+    var myUseItemJson = JSON.parse( myUseItem );
+    var myDeck = myUseItemJson.user_data.active_deck;
+    setProperty( '_deck', myDeck );
 }
 
-function _ChangeDeck( myUrl, Deck ) { //Change attack deck
-    var Use_Item = UrlFetchApp.fetch( myUrl + '&message=setActiveDeck&deck_id=' + Deck );
+function setDeck( myUrl, Deck ) { //Change attack deck
+    var myUseItem = UrlFetchApp.fetch( myUrl + '&message=setActiveDeck&deck_id=' + Deck );
 }
 
-function _CheckAchievemnts( myUrl, ID ) {
+function checkAchievements( aUrl, aId ) {
     //5001 - Daily - Nine to Five
     //5007 - Daily - playAdventure Battles
     //5008 - Daily - To The Arena
     //5009 - Daily - Upgrade Cards
     //5010 - Daily - Buy Packs
     //5012 - Daily - Play 5 Combos
-    _CompleteAchievemnts( myUrl, ID );
-    var DailyMission = UrlFetchApp.fetch( myUrl + '&message=init' );
-    var DailyMission_Json = JSON.parse( DailyMission );
-    if ( DailyMission_Json.user_achievements.hasOwnProperty( ID ) != false ) {
+    completeAchievements( aUrl, aId );
+    var myDailyMission = UrlFetchApp.fetch( aUrl + '&message=init' );
+    var myDailyMissionJson = JSON.parse( myDailyMission );
+    if ( myDailyMissionJson.user_achievements.hasOwnProperty( aId ) != false ) {
         return true
     } else {
         return false
     }
 }
 
-function _CompleteAchievemnts( myUrl, ID ) {
+function completeAchievements( myUrl, ID ) {
     UrlFetchApp.fetch( myUrl + '&message=completeAchievement&achievement_id=' + ID );
 }

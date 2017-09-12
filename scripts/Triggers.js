@@ -1,21 +1,21 @@
-function _CheckTrigger( Trigger ) {
-    var triggers = ScriptApp.getProjectTriggers();
-    for ( var i = 0; i < triggers.length; i++ ) {
-        if ( triggers[ i ].getHandlerFunction() == Trigger ) {
+function checkTrigger( aTrigger ) {
+    var myTriggers = ScriptApp.getProjectTriggers();
+    for ( var i = 0; i < myTriggers.length; i++ ) {
+        if ( myTriggers[ i ].getHandlerFunction() == aTrigger ) {
             return true;
         }
     }
     return false;
 }
 
-function _CreateTrigger() {
+function createTrigger() {
     ScriptApp.newTrigger( 'Trigger_loaded' ).timeBased().everyMinutes( 30 ).create();
 }
 
-function _RemoveTriggers() {
-    var triggers = ScriptApp.getProjectTriggers();
-    for ( var i = 0; i < triggers.length; i++ ) {
-        ScriptApp.deleteTrigger( triggers[ i ] );
+function removeTriggers() {
+    var myTriggers = ScriptApp.getProjectTriggers();
+    for ( var i = 0; i < myTriggers.length; i++ ) {
+        ScriptApp.deleteTrigger( myTriggers[ i ] );
     }
     return true
 }

@@ -1,59 +1,59 @@
-function AddLogCards( Section, Reward ) {
-    var string = getProperty( Section );
-    var Count = getProperty( Section + '_count' );
-    if ( string == null ) {
-        string = ''
+function AddLogCards( aSection, aReward ) {
+    var myString = getProperty( aSection );
+    var myCount = getProperty( aSection + '_count' );
+    if ( myString == null ) {
+        myString = ''
     }
-    if ( Count == null ) {
-        Count = 0
+    if ( myCount == null ) {
+        myCount = 0
     }
-    string = string + Reward + '\n';
-    _setp( Section, string );
-    _setp( Section + '_count', parseInt( Count ) + 1 );
+    myString = myString + aReward + '\n';
+    setProperty( aSection, myString );
+    setProperty( aSection + '_count', parseInt( myCount ) + 1 );
 }
 
-function EnergyUpdate( check, max, section ) {
-    var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName( "Settings" );
-    if ( section == 'Arena' ) {
-        sheet.getRange( "D6" ).setValue( 'Arena Energy: ' + check + '/' + max );
+function updateEnergy( aCheck, aMax, aSection ) {
+    var mySheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName( "Settings" );
+    if ( aSection == 'Arena' ) {
+        mySheet.getRange( "D6" ).setValue( 'Arena Energy: ' + aCheck + '/' + aMax );
     } else {
-        sheet.getRange( "C6" ).setValue( 'Adventure Energy: ' + check + '/' + max );
+        mySheet.getRange( "C6" ).setValue( 'Adventure Energy: ' + aCheck + '/' + aMax );
     }
 }
 
-function UpdateNext( check ) {
-    var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName( "Settings" );
-    if ( check == true ) {
-        sheet.getRange( "C7" ).setValue( 'Next check ' + TimeFormatedNext() );
+function updateNext( aCheck ) {
+    var mySheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName( "Settings" );
+    if ( aCheck == true ) {
+        mySheet.getRange( "C7" ).setValue( 'Next check ' + myFormattedTimeNext() );
     } else {
-        sheet.getRange( "C7" ).setValue( 'Disabled at ' + TimeFormated() );
+        mySheet.getRange( "C7" ).setValue( 'Disabled at ' + formattedTime() );
     }
 }
 
-function AddLog( Section, Reward ) {
-    var rewards = RewardsParse( Reward );
-    var string = ''
-    var Count = 0
-    string = getProperty( Section );
-    Count = getProperty( Section + '_count' );
-    string = string + rewards + '\n';
-    _setp( Section, string );
-    _setp( Section + '_count', parseInt( Count ) + 1 );
+function addLog( aSection, aReward ) {
+    var myRewards = parseRewards( aReward );
+    var myString = ''
+    var myCount = 0
+    myString = getProperty( aSection );
+    myCount = getProperty( aSection + '_count' );
+    myString = myString + myRewards + '\n';
+    setProperty( aSection, myString );
+    setProperty( aSection + '_count', parseInt( myCount ) + 1 );
 }
 
-function WriteLogs( Section, Row ) {
-    var empty = getFirstEmptyRow();
-    var Count = 0
-    var string = ''
-    var string = getProperty( Section );
-    Count = getProperty( Section + '_count' );
-    var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName( 'Logs' );
-    if ( string != null ) {
-        sheet.getRange( Row + "" + empty ).setNote( string );
+function writeLogs( aSection, aRow ) {
+    var myEmptyRow = getFirstEmptyRow();
+    var myCount = 0
+    var myString = ''
+    var myString = getProperty( aSection );
+    myCount = getProperty( aSection + '_count' );
+    var mySheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName( 'Logs' );
+    if ( myString != null ) {
+        mySheet.getRange( aRow + "" + myEmptyRow ).setNote( myString );
     }
-    sheet.getRange( Row + "" + empty ).setValue( Count );
-    _setp( Section, '' )
-    _setp( Section + '_count', 0 );
+    mySheet.getRange( aRow + "" + myEmptyRow ).setValue( myCount );
+    setProperty( aSection, '' )
+    setProperty( aSection + '_count', 0 );
 }
 
 function getFirstEmptyRow() {
@@ -67,10 +67,10 @@ function getFirstEmptyRow() {
     return ( ct + 1 );
 }
 
-function RewardsParse( rewards ) {
+function parseRewards( aRewards ) {
     var ItemInfo = UrlFetchApp.fetch( getProperty( '_url' ) + '&message=useItem' );
     var ItemInfo_json = JSON.parse( ItemInfo );
-    var rewards_Json = JSON.parse( rewards )[ 0 ]
+    var rewards_Json = JSON.parse( aRewards )[ 0 ]
     if ( rewards_Json.gold != null ) {
         var Gold = rewards_Json.gold
     } else {
