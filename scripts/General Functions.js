@@ -50,9 +50,9 @@ function myFormattedTimeNext() { //return formated time
     return myTime
 }
 
-function checkIfActive( myUrl ) { //True = Found battle.
-    var myActive = UrlFetchApp.fetch( myUrl + '&message=playCard' );
-    var myActiveJson = JSON.parse( myActive );
+function checkIfActive( aUrl ) { //True = Found battle.
+    var myActiveSite = UrlFetchApp.fetch( aUrl + '&message=playCard' );
+    var myActiveJson = JSON.parse( myActiveSite );
     if ( myActiveJson.battle_data.upkept != null ) {
         return true;
     } else {
@@ -61,14 +61,14 @@ function checkIfActive( myUrl ) { //True = Found battle.
 }
 
 function saveDeck( aUrl ) { //Save starting attack deck
-    var myUseItem = UrlFetchApp.fetch( aUrl + '&message=getUserAccount' );
-    var myUseItemJson = JSON.parse( myUseItem );
+    var myUseItemSite = UrlFetchApp.fetch( aUrl + '&message=getUserAccount' );
+    var myUseItemJson = JSON.parse( myUseItemSite );
     var myDeck = myUseItemJson.user_data.active_deck;
     setProperty( '_deck', myDeck );
 }
 
-function setDeck( myUrl, Deck ) { //Change attack deck
-    var myUseItem = UrlFetchApp.fetch( myUrl + '&message=setActiveDeck&deck_id=' + Deck );
+function setDeck( aUrl, aDeck ) { //Change attack deck
+    var myUseItem = UrlFetchApp.fetch( aUrl + '&message=setActiveDeck&deck_id=' + aDeck );
 }
 
 function checkAchievements( aUrl, aId ) {
@@ -88,6 +88,6 @@ function checkAchievements( aUrl, aId ) {
     }
 }
 
-function completeAchievements( myUrl, ID ) {
-    UrlFetchApp.fetch( myUrl + '&message=completeAchievement&achievement_id=' + ID );
+function completeAchievements( aUrl, aId ) {
+    UrlFetchApp.fetch( aUrl + '&message=completeAchievement&achievement_id=' + aId );
 }
