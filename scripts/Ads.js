@@ -35,10 +35,12 @@ function useAdCrates() {
 function boostAds() {
     var myUrl = getProperty( '_url' );
     for ( var i = 0; i < 6; i++ ) {
-        var myBoostSite = UrlFetchApp.fetch( myUrl + '&message=getUserAccount' );
+        var myBoostSite = UrlFetchApp.fetch( myUrl + '&message=getBoostLevel' );
         var myBoostJson = JSON.parse( myBoostSite );
         var myBoostStatus = myBoostJson.user_data.boost_level;
-        UrlFetchApp.fetch( myUrl + '&message=recordboostAds' );
+        var myBoostCheck = UrlFetchApp.fetch( myUrl + '&message=recordboostAds' );
+        var myBoostCheckJson = JSON.parse( myBoostCheck );
+        if ( myBoostCheckJson.hasOwnProperty( 'user_data' ) != false ) {i += 1;}// if it fails to load the page don't count this loop..
         if ( myBoostStatus == 3 ) {
             return myBoostStatus
         }

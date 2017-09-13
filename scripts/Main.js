@@ -88,6 +88,10 @@ function Main() {
     if ( getProperty( 'Ad Boost' ) == 'Enabled' ) {
         updateStatus( 'Account ' + getProperty( '_name' ) + ' Loading boostAds ' + formattedTime() );
         var myBoost = boostAds(); //Boost every 30 minutes? why not!
+      if(myBoost == false){
+         Utilities.sleep( 6000 );
+        var myBoost = boostAds();
+      }
         Logger.log( 'Ad Boost:' + myBoost );
     }
     var myEnergy = getEnergy();
