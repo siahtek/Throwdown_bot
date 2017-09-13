@@ -129,12 +129,12 @@ function loadUserSettings() { //Read settings
     return true
 }
 
-function convertIsland( info ) {
-    if ( info.length < 4 ) {
-        info = "0" + info
+function convertIsland( aInfo ) {
+    if ( aInfo.length < 4 ) {
+        aInfo = "0" + aInfo
     }
-    var myIsland = parseInt( info.substring( 0, 2 ) );
-    var myPos = parseInt( info.substring( 3, 4 ) );
+    var myIsland = parseInt( aInfo.substring( 0, 2 ) );
+    var myPos = parseInt( aInfo.substring( 3, 4 ) );
     var myMath = ( myIsland * 3 ) - ( 3 - myPos ) + ( 100 ) + '';
     return myMath;
 }
@@ -167,6 +167,6 @@ function authenticateUser( aId, aToken ) { //Check if use is valid & create user
   }
 }
 
-function updateStatus( Status ) { //Update status section on the menu
-    theSheet.getRange( "C4" ).setValue( Status );
+function updateStatus( aStatus ) { //Update status section on the menu
+    theSheet.getRange( "C4" ).setValue( aStatus );
 }
