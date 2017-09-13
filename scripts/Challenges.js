@@ -1,6 +1,6 @@
 /**
 * Checks if refill Challenge parameters are met then attacks.
-* @return false/refill Challenge Rewards
+* return false/refill Challenge Rewards
 */
 function playRefillChallenge() {
     var myUrl = getProperty( '_url' );
@@ -16,7 +16,7 @@ function playRefillChallenge() {
 
 /**
 * Checks if Non-Refill Challenge parameters are met then attacks.
-* @return true/Non-Refill Challenge Rewards
+* return true/Non-Refill Challenge Rewards
 */
 function playNonRefillChallenge() {
     var myUrl = getProperty( '_url' );
@@ -32,7 +32,7 @@ function playNonRefillChallenge() {
 
 /**
 * Gets challenge ID from challenge token
-* @return challenge id
+* return challenge id
 */
 function getChallengeId( aUrl, aId ) { 
     var myEventsSite = UrlFetchApp.fetch( aUrl + '&message=startChallenge' );

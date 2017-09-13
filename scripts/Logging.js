@@ -73,7 +73,7 @@ function writeLogs( aSection, aRow ) {
 
 /**
 * find the first empty row on logs for writing logs.
-* @return first empty row
+* return first empty row
 */
 function getFirstEmptyRow() {
     var spr = SpreadsheetApp.getActiveSpreadsheet().getSheetByName( "Logs" );
@@ -88,7 +88,7 @@ function getFirstEmptyRow() {
 
 /**
 * Parse/Convert attack rewards to string.
-* @return error/rewards string
+* return error/rewards string
 */
 function parseRewards( aRewards ) {
     var ItemInfo = UrlFetchApp.fetch( getProperty( '_url' ) + '&message=useItem' );

@@ -1,6 +1,6 @@
 /**
 * Load user settings to google Properties for reference later.
-* @return true
+* return true
 */
 function loadUserSettings() { //Read settings
     var mySheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName( 'Settings' );
@@ -68,7 +68,7 @@ function loadUserSettings() { //Read settings
     } )
 	/**
 	* Searches the sheet for the settings location and returns the setting option.
-	* @return location
+	* return location
 	*/
     function getSetting( aArray, aSetting ) {
         for ( var i = 0; i < aArray.length; i++ ) {
@@ -82,7 +82,7 @@ function loadUserSettings() { //Read settings
 
 /**
 * Converts island numbers to island ID
-* @return island ID
+* return island ID
 */
 function convertIsland( aInfo ) {
     if ( aInfo.length < 4 ) {
@@ -96,7 +96,7 @@ function convertIsland( aInfo ) {
 
 /**
 * Check if user login is valid and generate user URL.
-* @return true/false
+* return true/false
 */
 function authenticateUser( aId, aToken ) { //Check if use is valid & create user myUrl
     var KONGURL = 'https://cb-live.synapse-games.com/api.php?';
@@ -135,7 +135,7 @@ function updateStatus( aStatus ) { //Update status section on the menu
 
 /**
 * Load Character token search settings from settings.
-* @return search string.
+* return search string.
 */
 function getCharacterTokens(aRange) {
 		// load empty string for adding to.

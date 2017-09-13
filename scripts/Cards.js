@@ -1,6 +1,6 @@
 /**
 * Checks if parameters are met then buys, upgrades and recycles cards.
-* @return true
+* return true
 */
 function buyAndUpgradeCards() {
     var myUrl = getProperty( '_url' );
@@ -27,7 +27,7 @@ function buyAndUpgradeCards() {
 
 /**
 * Checks if parameters are met then buys and recycles cards.
-* @return true
+* return true
 */
 function buyAndRecycleCards() {
     var myMoney = Math.round( getMoney() / 1000 ) * 1000; //Get current money and round to nearest thousand.
@@ -57,7 +57,7 @@ function buyAndRecycleCards() {
 
 /**
 * Return users current coin count.
-* @return Money
+* return Money
 */
 function getMoney() {
     var myUrl = getProperty( '_url' );
@@ -69,7 +69,7 @@ function getMoney() {
 
 /**
 * Converts card ID to rarity and name.
-* @return [card Rarity,card name]
+* return [card Rarity,card name]
 */
 function getCardRarity( aId, aXml ) {
     var myDoc = XmlService.parse( aXml );
@@ -87,7 +87,7 @@ function getCardRarity( aId, aXml ) {
 
 /**
 * Recycle card by Index
-* @return recycle Watt value.
+* return recycle Watt value.
 */
 function recycleCard( aUrl, aCard ) { //Recycle card by Index
     var mySalvageSite = UrlFetchApp.fetch( aUrl + '&message=salvageUnitList&units=%5b' + aCard + '%5d' );
@@ -97,7 +97,7 @@ function recycleCard( aUrl, aCard ) { //Recycle card by Index
 
 /**
 * Upgrade card by Index
-* @return upgrade level
+* return upgrade level
 */
 function upgradeCard( aUrl, aCard ) { //Upgrade card by Index
     var myUpgradeSite = UrlFetchApp.fetch( aUrl + '&message=upgradeUnit&unit_index=' + aCard );
@@ -107,7 +107,7 @@ function upgradeCard( aUrl, aCard ) { //Upgrade card by Index
 
 /**
 * Buy 1 card pack from the store and return Index list.
-* @return false/card list
+* return false/card list
 */
 function buyCard( aUrl, aXml ) { // 1 = Rarity, 2 = Index, 3 = item id
     var myBoughtPackSite = UrlFetchApp.fetch( aUrl + '&message=buyStoreItem&data_usage=0&expected_cost=1000&cost_type=2&item_id=1' );

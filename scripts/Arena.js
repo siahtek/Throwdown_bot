@@ -1,6 +1,6 @@
 /**
 * Checks if arena attack parameters are met then attacks.
-* @return false/rewards.
+* return false/rewards.
 */
 function playArena() {
     var myUrl = getProperty( '_url' );
@@ -23,7 +23,7 @@ function playArena() {
 
 /**
 * Search Arena until token is found or limit is reached.
-* @return false/[search count,found token]
+* return false/[search count,found token]
 */
 function searchArena() {
     var myTarget = getProperty( 'Arena_Target' ).split( "," );
@@ -53,7 +53,7 @@ function searchArena() {
 
 /**
 * Checks if array contains a string.
-* @return true/false
+* return true/false
 */
 function isInArray( In, For ) {
     return ( In.indexOf( For ) > -1 );
@@ -61,7 +61,7 @@ function isInArray( In, For ) {
 
 /**
 * Arena attack function.
-* @return false/rewards.
+* return false/rewards.
 */
 function playArena( aUrl ) { //Attack script..
     var myFindSite = UrlFetchApp.fetch( aUrl + '&message=getHuntingTargets' );

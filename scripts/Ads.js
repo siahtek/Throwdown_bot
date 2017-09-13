@@ -1,7 +1,7 @@
 /**
 * Loops until you have no ad crates left.
 * Max loops count of 6.
-* @return true/false
+* return true/false
 */
 function useAdCrates() {
     var myUrl = getProperty( '_url' );
@@ -30,7 +30,7 @@ function useAdCrates() {
 /**
 * Loops until you have full ads.
 * Max loops count of 6.
-* @return false/boost count
+* return false/boost count
 */
 function boostAds() {
     var myUrl = getProperty( '_url' );

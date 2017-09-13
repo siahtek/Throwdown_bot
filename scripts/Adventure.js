@@ -1,6 +1,6 @@
 /**
 * Checks if adventure attack parameters are met then attacks.
-* @return false/rewards.
+* return false/rewards.
 */
 function playAdventure() {
     var myUrl = getProperty( '_url' );
@@ -17,7 +17,7 @@ function playAdventure() {
 
 /**
 * Check if island can be attacked.
-* @return false/cost of island.
+* return false/cost of island.
 */
 function checkIsland(aUrl, aId) {
     var myIslandSite = UrlFetchApp.fetch( aUrl + '&message=init' );

@@ -1,6 +1,6 @@
 /**
 * Starts an attack and Auto skip.
-* @return false/Attack rewards.
+* return false/Attack rewards.
 */
 function playCard( aUrl ) {
     var myStart = UrlFetchApp.fetch( aUrl );
@@ -35,7 +35,7 @@ function getProperty( aLoc ) {
 
 /**
 * get current time and format.
-* @return formated time.
+* return formated time.
 */
 function formattedTime() {
     var myDate = new Date();
@@ -51,7 +51,7 @@ function formattedTime() {
 
 /**
 * get time in 30 minutes and format.
-* @return formated time.
+* return formated time.
 */
 function myFormattedTimeNext() {
     var mydate = new Date();
@@ -69,7 +69,7 @@ function myFormattedTimeNext() {
 /**
 * Checks if an active attack is going
 * if the bot attacks during an active attack the active attack will be forfeit.
-* @return true/false
+* return true/false
 */
 function checkIfActive( aUrl ) {
     var myActiveSite = UrlFetchApp.fetch( aUrl + '&message=playCard' );
@@ -100,7 +100,7 @@ function setDeck( aUrl, aDeck ) {
 
 /**
 * Loads, Completes, and checks if Achievements is finished.
-* @return true/false
+* return true/false
 */
 function checkAchievements( aUrl, aId ) {
     //5001 - Daily - Nine to Five

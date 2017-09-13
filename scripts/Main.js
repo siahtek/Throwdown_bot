@@ -72,7 +72,7 @@ function Trigger_loaded() {
 }
 /**
 * Loads settings, logs in, and checks if running parameters are valid.
-* @return true/false
+* return true/false
 */
 function Main() {
     theSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName( 'Settings' );
@@ -296,7 +296,7 @@ function _Farming() {
 
 /**
 * Gets current and max energy.
-* @return energy
+* return energy
 */
 function getEnergy() { //Returns Current and Max energy.
     // 0-playAdventure : 1-Arena : 2-Challenge : 3-NonRefillChallenge 

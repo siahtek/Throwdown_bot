@@ -1,6 +1,6 @@
 /**
 * Checks if trigger is created.
-* @return true/false
+* return true/false
 */
 function checkTrigger( aTrigger ) {
     var myTriggers = ScriptApp.getProjectTriggers();
@@ -21,7 +21,7 @@ function createTrigger() {
 
 /**
 * remove all triggers for this project.
-* @return true
+* return true
 */
 function removeTriggers() {
     var myTriggers = ScriptApp.getProjectTriggers();
