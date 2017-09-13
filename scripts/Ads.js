@@ -38,7 +38,7 @@ function boostAds() {
         var myBoostSite = UrlFetchApp.fetch( myUrl + '&message=getBoostLevel' );
         var myBoostJson = JSON.parse( myBoostSite );
         var myBoostStatus = myBoostJson.user_data.boost_level;
-        var myBoostCheck = UrlFetchApp.fetch( myUrl + '&message=recordboostAds' );
+        var myBoostCheck = UrlFetchApp.fetch( myUrl + '&message=recordAdBoost' );
         var myBoostCheckJson = JSON.parse( myBoostCheck );
         if ( myBoostCheckJson.hasOwnProperty( 'user_data' ) != false ) {i += 1;}// if it fails to load the page don't count this loop..
         if ( myBoostStatus == 3 ) {
