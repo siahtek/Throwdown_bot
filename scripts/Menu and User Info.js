@@ -1,67 +1,15 @@
+/**
+* Load user settings to google Properties for reference later.
+* @return true
+*/
 function loadUserSettings() { //Read settings
     var mySheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName( 'Settings' );
     var myRange = mySheet.getRange( "C1:D80" ).getValues();
     var myProperties = PropertiesService.getScriptProperties();
     var myXml = UrlFetchApp.fetch( 'https://cb-live.synapse-games.com/assets/cards.xml' ).getContentText();
-    var mySearch = '';
-    if ( getSetting( myRange, 'Brian' ) == 'Enabled' ) {
-        mySearch = mySearch + ',1003'
-    }
-    if ( getSetting( myRange, 'Stewie' ) == 'Enabled' ) {
-        mySearch = mySearch + ',1002'
-    }
-    if ( getSetting( myRange, 'Louise' ) == 'Enabled' ) {
-        mySearch = mySearch + ',3002'
-    }
-    if ( getSetting( myRange, 'Steve' ) == 'Enabled' ) {
-        mySearch = mySearch + ',2003'
-    }
-    if ( getSetting( myRange, 'Bender' ) == 'Enabled' ) {
-        mySearch = mySearch + ',5016'
-    }
-    if ( getSetting( myRange, 'Dale' ) == 'Enabled' ) {
-        mySearch = mySearch + ',4003'
-    }
-    if ( getSetting( myRange, 'Bob' ) == 'Enabled' ) {
-        mySearch = mySearch + ',3001'
-    }
-    if ( getSetting( myRange, 'Roger' ) == 'Enabled' ) {
-        mySearch = mySearch + ',2001'
-    }
-    if ( getSetting( myRange, 'Leela' ) == 'Enabled' ) {
-        mySearch = mySearch + ',5018'
-    }
-    if ( getSetting( myRange, 'Bobby' ) == 'Enabled' ) {
-        mySearch = mySearch + ',4002'
-    }
-    if ( getSetting( myRange, 'Peter' ) == 'Enabled' ) {
-        mySearch = mySearch + ',1001'
-    }
-    if ( getSetting( myRange, 'Tina' ) == 'Enabled' ) {
-        mySearch = mySearch + ',3003'
-    }
-    if ( getSetting( myRange, 'Stan' ) == 'Enabled' ) {
-        mySearch = mySearch + ',2002'
-    }
-    if ( getSetting( myRange, 'Fry' ) == 'Enabled' ) {
-        mySearch = mySearch + ',5017'
-    }
-    if ( getSetting( myRange, 'Hank' ) == 'Enabled' ) {
-        mySearch = mySearch + ',4001'
-    }
-    if ( getSetting( myRange, 'Consuela' ) == 'Enabled' ) {
-        mySearch = mySearch + ',1004'
-    }
-    if ( getSetting( myRange, 'Ricky Spanish' ) == 'Enabled' ) {
-        mySearch = mySearch + ',2005'
-    }
-    if ( getSetting( myRange, 'Gene' ) == 'Enabled' ) {
-        mySearch = mySearch + ',3304'
-    }
-    if ( getSetting( myRange, 'Zapp Brannigan' ) == 'Enabled' ) {
-        mySearch = mySearch + ',5019'
-    }
-    myProperties.setProperties( {
+    var mySearch = getCharacterTokens(myRange);
+	//	load and bulk save user settings to google.
+    myProperties.setProperties( { 
         //User info
         'User_ID': getSetting( myRange, 'User_ID' ),
         'User_Token': getSetting( myRange, 'User_Token' ),
@@ -118,7 +66,10 @@ function loadUserSettings() { //Read settings
         'BuyCardAndUpgrade': '',
         'BuyCardAndUpgrade_count': 0,
     } )
-
+	/**
+	* Searches the sheet for the settings location and returns the setting option.
+	* @return location
+	*/
     function getSetting( aArray, aSetting ) {
         for ( var i = 0; i < aArray.length; i++ ) {
             if ( aArray[ i ][ 0 ] == aSetting ) {
@@ -129,6 +80,10 @@ function loadUserSettings() { //Read settings
     return true
 }
 
+/**
+* Converts island numbers to island ID
+* @return island ID
+*/
 function convertIsland( aInfo ) {
     if ( aInfo.length < 4 ) {
         aInfo = "0" + aInfo
@@ -139,6 +94,10 @@ function convertIsland( aInfo ) {
     return myMath;
 }
 
+/**
+* Check if user login is valid and generate user URL.
+* @return true/false
+*/
 function authenticateUser( aId, aToken ) { //Check if use is valid & create user myUrl
     var KONGURL = 'https://cb-live.synapse-games.com/api.php?';
     var myUserAuth = UrlFetchApp.fetch( KONGURL + 'message=getUserAccount&kong_id=' + aId + '&kong_token=' + aToken );
@@ -167,6 +126,83 @@ function authenticateUser( aId, aToken ) { //Check if use is valid & create user
   }
 }
 
+/**
+* Update status section on the Gui with string.
+*/
 function updateStatus( aStatus ) { //Update status section on the menu
     theSheet.getRange( "C4" ).setValue( aStatus );
 }
+
+/**
+* Load Character token search settings from settings.
+* @return search string.
+*/
+function getCharacterTokens(aRange) {
+		// load empty string for adding to.
+		var mySearch = '';
+		if ( getSetting( aRange, 'Brian' ) == 'Enabled' ) {
+			mySearch = mySearch + ',1003'
+		}
+		if ( getSetting( aRange, 'Stewie' ) == 'Enabled' ) {
+			mySearch = mySearch + ',1002'
+		}
+		if ( getSetting( aRange, 'Louise' ) == 'Enabled' ) {
+			mySearch = mySearch + ',3002'
+		}
+		if ( getSetting( aRange, 'Steve' ) == 'Enabled' ) {
+			mySearch = mySearch + ',2003'
+		}
+		if ( getSetting( aRange, 'Bender' ) == 'Enabled' ) {
+			mySearch = mySearch + ',5016'
+		}
+		if ( getSetting( aRange, 'Dale' ) == 'Enabled' ) {
+			mySearch = mySearch + ',4003'
+		}
+		if ( getSetting( aRange, 'Bob' ) == 'Enabled' ) {
+			mySearch = mySearch + ',3001'
+		}
+		if ( getSetting( aRange, 'Roger' ) == 'Enabled' ) {
+			mySearch = mySearch + ',2001'
+		}
+		if ( getSetting( aRange, 'Leela' ) == 'Enabled' ) {
+			mySearch = mySearch + ',5018'
+		}
+		if ( getSetting( aRange, 'Bobby' ) == 'Enabled' ) {
+			mySearch = mySearch + ',4002'
+		}
+		if ( getSetting( aRange, 'Peter' ) == 'Enabled' ) {
+			mySearch = mySearch + ',1001'
+		}
+		if ( getSetting( aRange, 'Tina' ) == 'Enabled' ) {
+			mySearch = mySearch + ',3003'
+		}
+		if ( getSetting( aRange, 'Stan' ) == 'Enabled' ) {
+			mySearch = mySearch + ',2002'
+		}
+		if ( getSetting( aRange, 'Fry' ) == 'Enabled' ) {
+			mySearch = mySearch + ',5017'
+		}
+		if ( getSetting( aRange, 'Hank' ) == 'Enabled' ) {
+			mySearch = mySearch + ',4001'
+		}
+		if ( getSetting( aRange, 'Consuela' ) == 'Enabled' ) {
+			mySearch = mySearch + ',1004'
+		}
+		if ( getSetting( aRange, 'Ricky Spanish' ) == 'Enabled' ) {
+			mySearch = mySearch + ',2005'
+		}
+		if ( getSetting( aRange, 'Gene' ) == 'Enabled' ) {
+			mySearch = mySearch + ',3304'
+		}
+		if ( getSetting( aRange, 'Zapp Brannigan' ) == 'Enabled' ) {
+			mySearch = mySearch + ',5019'
+		}
+		if ( getSetting( aRange, 'The Giant Chicken' ) == 'Enabled' ) {
+			mySearch = mySearch + ',1005'
+		}
+		if ( getSetting( aRange, 'John Redcorn' ) == 'Enabled' ) {
+			mySearch = mySearch + ',4004'
+		}
+	
+	return mySearch
+	}

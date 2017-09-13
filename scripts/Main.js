@@ -4,11 +4,18 @@ var theXml;
 var theProperties;
 var theSheet;
 
+/**
+* On sheet load add Throwdown menu. --> Menu > Throwdown
+*/
 function onOpen() {
     var ui = SpreadsheetApp.getUi();
     ui.createMenu( 'Throwdown' ).addItem( 'Enable & Refresh', '_Enable' ).addItem( 'Disable', '_Disable' ).addItem( 'Manual Run', '_Run' ).addToUi();
 }
 
+
+/**
+* Runs when Enable & Refresh calls it. --> Menu > Throwdown > Enable & Refresh
+*/
 function _Enable() {
     theProperties = PropertiesService.getScriptProperties()
     theSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName( 'Settings' );
@@ -30,6 +37,9 @@ function _Enable() {
     checkVersion()
 }
 
+/**
+* Runs when user Disable calls it. --> Menu > Throwdown > Disable
+*/
 function _Disable() {
     updateEnergy( 0, 0, 'Arena' )
     updateEnergy( 0, 0, 'Adventure' )
@@ -41,6 +51,9 @@ function _Disable() {
     PropertiesService.getScriptProperties().deleteAllProperties();
 }
 
+/**
+* Runs when Manual Run calls it. --> Menu > Throwdown > Manual Run
+*/
 function _Run() {
     if ( checkTrigger( 'Trigger_loaded' ) != false ) {
         removeTriggers();
@@ -50,11 +63,17 @@ function _Run() {
     Main();
 }
 
+/**
+* Runs when the trigger calls it.
+*/
 function Trigger_loaded() {
     updateNext( true );
     Main();
 }
-
+/**
+* Loads settings, logs in, and checks if running parameters are valid.
+* @return true/false
+*/
 function Main() {
     theSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName( 'Settings' );
     theProperties = PropertiesService.getScriptProperties()
@@ -112,10 +131,13 @@ function Main() {
     Logger.log( getEnergy() );
     updateStatus( 'Account ' + getProperty( '_name' ) + ' Finished ' + formattedTime() );
 }
-
+/**
+* Runs all farming commands.
+*/
 function _Farming() {
+	
+	// =================================== Refill Challenge ===================================
     var myEnergy = getEnergy();
-    // if (getProperty('Auto Rumble') == "Enabled") {Logger.log(Rumble());}
     if ( getProperty( 'Auto Refill Challenge' ) == "Enabled" && myEnergy[ 2 ] > 0 ) {
         Logger.log( '- - - - RefillChallenge Start - - - -' );
         for ( var i = 0; i < myEnergy[ 6 ]; i++ ) {
@@ -131,6 +153,9 @@ function _Farming() {
         }
         Logger.log( '- - - - RefillChallenge End - - - -' );
     }
+	// =================================== Refill Challenge ===================================
+	
+	// ================================= Non Refill Challenge =================================
     if ( getProperty( 'Auto Non-Refill Challenge' ) == "Enabled" && myEnergy[ 3 ] > 0 ) {
         Logger.log( '- - - - NonRefillChallenge Start - - - -' );
         for ( var i = 0; i < myEnergy[ 7 ]; i++ ) {
@@ -146,6 +171,9 @@ function _Farming() {
         }
         Logger.log( '- - - - NonRefillChallenge End - - - -' );
     }
+	// ================================= Non Refill Challenge =================================
+	
+	// ====================================== Adventure =======================================
     var myEnergy = getEnergy();
     if ( ( getProperty( 'Auto Adventure' ) == "Enabled" && myEnergy[ 0 ] > getProperty( '_IslandCost')) || ( getProperty( 'Auto Adventure' ) == "Energy overflow control" && myEnergy[ 0 ] >= myEnergy[ 4 ] ) ) {
         Logger.log( '- - - - Adventure Start - - - -' );
@@ -170,6 +198,9 @@ function _Farming() {
         completeAchievements( getProperty( '_url' ), '5007' );
         Logger.log( '- - - - playAdventure End - - - -' );
     }
+	// ====================================== Adventure =======================================
+	
+	// ======================================== Arena =========================================
     var myEnergy = getEnergy();
     if ( ( getProperty( 'Auto Arena' ) == "Enabled" && myEnergy[ 1 ] > 0 ) || ( getProperty( 'Auto Arena' ) == "Energy overflow control" && myEnergy[ 1 ] >= myEnergy[ 5 ] ) ) {
         Logger.log( '- - - - Arena Start - - - -' );
@@ -195,6 +226,9 @@ function _Farming() {
         completeAchievements( getProperty( '_url' ), '5008' );
         Logger.log( '- - - - Arena End - - - -' );
     }
+	// ======================================== Arena =========================================
+	
+	// ==================================== Buy and Update ====================================
     completeAchievements( getProperty( '_url' ), '5009' );
     completeAchievements( getProperty( '_url' ), '5010' );
     if ( getProperty( 'Auto Buy/Upgrade Mission' ) == "Enabled" && checkAchievements( getProperty( '_url' ), '5009' ) == true ) {
@@ -203,6 +237,9 @@ function _Farming() {
         var myResult = buyAndUpgradeCards();
         Logger.log( '- - - - Auto Buy/Upgrade Mission End - - - -' );
     }
+	// ==================================== Buy and Update ====================================
+	
+	// =================================== Buy and Recycle ====================================
     if ( getProperty( 'Auto buy and recycle' ) == "Enabled" ) {
         updateStatus( 'Account ' + getProperty( '_name' ) + ' Buying & Recycling cards ' + formattedTime() );
         Logger.log( '- - - - Auto buy and recycle Start - - - -' );
@@ -210,11 +247,16 @@ function _Farming() {
         completeAchievements( getProperty( '_url' ), '5010' );
         Logger.log( '- - - - Auto buy and recycle End - - - -' );
     }
+	// =================================== Buy and Recycle ====================================
+	
+	// ====================================== Ad Crates ===============-=======================
     if ( getProperty( 'Ad Crate' ) == 'Enabled' ) {
         updateStatus( 'Account ' + getProperty( '_name' ) + ' Opening AdCrates ' + formattedTime() );
         var myCrate = useAdCrates();
         Logger.log( 'Ad Crates:' + myCrate );
     }
+	// ====================================== Ad Crates ===============-=======================
+	
     var myEnergy = getEnergy();
     updateEnergy( myEnergy[ 1 ], myEnergy[ 5 ], 'Arena' )
     updateEnergy( myEnergy[ 0 ], myEnergy[ 4 ], 'Adventure' )
@@ -251,6 +293,11 @@ function _Farming() {
     completeAchievements( getProperty( '_url' ), '5001' );
 }
 
+
+/**
+* Gets current and max energy.
+* @return energy
+*/
 function getEnergy() { //Returns Current and Max energy.
     // 0-playAdventure : 1-Arena : 2-Challenge : 3-NonRefillChallenge 
     // 4-MaxplayAdventure : 5-MaxplayArena : 6-MaxChallenge : 7-MaxNonRefillChallenge
@@ -286,6 +333,9 @@ function getEnergy() { //Returns Current and Max energy.
     return [ parseInt( myAdventureEnergy ), parseInt( myArenaEnergy ), parseInt( myChallengeSite ), parseInt( myNonRefillChallenge ), parseInt( myAdventureEnergyMax ), parseInt( myArenaEnergyMax ), parseInt( myChallengeEnergyMax ), parseInt( myNonRefillChallengeMax ) ]
 }
 
+/**
+* Check and see if there is a new script version.
+*/
 function checkVersion() {
     var mySettingsSheet = SpreadsheetApp.openById( '1e6Ru4wgPUD4CtKPVZDTKZ804w23Ulg9_iooKcgkC5Rk' ).getSheetByName( "Settings" );
     var myNewVersion = mySettingsSheet.getRange( "A1" ).getValue();

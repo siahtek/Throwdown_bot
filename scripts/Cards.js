@@ -1,5 +1,8 @@
-function buyAndUpgradeCards() { //Buy, Upgrade and recycle
-    // _XML = UrlFetchApp.fetch('https://cb-live.synapse-games.com/assets/cards.xml').getContentText();
+/**
+* Checks if parameters are met then buys, upgrades and recycles cards.
+* @return true
+*/
+function buyAndUpgradeCards() {
     var myUrl = getProperty( '_url' );
     for ( var z = 0; z < 3; z++ ) {
         updateStatus( 'Account ' + getProperty( '_name' ) + ' Daily Mission ' + formattedTime() );
@@ -22,8 +25,11 @@ function buyAndUpgradeCards() { //Buy, Upgrade and recycle
     return true
 }
 
-function buyAndRecycleCards() { //Buy and recycle
-    //_XML = UrlFetchApp.fetch('https://cb-live.synapse-games.com/assets/cards.xml').getContentText();
+/**
+* Checks if parameters are met then buys and recycles cards.
+* @return true
+*/
+function buyAndRecycleCards() {
     var myMoney = Math.round( getMoney() / 1000 ) * 1000; //Get current money and round to nearest thousand.
     var myMathZ = ( myMoney - getProperty( 'Auto buy limit' ) ) / 1000; //Get the amount of cards you can buy,
     if ( myMathZ <= 0 ) {
@@ -49,7 +55,11 @@ function buyAndRecycleCards() { //Buy and recycle
     return true
 }
 
-function getMoney() { //Returns Money.
+/**
+* Return users current coin count.
+* @return Money
+*/
+function getMoney() {
     var myUrl = getProperty( '_url' );
     var myEnergy = UrlFetchApp.fetch( myUrl + '&message=getUserAccount' );
     var myEnergyJson = JSON.parse( myEnergy );
@@ -57,7 +67,11 @@ function getMoney() { //Returns Money.
     return myMoney
 }
 
-function getCardRarity( aId, aXml ) { //seach xml and get card by ID
+/**
+* Converts card ID to rarity and name.
+* @return [card Rarity,card name]
+*/
+function getCardRarity( aId, aXml ) {
     var myDoc = XmlService.parse( aXml );
     var myRootElement = myDoc.getRootElement();
     var myEntries = myDoc.getRootElement().getChildren( 'unit' );
@@ -71,18 +85,30 @@ function getCardRarity( aId, aXml ) { //seach xml and get card by ID
     }
 }
 
+/**
+* Recycle card by Index
+* @return recycle Watt value.
+*/
 function recycleCard( aUrl, aCard ) { //Recycle card by Index
     var mySalvageSite = UrlFetchApp.fetch( aUrl + '&message=salvageUnitList&units=%5b' + aCard + '%5d' );
     var mySalvageJson = JSON.parse( mySalvageSite );
     return mySalvageJson.rewards.sp
 }
 
+/**
+* Upgrade card by Index
+* @return upgrade level
+*/
 function upgradeCard( aUrl, aCard ) { //Upgrade card by Index
     var myUpgradeSite = UrlFetchApp.fetch( aUrl + '&message=upgradeUnit&unit_index=' + aCard );
     var myUpgradeJson = JSON.parse( myUpgradeSite );
     return myUpgradeJson.user_units[ aCard ].level
 }
 
+/**
+* Buy 1 card pack from the store and return Index list.
+* @return false/card list
+*/
 function buyCard( aUrl, aXml ) { // 1 = Rarity, 2 = Index, 3 = item id
     var myBoughtPackSite = UrlFetchApp.fetch( aUrl + '&message=buyStoreItem&data_usage=0&expected_cost=1000&cost_type=2&item_id=1' );
     var myBoughtPackJson = JSON.parse( myBoughtPackSite );

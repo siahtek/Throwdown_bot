@@ -1,4 +1,8 @@
-function playCard( aUrl ) { //Attack script..
+/**
+* Starts an attack and Auto skip.
+* @return false/Attack rewards.
+*/
+function playCard( aUrl ) {
     var myStart = UrlFetchApp.fetch( aUrl );
     var myStartJson = JSON.parse( myStart );
     if ( myStartJson.result_message != null ) {
@@ -15,17 +19,25 @@ function playCard( aUrl ) { //Attack script..
     }
 }
 
-function setProperty( aLoc, aData ) { //Save data to google sheet
-    // var _properties = PropertiesService.getScriptProperties();
+/**
+* Create or set a google setting by key.
+*/
+function setProperty( aLoc, aData ) { 
     theProperties.setProperty( aLoc, aData );
 }
 
-function getProperty( aLoc ) { //get data from google sheet
-    // var _properties = PropertiesService.getScriptProperties();
+/**
+* Load a google setting by key.
+*/
+function getProperty( aLoc ) {
     return theProperties.getProperty( aLoc );
 }
 
-function formattedTime() { //return formated time
+/**
+* get current time and format.
+* @return formated time.
+*/
+function formattedTime() {
     var myDate = new Date();
     var ampm = 'AM'
     var myHours = myDate.getHours();
@@ -37,7 +49,11 @@ function formattedTime() { //return formated time
     return myTime
 }
 
-function myFormattedTimeNext() { //return formated time
+/**
+* get time in 30 minutes and format.
+* @return formated time.
+*/
+function myFormattedTimeNext() {
     var mydate = new Date();
     mydate.setMinutes( mydate.getMinutes() + 30 );
     var ampm = 'AM'
@@ -50,7 +66,12 @@ function myFormattedTimeNext() { //return formated time
     return myTime
 }
 
-function checkIfActive( aUrl ) { //True = Found battle.
+/**
+* Checks if an active attack is going
+* if the bot attacks during an active attack the active attack will be forfeit.
+* @return true/false
+*/
+function checkIfActive( aUrl ) {
     var myActiveSite = UrlFetchApp.fetch( aUrl + '&message=playCard' );
     var myActiveJson = JSON.parse( myActiveSite );
     if ( myActiveJson.battle_data.upkept != null ) {
@@ -60,17 +81,27 @@ function checkIfActive( aUrl ) { //True = Found battle.
     }
 }
 
-function saveDeck( aUrl ) { //Save starting attack deck
+/**
+* Loads and saves the current deck a user is running.
+*/
+function saveDeck( aUrl ) {
     var myUseItemSite = UrlFetchApp.fetch( aUrl + '&message=getUserAccount' );
     var myUseItemJson = JSON.parse( myUseItemSite );
     var myDeck = myUseItemJson.user_data.active_deck;
     setProperty( '_deck', myDeck );
 }
 
-function setDeck( aUrl, aDeck ) { //Change attack deck
+/**
+* Change active deck to users choice.
+*/
+function setDeck( aUrl, aDeck ) {
     var myUseItem = UrlFetchApp.fetch( aUrl + '&message=setActiveDeck&deck_id=' + aDeck );
 }
 
+/**
+* Loads, Completes, and checks if Achievements is finished.
+* @return true/false
+*/
 function checkAchievements( aUrl, aId ) {
     //5001 - Daily - Nine to Five
     //5007 - Daily - playAdventure Battles
@@ -88,6 +119,9 @@ function checkAchievements( aUrl, aId ) {
     }
 }
 
+/**
+* Complete Achievement if they are finished.
+*/
 function completeAchievements( aUrl, aId ) {
     UrlFetchApp.fetch( aUrl + '&message=completeAchievement&achievement_id=' + aId );
 }
