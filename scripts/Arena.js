@@ -16,7 +16,7 @@ function playArena() {
     if ( checkIfActive( myUrl ) == true ) {
         return false
     }
-    var myReturn = playArena( myUrl );
+    var myReturn = playArenaAttack( myUrl );
     setDeck( myUrl, getProperty( '_deck' ) );
     return myReturn
 }
@@ -63,7 +63,7 @@ function isInArray( In, For ) {
 * Arena attack function.
 * return false/rewards.
 */
-function playArena( aUrl ) { //Attack script..
+function playArenaAttack( aUrl ) { //Attack script..
     var myFindSite = UrlFetchApp.fetch( aUrl + '&message=getHuntingTargets' );
     var myFindJson = JSON.parse( myFindSite );
     var myTargetId = Object.keys( myFindJson.hunting_targets )[ 0 ];
