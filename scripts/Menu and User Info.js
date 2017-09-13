@@ -66,18 +66,19 @@ function loadUserSettings() { //Read settings
         'BuyCardAndUpgrade': '',
         'BuyCardAndUpgrade_count': 0,
     } )
-	/**
-	* Searches the sheet for the settings location and returns the setting option.
-	* return location
-	*/
-    function getSetting( aArray, aSetting ) {
-        for ( var i = 0; i < aArray.length; i++ ) {
-            if ( aArray[ i ][ 0 ] == aSetting ) {
-                return aArray[ i ][ 1 ]
-            }
-        }
-    }
     return true
+}
+
+/**
+* Searches the sheet for the settings location and returns the setting option.
+* return location
+*/
+function getSetting( aArray, aSetting ) {
+  for ( var i = 0; i < aArray.length; i++ ) {
+    if ( aArray[ i ][ 0 ] == aSetting ) {
+      return aArray[ i ][ 1 ]
+    }
+  }
 }
 
 /**
