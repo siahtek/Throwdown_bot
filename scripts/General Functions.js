@@ -75,9 +75,9 @@ function checkIfActive( aUrl ) {
     var myActiveSite = UrlFetchApp.fetch( aUrl + '&message=playCard' );
     var myActiveJson = JSON.parse( myActiveSite );
     if ( myActiveJson.battle_data.hasOwnProperty( 'upkept' ) != false ) {
-        return false;
+      if(myActiveJson.battle_data.upkept != null){return true;}else{return false;}
     } else {
-        return true;
+        return false;
     }
 }
 
