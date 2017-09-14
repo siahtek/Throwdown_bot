@@ -74,10 +74,10 @@ function myFormattedTimeNext() {
 function checkIfActive( aUrl ) {
     var myActiveSite = UrlFetchApp.fetch( aUrl + '&message=playCard' );
     var myActiveJson = JSON.parse( myActiveSite );
-    if ( myActiveJson.battle_data.upkept != null ) {
-        return true;
-    } else {
+    if ( myActiveJson.battle_data.hasOwnProperty( 'upkept' ) != false ) {
         return false;
+    } else {
+        return true;
     }
 }
 
