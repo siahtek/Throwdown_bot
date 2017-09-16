@@ -9,7 +9,17 @@ var theSheet;
 */
 function onOpen() {
     var ui = SpreadsheetApp.getUi();
-    ui.createMenu( 'Throwdown' ).addItem( 'Enable & Refresh', '_Enable' ).addItem( 'Disable', '_Disable' ).addItem( 'Manual Run', '_Run' ).addToUi();
+    ui.createMenu( 'Throwdown' )
+    .addSeparator()
+    .addItem( 'Enable & Refresh', '_Enable' )
+    .addItem( 'Disable', '_Disable' )
+    .addItem( 'Manual Run', '_Run' )
+    .addSubMenu(SpreadsheetApp.getUi().createMenu('Auto Rumble')
+                .addItem( 'Enable', 'enableRumble' )
+                .addItem( 'Disable', 'disableRumble' )
+                .addItem( 'Manual Run', 'manualeRumble' )
+               )
+    .addToUi();
 }
 
 
@@ -265,38 +275,9 @@ function _Farming() {
     updateEnergy( myEnergy[ 1 ], myEnergy[ 5 ], 'Arena' )
     updateEnergy( myEnergy[ 0 ], myEnergy[ 4 ], 'Adventure' )
     completeAchievements( getProperty( '_url' ), '5012' );
-    var myCheck = false;
-    if ( getProperty( '_logs_RefillChallenge' + '_count' ) != 0 || "" ) {
-        myCheck = true;
-    }
-    if ( getProperty( '_logs_NoneRefillChallenge' + '_count' ) != 0 || "" ) {
-        myCheck = true;
-    }
-    if ( getProperty( '_logs_Adventure' + '_count' ) != 0 || "" ) {
-        myCheck = true;
-    }
-    if ( getProperty( '_logs_Arena' + '_count' ) != 0 || "" ) {
-        myCheck = true;
-    }
-    if ( getProperty( 'BuyCardAndUpgrade' + '_count' ) != 0 || "" ) {
-        myCheck = true;
-    }
-    if ( getProperty( 'BuyCardAndRecycle' + '_count' ) != 0 || "" ) {
-        myCheck = true;
-    }
-    if ( myCheck == true ) {
-        updateStatus( 'Account ' + getProperty( '_name' ) + ' Writing Logs ' + formattedTime() );
-        writeLogs( '_logs_RefillChallenge', 'B' );
-        writeLogs( '_logs_NoneRefillChallenge', 'C' );
-        writeLogs( '_logs_Adventure', 'D' );
-        writeLogs( '_logs_Arena', 'E' );
-        writeLogs( 'BuyCardAndUpgrade', 'F' );
-        writeLogs( 'BuyCardAndRecycle', 'G' );
-        writeLogs( '_time', 'A' );
-    }
+    WriteLogs();
     completeAchievements( getProperty( '_url' ), '5001' );
 }
-
 
 /**
 * Gets current and max energy.
@@ -314,6 +295,7 @@ function getEnergy() { //Returns Current and Max energy.
     var myArenaEnergyMax = myEnergyJson.user_data.max_stamina
     var myAdventureEnergy = myEnergyJson.user_data.energy
     var myAdventureEnergyMax = myEnergyJson.user_data.max_energy
+    if ( myChallengeJson.hasOwnProperty( 'active_events' ) ) {
     if ( myChallengeJson.active_events.hasOwnProperty( '102000' ) ) {
         var myChallengeSite = myChallengeJson.active_events[ 102000 ].challenge_data.energy.current_value;
     } else {
@@ -333,6 +315,12 @@ function getEnergy() { //Returns Current and Max energy.
         var myNonRefillChallengeMax = myChallengeJson.active_events[ 103001 ].challenge_data.energy.max_value;
     } else {
         var myNonRefillChallengeMax = 10
+    }
+    }else{
+      var myChallengeSite = 0
+      var myChallengeEnergyMax = 8
+      var myNonRefillChallenge = 0
+      var myNonRefillChallengeMax = 10
     }
     return [ parseInt( myAdventureEnergy ), parseInt( myArenaEnergy ), parseInt( myChallengeSite ), parseInt( myNonRefillChallenge ), parseInt( myAdventureEnergyMax ), parseInt( myArenaEnergyMax ), parseInt( myChallengeEnergyMax ), parseInt( myNonRefillChallengeMax ) ]
 }

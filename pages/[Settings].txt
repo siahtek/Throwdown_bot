@@ -3,7 +3,8 @@
 				Status			
 		Disabled - To Enable: Menu > Throwdown > Enable	
 		Adventure Energy: 21/54		Arena Energy: 1/10		
-		Disabled at 09-06-2017 02:00 PM	
+		Disabled at 09-15-2017 11:40 PM
+		Disabled at 09-15-2017 11:40 PM
 					
 				User Info			
 		User_ID															View READ ME for more info
@@ -14,7 +15,12 @@
 		Energy Check section		Adventure							What Energy to check (Recommended to leave this on Adventure.. )
 		Ad Crate					Enabled								Auto open ad crates.
 		Ad Boost					Enabled								Auto boost ads to level 3.
-						
+					
+				Rumble Options		
+		Rumble Deck					1									Deck to attack with. 1 = Top (First deck) 2 = Middle (2nd Deck) 3 = Bottom (Third Deck)
+		Rumble Energy Check			Enabled								Only attack if you have 10 energy unused(Stops it from attack if you are doing it yourself)
+		Panic time					15									Time in minutes to Auto rumble at.
+		
 				Cards			
 		Auto buy and recycle		Enabled								Auto buy all cards above the set limit. Auto recycles.
 		Cards rarities to recycle	2									1 = Gray 2 = Green & Gray 3 = Blue & Green & Gray 4 = Purple & Blue & Green & Gray 
@@ -28,12 +34,6 @@
 				Non-Refill Challenge			
 		Auto Non-Refill Challenge	Enabled								Use all Non-Refill Challenge Energy
 		Non-Refill Challenge Deck	1									Deck to attack with. 1 = Top (First deck) 2 = Middle (2nd Deck) 3 = Bottom (Third Deck)
-					
-				Rumble - Not working			
-		Auto Rumble					Disabled							Auto rumble any attacks you have left after time reached (Panic time)
-		Rumble Deck					1									Deck to attack with. 1 = Top (First deck) 2 = Middle (2nd Deck) 3 = Bottom (Third Deck)
-		Rumble Energy Check			Enabled								Only attack if you have 10 energy unused(Stops it from attack if you are doing it yourself)
-		Panic time					15									Time in minutes to Auto rumble at.
 					
 				Adventure			
 		Auto Adventure				Disabled							Enable: Use all Arena Energy - Energy overflow control: Only attacks until your energy is just under full(allows for more to load)
@@ -64,4 +64,7 @@
 		Ricky Spanish				Disabled		
 		Gene						Disabled		
 		Zapp Brannigan				Disabled		
+		Zapp Brannigan				Disabled
+		The Giant Chicken			Disabled
+		John Redcorn				Disabled
 					

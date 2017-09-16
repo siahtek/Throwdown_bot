@@ -20,13 +20,15 @@ function createTrigger() {
 }
 
 /**
-* remove all triggers for this project.
+* remove Trigger_loaded triggers for this project.
 * return true
 */
 function removeTriggers() {
     var myTriggers = ScriptApp.getProjectTriggers();
     for ( var i = 0; i < myTriggers.length; i++ ) {
-        ScriptApp.deleteTrigger( myTriggers[ i ] );
+      if ( myTriggers[ i ].getHandlerFunction() == 'Trigger_loaded' ) {
+       ScriptApp.deleteTrigger( myTriggers[ i ] );
+      }
     }
     return true
 }

@@ -30,7 +30,6 @@ function loadUserSettings() { //Read settings
         'Auto Non-Refill Challenge': getSetting( myRange, 'Auto Non-Refill Challenge' ),
         'Non-Refill Challenge Deck': getSetting( myRange, 'Non-Refill Challenge Deck' ),
         //Rumble
-        'Auto Rumble': getSetting( myRange, 'Auto Rumble' ),
         'Rumble Deck': getSetting( myRange, 'Rumble Deck' ),
         'Rumble Energy Check': getSetting( myRange, 'Rumble Energy Check' ),
         'Panic time': getSetting( myRange, 'Panic time' ),
@@ -61,6 +60,8 @@ function loadUserSettings() { //Read settings
         '_logs_Adventure_count': 0,
         '_logs_Arena': '',
         '_logs_Arena_count': 0,
+        '_logs_Rumble' : '',
+        '_logs_Rumble_count' : 0,
         'BuyCardAndRecycle': '',
         'BuyCardAndRecycle_count': 0,
         'BuyCardAndUpgrade': '',
@@ -193,7 +194,7 @@ function getCharacterTokens(aRange) {
 			mySearch = mySearch + ',2005'
 		}
 		if ( getSetting( aRange, 'Gene' ) == 'Enabled' ) {
-			mySearch = mySearch + ',3304'
+			mySearch = mySearch + ',3004'
 		}
 		if ( getSetting( aRange, 'Zapp Brannigan' ) == 'Enabled' ) {
 			mySearch = mySearch + ',5019'

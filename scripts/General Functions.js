@@ -65,6 +65,21 @@ function myFormattedTimeNext() {
     var myTime = ( "0" + ( mydate.getMonth() + 1 ) ).slice( -2 ) + "-" + ( "0" + mydate.getDate() ).slice( -2 ) + "-" + mydate.getFullYear() + " " + ( "0" + myHours ).slice( -2 ) + ":" + ( "0" + mydate.getMinutes() ).slice( -2 ) + ' ' + ampm;
     return myTime
 }
+/**
+* Format Time from variable.
+* return formated time.
+*/
+function formattedTimeDate(aDate) {
+    var myDate = aDate;
+    var ampm = 'AM'
+    var myHours = myDate.getHours();
+    if ( myHours > 12 ) {
+        ampm = 'PM';
+        myHours -= 12
+    }
+    var myTime = ( "0" + ( myDate.getMonth() + 1 ) ).slice( -2 ) + "-" + ( "0" + myDate.getDate() ).slice( -2 ) + "-" + myDate.getFullYear() + " " + ( "0" + myHours ).slice( -2 ) + ":" + ( "0" + myDate.getMinutes() ).slice( -2 ) + ' ' + ampm;
+    return myTime
+}
 
 /**
 * Checks if an active attack is going
@@ -74,11 +89,9 @@ function myFormattedTimeNext() {
 function checkIfActive( aUrl ) {
     var myActiveSite = UrlFetchApp.fetch( aUrl + '&message=playCard' );
     var myActiveJson = JSON.parse( myActiveSite );
-    if ( myActiveJson.battle_data.hasOwnProperty( 'upkept' ) != false ) {
-      if(myActiveJson.battle_data.upkept != null){return true;}else{return false;}
-    } else {
-        return false;
-    }
+  if ( myActiveJson.hasOwnProperty( 'result_message' ) == false ) {
+  if ( myActiveJson.battle_data.upkept != null ){return true;}else{return false;}
+  }else{return false;}
 }
 
 /**

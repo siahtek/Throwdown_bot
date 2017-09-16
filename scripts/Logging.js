@@ -40,6 +40,18 @@ function updateNext( aCheck ) {
 }
 
 /**
+* Update Gui with time to next rumble.
+*/
+function updateNextRumble( aCheck,aTime ) {
+    var mySheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName( "Settings" );
+    if ( aCheck == true ) {
+        mySheet.getRange( "C8" ).setValue( 'Next Rumble Check ' + aTime );
+    } else {
+        mySheet.getRange( "C8" ).setValue( 'Disabled at ' + formattedTime() );
+    }
+}
+
+/**
 * Save info on attack rewards to logs.
 */
 function addLog( aSection, aReward ) {
@@ -86,6 +98,46 @@ function getFirstEmptyRow() {
     return ( ct + 1 );
 }
 
+
+/**
+* Write Logs to sheet Logs.
+*/
+function WriteLogs() { 
+  var myCheck = false;
+    if ( getProperty( '_logs_RefillChallenge' + '_count' ) != 0 || "" ) {
+        myCheck = true;
+    }
+    if ( getProperty( '_logs_NoneRefillChallenge' + '_count' ) != 0 || "" ) {
+        myCheck = true;
+    }
+    if ( getProperty( '_logs_Adventure' + '_count' ) != 0 || "" ) {
+        myCheck = true;
+    }
+    if ( getProperty( '_logs_Arena' + '_count' ) != 0 || "" ) {
+        myCheck = true;
+    }
+    if ( getProperty( 'BuyCardAndUpgrade' + '_count' ) != 0 || "" ) {
+        myCheck = true;
+    }
+    if ( getProperty( 'BuyCardAndRecycle' + '_count' ) != 0 || "" ) {
+        myCheck = true;
+    }
+     if ( getProperty( '_logs_Rumble' + '_count' ) != 0 || "" ) {
+        myCheck = true;
+    }
+    if ( myCheck == true ) {
+        updateStatus( 'Account ' + getProperty( '_name' ) + ' Writing Logs ' + formattedTime() );
+        writeLogs( '_logs_RefillChallenge', 'B' );
+        writeLogs( '_logs_NoneRefillChallenge', 'C' );
+        writeLogs( '_logs_Adventure', 'D' );
+        writeLogs( '_logs_Arena', 'E' );
+        writeLogs( 'BuyCardAndUpgrade', 'F' );
+        writeLogs( 'BuyCardAndRecycle', 'G' );
+        writeLogs( '_logs_Rumble', 'H' );
+        writeLogs( '_time', 'A' );
+    }
+}
+
 /**
 * Parse/Convert attack rewards to string.
 * return error/rewards string
@@ -114,8 +166,13 @@ function parseRewards( aRewards ) {
     } else {
         var RatingChange = 0
     }
-    var items = '',
-        string = ''
+    if ( rewards_Json.guild_war_points != null ) {
+        var GuildWarPoints = rewards_Json.guild_war_points
+    } else {
+        var GuildWarPoints = 0
+    }
+    var items = ''
+    var string = ''
     if ( rewards_Json.item != null ) {
         var itemlist = rewards_Json.item
     } else if ( rewards_Json.items != null ) {
@@ -138,6 +195,9 @@ function parseRewards( aRewards ) {
     }
     if ( Sp != 0 ) {
         string = string + ' Wats:' + Sp
+    }
+    if ( GuildWarPoints != 0 ) {
+        string = string + ' Guild War Points:' + GuildWarPoints
     }
     if ( xp != 0 ) {
         string = string + ' xp:' + xp
