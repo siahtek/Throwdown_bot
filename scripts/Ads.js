@@ -4,7 +4,7 @@
  * return true/false
  */
 function useAdCrates() {
-    var myUrl = getProperty( '_url' );
+    var myUrl = getProperty( 'propUrl' );
     var myCrateCheckSite = UrlFetchApp.fetch( myUrl + '&message=useItem' );
     var myCrateCheckJson = JSON.parse( myCrateCheckSite );
     if ( myCrateCheckJson.user_items[ 30002 ] != null || myCrateCheckJson.user_items[ 30001 ] != null ) {
@@ -32,7 +32,7 @@ function useAdCrates() {
  * return false/boost count
  */
 function boostAds() {
-    var myUrl = getProperty( '_url' );
+    var myUrl = getProperty( 'propUrl' );
     for ( var i = 0; i < 6; i++ ) {
         var myBoostSite = UrlFetchApp.fetch( myUrl + '&message=getBoostLevel' );
         var myBoostJson = JSON.parse( myBoostSite );

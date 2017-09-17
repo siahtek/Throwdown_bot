@@ -49,8 +49,8 @@ function loadUserSettings() { //Read settings
         'Gene': getSetting( myRange, 'Gene' ),
         'Zapp Brannigan': getSetting( myRange, 'Zapp Brannigan' ),
         //Other
-        '_currenttime': formattedTime(),
-        '_time_count': formattedTime(),
+        '_currenttime': getTime(),
+        'propTimeCount': getTime(),
         //Logging
         '_logs_RefillChallenge': '',
         '_logs_RefillChallenge_count': 0,
@@ -99,26 +99,26 @@ function convertIsland( aInfo ) {
  */
 function authenticateUser( aId, aToken ) { //Check if use is valid & create user myUrl
     var KONGURL = 'https://cb-live.synapse-games.com/api.php?';
-    var myUserAuth = UrlFetchApp.fetch( KONGURL + 'message=getUserAccount&kong_id=' + aId + '&kong_token=' + aToken );
-    var myUserAuthJson = JSON.parse( myUserAuth );
+    var myUserAuthPage = UrlFetchApp.fetch( KONGURL + 'message=getUserAccount&kong_id=' + aId + '&kong_token=' + aToken );
+    var myUserAuthJson = JSON.parse( myUserAuthPage );
     var myUserId = myUserAuthJson.new_user;
     var myUserPass = myUserAuthJson.new_password;
     var myUserName = myUserAuthJson.new_name;
     var myResult = myUserAuthJson.result;
     if ( myResult == true ) {
-        updateStatus( 'Login failed.. Check User_ID & User_Token ' + formattedTime() );
+        updateStatus( 'Login failed.. Check User_ID & User_Token ' + getTime() );
         Logger.log( 'User Auth fail' );
         return false
     }
     var myUrl = KONGURL + 'user_id=' + myUserId + '&password=' + myUserPass;
-    setProperty( '_url', myUrl );
-    setProperty( '_name', myUserName );
+    setProperty( 'propUrl', myUrl );
+    setProperty( 'propName', myUserName );
     if ( getProperty( 'Auto Adventure' ) == "Enabled" || "Energy overflow control" ) {
         var myCheck = checkIsland( myUrl, getProperty( 'Island to farm' ) );
         if ( myCheck != false ) {
             setProperty( '_IslandCost', myCheck + '' );
         } else {
-            updateStatus( 'Account ' + getProperty( '_name' ) + ' Island unavailable to farm ' + formattedTime() );
+            updateStatus( 'Account ' + getProperty( 'propName' ) + ' Island unavailable to farm ' + getTime() );
             return false
         }
     }

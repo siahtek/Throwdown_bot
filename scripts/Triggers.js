@@ -1,6 +1,8 @@
 /**
  * Checks if trigger is created.
- * return true/false
+ * 
+ * @param {any} aTrigger 
+ * @returns {boolean} true/false
  */
 function checkTrigger( aTrigger ) {
     var myTriggers = ScriptApp.getProjectTriggers();

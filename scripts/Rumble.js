@@ -9,17 +9,17 @@ function enableRumble() {
     if ( myUserAuth == false ) {
         return false
     }
-    Rumble_update()
+    updateRumble()
     var myRumbleTime = getRumbleTime();
     if ( myRumbleTime != false ) {
         updateNextRumble( true, formattedTimeDate( myRumbleTime ) )
-        updateStatus( 'Account ' + getProperty( '_name' ) + ' Rumble Enabled' );
+        updateStatus( 'Account ' + getProperty( 'propName' ) + ' Rumble Enabled' );
     }
 }
 /**
  * Update Trigger.
  */
-function Rumble_update() {
+function updateRumble() {
     theProperties = PropertiesService.getScriptProperties()
     theSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName( 'Settings' );
     var myTriggers = ScriptApp.getProjectTriggers();
@@ -41,7 +41,7 @@ function Rumble_update() {
  * Get Next Rumble time.
  */
 function getRumbleTime() {
-    var myUrl = getProperty( '_url' );
+    var myUrl = getProperty( 'propUrl' );
     var myUnixTime = Math.round( ( new Date() ).getTime() / 1000 );
     var myPanicTime = getProperty( 'Panic time' );
     var myRumble = UrlFetchApp.fetch( myUrl + '&message=getGuildWarStatus' );
@@ -72,14 +72,14 @@ function disableRumble() {
 /**
  * Runs when the trigger calls it
  */
-function Rumble_loaded() {
+function loadRumble() {
     startRumble();
-    Rumble_update()
+    updateRumble()
 }
 /**
  * Manual attack function for rumble.
  */
-function manualeRumble() {
+function fightRumbleManually() {
     startRumble();
 }
 /**
@@ -89,13 +89,13 @@ function startRumble() {
     theProperties = PropertiesService.getScriptProperties();
     theSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName( 'Settings' );
     loadUserSettings();
-    setProperty( '_time_count', formattedTime() )
-    var myUrl = getProperty( '_url' );
+    setProperty( 'propTimeCount', formattedTime() )
+    var myUrl = getProperty( 'propUrl' );
     var myEnergy = getRumbleEnergy()
     Logger.log( 'Energy:' + myEnergy )
     if ( getProperty( 'Rumble Energy Check' ) == 'Enabled' ) {
         if ( myEnergy != 10 ) {
-            updateStatus( 'Account ' + getProperty( '_name' ) + ' Rumble Energy not full.' );
+            updateStatus( 'Account ' + getProperty( 'propName' ) + ' Rumble Energy not full.' );
             Logger.log( 'Energy check failed.' )
             return false;
         }
@@ -103,15 +103,15 @@ function startRumble() {
     saveDeck( myUrl );
     setDeck( myUrl, getProperty( 'Rumble Deck' ) );
     for ( var i = 0; i < myEnergy; i++ ) {
-        updateStatus( 'Account ' + getProperty( '_name' ) + ' Rumble Loading..' );
+        updateStatus( 'Account ' + getProperty( 'propName' ) + ' Rumble Loading..' );
         var myResult = playRumble()
         if ( myResult != false ) {
             addLog( '_logs_Rumble', myResult )
         }
         Logger.log( myResult )
     }
-    updateStatus( 'Account ' + getProperty( '_name' ) + ' Rumble Finished.' );
-    setDeck( myUrl, getProperty( '_deck' ) );
+    updateStatus( 'Account ' + getProperty( 'propName' ) + ' Rumble Finished.' );
+    setDeck( myUrl, getProperty( 'propDeck' ) );
     WriteLogs()
 }
 /**
@@ -119,7 +119,7 @@ function startRumble() {
  * return false/Attack rewards.
  */
 function playRumble() {
-    var myUrl = getProperty( '_url' );
+    var myUrl = getProperty( 'propUrl' );
     if ( checkIfActive( myUrl ) == true ) {
         return false
     }
@@ -131,7 +131,7 @@ function playRumble() {
  * return Rumble energy
  */
 function getRumbleEnergy() {
-    var myUrl = getProperty( '_url' );
+    var myUrl = getProperty( 'propUrl' );
     var myRumble = UrlFetchApp.fetch( myUrl + '&message=getGuildWarStatus' );
     var myRumbleJson = JSON.parse( myRumble );
     var myEnergy = myRumbleJson.guild_war_event_data.energy.current_value;

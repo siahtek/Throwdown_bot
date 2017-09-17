@@ -6,7 +6,7 @@ function playCard( aUrl ) { //Attack script..
     }
     if ( myStartJson.hasOwnProperty( 'battle_data' ) != false ) {
         var myBattleId = myStartJson.battle_data.battle_id;
-        var myEnd = UrlFetchApp.fetch( getProperty( '_url' ) + '&message=playCard&battle_id=' + myBattleId + '&skip=True' );
+        var myEnd = UrlFetchApp.fetch( getProperty( 'propUrl' ) + '&message=playCard&battle_id=' + myBattleId + '&skip=True' );
         var myEndJson = JSON.parse( myEnd );
         var myRewards = JSON.stringify( myEndJson.battle_data.rewards );
         return myRewards
@@ -25,7 +25,7 @@ function getProperty( aLoc ) { //get data from google sheet
     return theProperties.getProperty( aLoc );
 }
 
-function formattedTime() { //return formated time
+function getTime() { //return formated time
     var myDate = new Date();
     var ampm = 'AM'
     var myHours = myDate.getHours();
@@ -37,7 +37,7 @@ function formattedTime() { //return formated time
     return myTime
 }
 
-function myFormattedTimeNext() { //return formated time
+function getUpcomingTime() { //return formated time
     var mydate = new Date();
     mydate.setMinutes( mydate.getMinutes() + 30 );
     var ampm = 'AM'
@@ -64,7 +64,7 @@ function saveDeck( aUrl ) { //Save starting attack deck
     var myUseItemSite = UrlFetchApp.fetch( aUrl + '&message=getUserAccount' );
     var myUseItemJson = JSON.parse( myUseItemSite );
     var myDeck = myUseItemJson.user_data.active_deck;
-    setProperty( '_deck', myDeck );
+    setProperty( 'propDeck', myDeck );
 }
 
 function setDeck( aUrl, aDeck ) { //Change attack deck

@@ -1,5 +1,4 @@
-//Auto Rumble
-//ads?
+// global variables
 var theXml;
 var theXmlCombo;
 var theXmlMythic;
@@ -8,7 +7,7 @@ var theSheet;
 /**
  * On sheet load add Throwdown menu. --> Menu > Throwdown
  */
-function onOpen() {
+function addBotMenuItems() {
     var ui = SpreadsheetApp.getUi();
     ui.createMenu( 'Throwdown' ).addSeparator().addItem( 'Enable & Refresh', '_Enable' ).addItem( 'Disable', '_Disable' ).addItem( 'Manual Run', '_Run' ).addSubMenu( SpreadsheetApp.getUi().createMenu( 'Auto Rumble' ).addItem( 'Enable', 'enableRumble' ).addItem( 'Disable', 'disableRumble' ).addItem( 'Manual Run', 'manualeRumble' ) ).addToUi();
     ui.createMenu( 'Custom Decks' ).addSeparator().addItem( 'Import to sheet', 'SaveUserDeck' ).addItem( 'Export to throwdown', 'LoadUserDeck' ).addItem( 'Display in sheet', 'DisplayUserDeck' ).addToUi();
@@ -16,7 +15,7 @@ function onOpen() {
 /**
  * Runs when Enable & Refresh calls it. --> Menu > Throwdown > Enable & Refresh
  */
-function _Enable() {
+function refreshEnableBot() {
     theProperties = PropertiesService.getScriptProperties()
     theSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName( 'Settings' );
     loadUserSettings();
@@ -27,9 +26,9 @@ function _Enable() {
     if ( checkTrigger( 'Trigger_loaded' ) == false ) {
         createTrigger( 'Trigger_loaded' );
         updateNext( true )
-        updateStatus( 'Account ' + getProperty( '_name' ) + ' Enabled, Waiting for next check ' );
+        updateStatus( 'Account ' + getProperty( 'propName' ) + ' Enabled, Waiting for next check ' );
     } else {
-        updateStatus( 'Account ' + getProperty( '_name' ) + ' refresh finished' );
+        updateStatus( 'Account ' + getProperty( 'propName' ) + ' refresh finished' );
     }
     var myEnergy = getEnergy();
     updateEnergy( myEnergy[ 1 ], myEnergy[ 5 ], 'Arena' )
@@ -39,7 +38,7 @@ function _Enable() {
 /**
  * Runs when user Disable calls it. --> Menu > Throwdown > Disable
  */
-function _Disable() {
+function disableBot() {
     updateEnergy( 0, 0, 'Arena' )
     updateEnergy( 0, 0, 'Adventure' )
     theProperties = PropertiesService.getScriptProperties()
@@ -52,7 +51,7 @@ function _Disable() {
 /**
  * Runs when Manual Run calls it. --> Menu > Throwdown > Manual Run
  */
-function _Run() {
+function runManually() {
     if ( checkTrigger( 'Trigger_loaded' ) != false ) {
         removeTriggers();
         createTrigger( 'Trigger_loaded' );
@@ -77,7 +76,7 @@ function Main() {
     theXml = UrlFetchApp.fetch( 'https://cb-live.synapse-games.com/assets/cards.xml' ).getContentText();
     theXmlCombo = UrlFetchApp.fetch( 'https://cb-live.synapse-games.com/assets/cards_finalform.xml' ).getContentText();
     theXmlMythic = UrlFetchApp.fetch( 'https://cb-live.synapse-games.com/assets/cards_mythic.xml' ).getContentText();
-    updateStatus( 'Started, logging in ' + formattedTime() );
+    updateStatus( 'Started, logging in ' + getTime() );
     checkVersion()
     var myUserSettings = loadUserSettings();
     var myAuth = authenticateUser( getProperty( 'User_ID' ), getProperty( 'User_Token' ) );
@@ -85,7 +84,7 @@ function Main() {
         return false
     }
     if ( getProperty( 'Ad Boost' ) == 'Enabled' ) {
-        updateStatus( 'Account ' + getProperty( '_name' ) + ' Loading boostAds ' + formattedTime() );
+        updateStatus( 'Account ' + getProperty( 'propName' ) + ' Loading boostAds ' + getTime() );
         var myBoost = boostAds(); //Boost every 30 minutes? why not!
         if ( myBoost == false ) {
             Utilities.sleep( 6000 );
@@ -96,8 +95,8 @@ function Main() {
     var myEnergy = getEnergy();
     updateEnergy( myEnergy[ 1 ], myEnergy[ 5 ], 'Arena' )
     updateEnergy( myEnergy[ 0 ], myEnergy[ 4 ], 'Adventure' )
-    if ( checkIfActive( getProperty( '_url' ) ) == true ) {
-        updateStatus( 'Account ' + getProperty( '_name' ) + ' Active Session found. Waiting 30 mins ' + formattedTime() );
+    if ( checkIfActive( getProperty( 'propUrl' ) ) == true ) {
+        updateStatus( 'Account ' + getProperty( 'propName' ) + ' Active Session found. Waiting 30 mins ' + getTime() );
         Logger.log( 'Active session found' );
         return false
     }
@@ -111,39 +110,39 @@ function Main() {
             myArenaMax = myEnergy[ 5 ];
         }
         if ( getProperty( 'Energy Check section' ) == 'playAdventure' && myEnergy[ 0 ] < myAdventureMax ) {
-            updateStatus( 'Account ' + getProperty( '_name' ) + ' playAdventure not full. ' + formattedTime() );
+            updateStatus( 'Account ' + getProperty( 'propName' ) + ' playAdventure not full. ' + getTime() );
             Logger.log( 'playAdventure not full' );
             return false;
         }
         if ( getProperty( 'Energy Check section' ) == 'Arena' && myEnergy[ 1 ] < myAdventureMax ) {
-            updateStatus( 'Account ' + getProperty( '_name' ) + ' Arena not full. ' + formattedTime() );
+            updateStatus( 'Account ' + getProperty( 'propName' ) + ' Arena not full. ' + getTime() );
             Logger.log( 'Arena not full' );
             return false;
         }
         if ( ( getProperty( 'Energy Check section' ) == 'Adventure or Arena' && myEnergy[ 1 ] >= myArenaMax ) || ( getProperty( 'Energy Check section' ) == 'Adventure or Arena' && myEnergy[ 0 ] >= myAdventureMax ) ) {
             Logger.log( 'FAIL!!!' )
         } else {
-            updateStatus( 'Account ' + getProperty( '_name' ) + ' Neither are full. ' + formattedTime() );
+            updateStatus( 'Account ' + getProperty( 'propName' ) + ' Neither are full. ' + getTime() );
             Logger.log( 'Neither are full' );
             return false;
         }
     }
-    updateStatus( 'Account ' + getProperty( '_name' ) + ' Starting ' + formattedTime() );
+    updateStatus( 'Account ' + getProperty( 'propName' ) + ' Starting ' + getTime() );
     Logger.log( getEnergy() );
-    _Farming();
+    farmAllTheThings();
     Logger.log( getEnergy() );
-    updateStatus( 'Account ' + getProperty( '_name' ) + ' Finished ' + formattedTime() );
+    updateStatus( 'Account ' + getProperty( 'propName' ) + ' Finished ' + getTime() );
 }
 /**
  * Runs all farming commands.
  */
-function _Farming() {
+function farmAllTheThings() {
     // =================================== Refill Challenge ===================================
     var myEnergy = getEnergy();
     if ( getProperty( 'Auto Refill Challenge' ) == "Enabled" && myEnergy[ 2 ] > 0 ) {
         Logger.log( '- - - - RefillChallenge Start - - - -' );
         for ( var i = 0; i < myEnergy[ 6 ]; i++ ) {
-            updateStatus( 'Account ' + getProperty( '_name' ) + ' Loading Refill Challenge ' + formattedTime() );
+            updateStatus( 'Account ' + getProperty( 'propName' ) + ' Loading Refill Challenge ' + getTime() );
             var myResult = playRefillChallenge();
             if ( myResult != false ) {
                 addLog( '_logs_RefillChallenge', myResult )
@@ -156,11 +155,12 @@ function _Farming() {
         Logger.log( '- - - - RefillChallenge End - - - -' );
     }
     // =================================== Refill Challenge ===================================
+
     // ================================= Non Refill Challenge =================================
     if ( getProperty( 'Auto Non-Refill Challenge' ) == "Enabled" && myEnergy[ 3 ] > 0 ) {
         Logger.log( '- - - - NonRefillChallenge Start - - - -' );
         for ( var i = 0; i < myEnergy[ 7 ]; i++ ) {
-            updateStatus( 'Account ' + getProperty( '_name' ) + ' Loading Non-Refill Challenge ' + formattedTime() );
+            updateStatus( 'Account ' + getProperty( 'propName' ) + ' Loading Non-Refill Challenge ' + getTime() );
             var myResult = playNonRefillChallenge();
             if ( myResult != false ) {
                 addLog( '_logs_NoneRefillChallenge', myResult )
@@ -173,6 +173,7 @@ function _Farming() {
         Logger.log( '- - - - NonRefillChallenge End - - - -' );
     }
     // ================================= Non Refill Challenge =================================
+
     // ====================================== Adventure =======================================
     var myEnergy = getEnergy();
     if ( ( getProperty( 'Auto Adventure' ) == "Enabled" && myEnergy[ 0 ] > getProperty( '_IslandCost' ) ) || ( getProperty( 'Auto Adventure' ) == "Energy overflow control" && myEnergy[ 0 ] >= myEnergy[ 4 ] ) ) {
@@ -180,7 +181,7 @@ function _Farming() {
         var mySearchLength = myEnergy[ 4 ];
         Logger.log( 'SearchLength:' + mySearchLength )
         for ( var i = 0; i < mySearchLength; i++ ) {
-            updateStatus( 'Account ' + getProperty( '_name' ) + ' Loading Adventure ' + formattedTime() );
+            updateStatus( 'Account ' + getProperty( 'propName' ) + ' Loading Adventure ' + getTime() );
             var myResult = playAdventure();
             if ( myResult != false ) {
                 addLog( '_logs_Adventure', myResult )
@@ -195,10 +196,11 @@ function _Farming() {
                 break;
             }
         }
-        completeAchievements( getProperty( '_url' ), '5007' );
+        completeAchievements( getProperty( 'propUrl' ), '5007' );
         Logger.log( '- - - - playAdventure End - - - -' );
     }
     // ====================================== Adventure =======================================
+    
     // ======================================== Arena =========================================
     var myEnergy = getEnergy();
     if ( ( getProperty( 'Auto Arena' ) == "Enabled" && myEnergy[ 1 ] > 0 ) || ( getProperty( 'Auto Arena' ) == "Energy overflow control" && myEnergy[ 1 ] >= myEnergy[ 5 ] ) ) {
@@ -206,7 +208,7 @@ function _Farming() {
         var mySearchLength = myEnergy[ 1 ];
         Logger.log( 'SearchLength:' + mySearchLength )
         for ( var i = 0; i < mySearchLength; i++ ) {
-            updateStatus( 'Account ' + getProperty( '_name' ) + ' Loading Arena ' + formattedTime() );
+            updateStatus( 'Account ' + getProperty( 'propName' ) + ' Loading Arena ' + getTime() );
             var myResult = playArena();
             if ( myResult != false ) {
                 addLog( '_logs_Arena', myResult )
@@ -222,15 +224,16 @@ function _Farming() {
             }
             Utilities.sleep( 2000 );
         }
-        completeAchievements( getProperty( '_url' ), '5008' );
+        completeAchievements( getProperty( 'propUrl' ), '5008' );
         Logger.log( '- - - - Arena End - - - -' );
     }
     // ======================================== Arena =========================================
+
     // ==================================== Buy and Update ====================================
-    completeAchievements( getProperty( '_url' ), '5009' );
-    completeAchievements( getProperty( '_url' ), '5010' );
-    if ( getProperty( 'Auto Buy/Upgrade Mission' ) == "Enabled" && checkAchievements( getProperty( '_url' ), '5009' ) == true ) {
-        updateStatus( 'Account ' + getProperty( '_name' ) + ' Daily Mission ' + formattedTime() );
+    completeAchievements( getProperty( 'propUrl' ), '5009' );
+    completeAchievements( getProperty( 'propUrl' ), '5010' );
+    if ( getProperty( 'Auto Buy/Upgrade Mission' ) == "Enabled" && checkAchievements( getProperty( 'propUrl' ), '5009' ) == true ) {
+        updateStatus( 'Account ' + getProperty( 'propName' ) + ' Daily Mission ' + getTime() );
         Logger.log( '- - - - Auto Buy/Upgrade Mission Start - - - -' );
         var myResult = buyAndUpgradeCards();
         Logger.log( '- - - - Auto Buy/Upgrade Mission End - - - -' );
@@ -238,16 +241,16 @@ function _Farming() {
     // ==================================== Buy and Update ====================================
     // =================================== Buy and Recycle ====================================
     if ( getProperty( 'Auto buy and recycle' ) == "Enabled" ) {
-        updateStatus( 'Account ' + getProperty( '_name' ) + ' Buying & Recycling cards ' + formattedTime() );
+        updateStatus( 'Account ' + getProperty( 'propName' ) + ' Buying & Recycling cards ' + getTime() );
         Logger.log( '- - - - Auto buy and recycle Start - - - -' );
         var myResult = buyAndRecycleCards();
-        completeAchievements( getProperty( '_url' ), '5010' );
+        completeAchievements( getProperty( 'propUrl' ), '5010' );
         Logger.log( '- - - - Auto buy and recycle End - - - -' );
     }
     // =================================== Buy and Recycle ====================================
     // ====================================== Ad Crates ===============-=======================
     if ( getProperty( 'Ad Crate' ) == 'Enabled' ) {
-        updateStatus( 'Account ' + getProperty( '_name' ) + ' Opening AdCrates ' + formattedTime() );
+        updateStatus( 'Account ' + getProperty( 'propName' ) + ' Opening AdCrates ' + getTime() );
         var myCrate = useAdCrates();
         Logger.log( 'Ad Crates:' + myCrate );
     }
@@ -255,9 +258,9 @@ function _Farming() {
     var myEnergy = getEnergy();
     updateEnergy( myEnergy[ 1 ], myEnergy[ 5 ], 'Arena' )
     updateEnergy( myEnergy[ 0 ], myEnergy[ 4 ], 'Adventure' )
-    completeAchievements( getProperty( '_url' ), '5012' );
-    WriteLogs();
-    completeAchievements( getProperty( '_url' ), '5001' );
+    completeAchievements( getProperty( 'propUrl' ), '5012' );
+    writeLogs();
+    completeAchievements( getProperty( 'propUrl' ), '5001' );
 }
 /**
  * Gets current and max energy.
@@ -266,7 +269,7 @@ function _Farming() {
 function getEnergy() { //Returns Current and Max energy.
     // 0-playAdventure : 1-Arena : 2-Challenge : 3-NonRefillChallenge 
     // 4-MaxplayAdventure : 5-MaxplayArena : 6-MaxChallenge : 7-MaxNonRefillChallenge
-    var myUrl = getProperty( '_url' );
+    var myUrl = getProperty( 'propUrl' );
     var myEnergySite = UrlFetchApp.fetch( myUrl + '&message=getUserAccount' );
     var myEnergyJson = JSON.parse( myEnergySite );
     var myChallengeSite = UrlFetchApp.fetch( myUrl + '&message=startChallenge' );

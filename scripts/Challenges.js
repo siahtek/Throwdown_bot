@@ -3,14 +3,14 @@
  * return false/refill Challenge Rewards
  */
 function playRefillChallenge() {
-    var myUrl = getProperty( '_url' );
+    var myUrl = getProperty( 'propUrl' );
     if ( checkIfActive( myUrl ) == true ) {
         return false
     }
     saveDeck( myUrl );
     setDeck( myUrl, getProperty( 'Refill Challenge Deck' ) );
     var myChallenge = playCard( myUrl + '&message=startChallenge&challenge_id=' + getChallengeId( myUrl, 102000 ) );
-    setDeck( myUrl, getProperty( '_deck' ) );
+    setDeck( myUrl, getProperty( 'propDeck' ) );
     return myChallenge
 }
 /**
@@ -18,14 +18,14 @@ function playRefillChallenge() {
  * return true/Non-Refill Challenge Rewards
  */
 function playNonRefillChallenge() {
-    var myUrl = getProperty( '_url' );
+    var myUrl = getProperty( 'propUrl' );
     if ( checkIfActive( myUrl ) == true ) {
         return false
     }
     saveDeck( myUrl )
     setDeck( myUrl, getProperty( 'Non-Refill Challenge Deck' ) )
     var myChallenge = playCard( myUrl + '&message=startChallenge&challenge_id=' + getChallengeId( myUrl, 103001 ) );
-    setDeck( myUrl, getProperty( '_deck' ) )
+    setDeck( myUrl, getProperty( 'propDeck' ) )
     return myChallenge
 }
 /**

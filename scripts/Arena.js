@@ -3,7 +3,7 @@
  * return false/rewards.
  */
 function playArena() {
-    var myUrl = getProperty( '_url' );
+    var myUrl = getProperty( 'propUrl' );
     if ( checkIfActive( myUrl ) == true ) {
         return false
     }
@@ -17,7 +17,7 @@ function playArena() {
         return false
     }
     var myReturn = playArenaAttack( myUrl );
-    setDeck( myUrl, getProperty( '_deck' ) );
+    setDeck( myUrl, getProperty( 'propDeck' ) );
     return myReturn
 }
 /**
@@ -29,7 +29,7 @@ function searchArena() {
     if ( myTarget.length < 2 ) {
         return false
     }
-    var myUrl = getProperty( '_url' );
+    var myUrl = getProperty( 'propUrl' );
     for ( var i = 1; i < getProperty( 'Search Timeout' ); i++ ) {
         var myArenaSearchSite = UrlFetchApp.fetch( myUrl + '&message=getHuntingTargets' );
         var myArenaSearchJson = JSON.parse( myArenaSearchSite );
@@ -70,7 +70,7 @@ function playArenaAttack( aUrl ) { //Attack script..
         return false
     }
     var myBattleId = myStartJson.battle_data.battle_id;
-    var myEndSite = UrlFetchApp.fetch( getProperty( '_url' ) + '&message=playCard&battle_id=' + myBattleId + '&skip=True' );
+    var myEndSite = UrlFetchApp.fetch( getProperty( 'propUrl' ) + '&message=playCard&battle_id=' + myBattleId + '&skip=True' );
     var myEndJson = JSON.parse( myEndSite );
     var myRewards = JSON.stringify( myEndJson.battle_data.rewards );
     return myRewards

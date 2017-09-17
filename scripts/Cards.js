@@ -3,9 +3,9 @@
  * return true
  */
 function buyAndUpgradeCards() {
-    var myUrl = getProperty( '_url' );
+    var myUrl = getProperty( 'propUrl' );
     for ( var z = 0; z < 3; z++ ) {
-        updateStatus( 'Account ' + getProperty( '_name' ) + ' Daily Mission ' + formattedTime() );
+        updateStatus( 'Account ' + getProperty( 'propName' ) + ' Daily Mission ' + formattedTime() );
         var myBoughtCard = buyCard( myUrl, theXml );
         for ( var i = 1; i < myBoughtCard.length; i++ ) {
             var myCardInfo = myBoughtCard[ i ].split( ',' );
@@ -34,9 +34,9 @@ function buyAndRecycleCards() {
     if ( myMathZ <= 0 ) {
         return false
     }
-    var myUrl = getProperty( '_url' );
+    var myUrl = getProperty( 'propUrl' );
     for ( var z = 0; z < myMathZ; z++ ) {
-        updateStatus( 'Account ' + getProperty( '_name' ) + ' Buying & Recycling cards ' + formattedTime() );
+        updateStatus( 'Account ' + getProperty( 'propName' ) + ' Buying & Recycling cards ' + formattedTime() );
         var myBoughtCard = buyCard( myUrl, theXml );
         for ( var i = 1; i < myBoughtCard.length; i++ ) {
             var myCardInfo = myBoughtCard[ i ].split( ',' );
@@ -58,7 +58,7 @@ function buyAndRecycleCards() {
  * return Money
  */
 function getMoney() {
-    var myUrl = getProperty( '_url' );
+    var myUrl = getProperty( 'propUrl' );
     var myEnergy = UrlFetchApp.fetch( myUrl + '&message=getUserAccount' );
     var myEnergyJson = JSON.parse( myEnergy );
     var myMoney = myEnergyJson.user_data.money
