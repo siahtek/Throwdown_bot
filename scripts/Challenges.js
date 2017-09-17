@@ -1,7 +1,7 @@
 /**
-* Checks if refill Challenge parameters are met then attacks.
-* return false/refill Challenge Rewards
-*/
+ * Checks if refill Challenge parameters are met then attacks.
+ * return false/refill Challenge Rewards
+ */
 function playRefillChallenge() {
     var myUrl = getProperty( '_url' );
     if ( checkIfActive( myUrl ) == true ) {
@@ -13,11 +13,10 @@ function playRefillChallenge() {
     setDeck( myUrl, getProperty( '_deck' ) );
     return myChallenge
 }
-
 /**
-* Checks if Non-Refill Challenge parameters are met then attacks.
-* return true/Non-Refill Challenge Rewards
-*/
+ * Checks if Non-Refill Challenge parameters are met then attacks.
+ * return true/Non-Refill Challenge Rewards
+ */
 function playNonRefillChallenge() {
     var myUrl = getProperty( '_url' );
     if ( checkIfActive( myUrl ) == true ) {
@@ -29,12 +28,11 @@ function playNonRefillChallenge() {
     setDeck( myUrl, getProperty( '_deck' ) )
     return myChallenge
 }
-
 /**
-* Gets challenge ID from challenge token
-* return challenge id
-*/
-function getChallengeId( aUrl, aId ) { 
+ * Gets challenge ID from challenge token
+ * return challenge id
+ */
+function getChallengeId( aUrl, aId ) {
     var myEventsSite = UrlFetchApp.fetch( aUrl + '&message=startChallenge' );
     var myEventsJson = JSON.parse( myEventsSite );
     var myActiveEventsId = myEventsJson.active_events[ aId ].challenge;
