@@ -38,9 +38,9 @@ function onEditCustom(e) {
   if (e.range.getA1Notation() == 'H4') {
    var myValue = e.range.getValue();
     e.range.setValue('Loading task');
-    if(myValue == 'Import to sheet'){SaveUserDeck()}
-    if(myValue == 'Export to throwdown'){LoadUserDeck()}
-    if(myValue == 'Display in sheet'){DisplayUserDeck()}
+    if(myValue == 'Import to sheet'){saveUserDeck()}
+    if(myValue == 'Export to throwdown'){loadUserDeck()}
+    if(myValue == 'Display in sheet'){displayUserDeck()}
     e.range.setValue('Select a task');
     return
   }
