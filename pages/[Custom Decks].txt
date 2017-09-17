@@ -1,0 +1,43 @@
+
+
+				Options	
+	Deck to import or export		1
+	Save Location					01
+		Deck 1 Saved to 1	
+		
+		
+				Deck Display	
+		Displaying Deck: 1	
+		
+		
+				Deck Saves		
+		Deck 1
+		Deck 2
+		Deck 3
+		Deck 4
+		Deck 5
+		Deck 6
+		Deck 7
+		Deck 8
+		Deck 9
+		Deck 10
+		Deck 11
+		Deck 12
+		Deck 13
+		Deck 14
+		Deck 15
+		Deck 16
+		Deck 17
+		Deck 18
+		Deck 19
+		Deck 20
+		Deck 21
+		Deck 22
+		Deck 23
+		Deck 24
+		Deck 25
+		Deck 26
+		Deck 27
+		Deck 28
+		Deck 29
+		Deck 30

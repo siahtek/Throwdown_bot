@@ -71,8 +71,8 @@ function getMoney() {
 * Converts card ID to rarity and name.
 * return [card Rarity,card name]
 */
-function getCardRarity( aId, aXml ) {
-    var myDoc = XmlService.parse( aXml );
+function getCardRarity( aId ) {
+    var myDoc = XmlService.parse( theXml );
     var myRootElement = myDoc.getRootElement();
     var myEntries = myDoc.getRootElement().getChildren( 'unit' );
     for ( var i = 0; i < myEntries.length; i++ ) {
@@ -83,6 +83,30 @@ function getCardRarity( aId, aXml ) {
             return [ GetRarity, GetName ];
         }
     }
+      myDoc = XmlService.parse( theXmlCombo );
+      myRootElement = myDoc.getRootElement();
+      myEntries = myDoc.getRootElement().getChildren( 'unit' );
+      for ( var i = 0; i < myEntries.length; i++ ) {
+        var myId = myEntries[ i ].getChild( 'id' ).getText();
+        if ( myId == aId ) {
+            var GetRarity = myEntries[ i ].getChild( 'rarity' ).getText();
+            var GetName = myEntries[ i ].getChild( 'name' ).getText();
+            return [ GetRarity, GetName ];
+        }
+    }
+  myDoc = XmlService.parse( theXmlMythic );
+      myRootElement = myDoc.getRootElement();
+      myEntries = myDoc.getRootElement().getChildren( 'unit' );
+      for ( var i = 0; i < myEntries.length; i++ ) {
+        var myId = myEntries[ i ].getChild( 'id' ).getText();
+        if ( myId == aId ) {
+            var GetRarity = myEntries[ i ].getChild( 'rarity' ).getText();
+            var GetName = myEntries[ i ].getChild( 'name' ).getText();
+            return [ GetRarity, 'Mythic '+GetName ];
+        }
+    }
+  return [ 9, 'Unknown' ];
+
 }
 
 /**
@@ -119,7 +143,7 @@ function buyCard( aUrl, aXml ) { // 1 = Rarity, 2 = Index, 3 = item id
     for ( var j = 0; j < myBoughtPackJson.new_units.length; j++ ) {
         var myUnitIndex = myBoughtPackJson.new_units[ j ].unit_index
         var myUnitId = myBoughtPackJson.new_units[ j ].unit_id
-        var myRarity = getCardRarity( myUnitId, aXml );
+        var myRarity = getCardRarity( myUnitId );
         myCards = myCards + '|' + [ myRarity[ 0 ], myUnitIndex, myUnitId, myRarity[ 1 ] ]
     }
     return myCards.split( '|' )

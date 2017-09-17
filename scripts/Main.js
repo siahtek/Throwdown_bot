@@ -1,6 +1,8 @@
 //Auto Rumble
 //ads?
 var theXml;
+var theXmlCombo;
+var theXmlMythic;
 var theProperties;
 var theSheet;
 
@@ -19,6 +21,12 @@ function onOpen() {
                 .addItem( 'Disable', 'disableRumble' )
                 .addItem( 'Manual Run', 'manualeRumble' )
                )
+    .addToUi();
+   ui.createMenu( 'Custom Decks' )
+    .addSeparator()
+    .addItem( 'Import to sheet', 'SaveUserDeck' )
+    .addItem( 'Export to throwdown', 'LoadUserDeck' )
+    .addItem( 'Display in sheet', 'DisplayUserDeck' )
     .addToUi();
 }
 
@@ -88,6 +96,8 @@ function Main() {
     theSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName( 'Settings' );
     theProperties = PropertiesService.getScriptProperties()
     theXml = UrlFetchApp.fetch( 'https://cb-live.synapse-games.com/assets/cards.xml' ).getContentText();
+    theXmlCombo = UrlFetchApp.fetch( 'https://cb-live.synapse-games.com/assets/cards_finalform.xml' ).getContentText();
+    theXmlMythic = UrlFetchApp.fetch( 'https://cb-live.synapse-games.com/assets/cards_mythic.xml' ).getContentText();
     updateStatus( 'Started, logging in ' + formattedTime() );
     checkVersion()
     var myUserSettings = loadUserSettings();

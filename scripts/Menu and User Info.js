@@ -66,6 +66,7 @@ function loadUserSettings() { //Read settings
         'BuyCardAndRecycle_count': 0,
         'BuyCardAndUpgrade': '',
         'BuyCardAndUpgrade_count': 0,
+      
     } )
     return true
 }
@@ -109,7 +110,7 @@ function authenticateUser( aId, aToken ) { //Check if use is valid & create user
     var myUserName = myUserAuthJson.new_name;
     var myResult = myUserAuthJson.result;
       if ( myResult == true ) {
-        updateStatus( 'Login failed.. Check User_Ud & User_Token ' + formattedTime() );
+        updateStatus( 'Login failed.. Check User_ID & User_Token ' + formattedTime() );
         Logger.log( 'User Auth fail' );
         return false
     }
@@ -126,6 +127,7 @@ function authenticateUser( aId, aToken ) { //Check if use is valid & create user
       return false
     }
   }
+  return true
 }
 
 /**
