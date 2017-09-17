@@ -4,7 +4,7 @@ function playCard( aUrl ) { //Attack script..
     if ( myStartJson.result_message != null ) {
         return false
     }
-    if ( myStartJson.hasOwnProperty('battle_data') != false ) {
+    if ( myStartJson.hasOwnProperty( 'battle_data' ) != false ) {
         var myBattleId = myStartJson.battle_data.battle_id;
         var myEnd = UrlFetchApp.fetch( getProperty( '_url' ) + '&message=playCard&battle_id=' + myBattleId + '&skip=True' );
         var myEndJson = JSON.parse( myEnd );
