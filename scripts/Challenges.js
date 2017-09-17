@@ -1,38 +1,40 @@
 /**
- * Checks if refill Challenge parameters are met then attacks.
- * return false/refill Challenge Rewards
- */
+* Checks if refill Challenge parameters are met then attacks.
+* return false/refill Challenge Rewards
+*/
 function playRefillChallenge() {
-    var myUrl = getProperty( 'propUrl' );
+    var myUrl = getProperty( '_url' );
     if ( checkIfActive( myUrl ) == true ) {
         return false
     }
     saveDeck( myUrl );
     setDeck( myUrl, getProperty( 'Refill Challenge Deck' ) );
     var myChallenge = playCard( myUrl + '&message=startChallenge&challenge_id=' + getChallengeId( myUrl, 102000 ) );
-    setDeck( myUrl, getProperty( 'propDeck' ) );
+    setDeck( myUrl, getProperty( '_deck' ) );
     return myChallenge
 }
+
 /**
- * Checks if Non-Refill Challenge parameters are met then attacks.
- * return true/Non-Refill Challenge Rewards
- */
+* Checks if Non-Refill Challenge parameters are met then attacks.
+* return true/Non-Refill Challenge Rewards
+*/
 function playNonRefillChallenge() {
-    var myUrl = getProperty( 'propUrl' );
+    var myUrl = getProperty( '_url' );
     if ( checkIfActive( myUrl ) == true ) {
         return false
     }
     saveDeck( myUrl )
     setDeck( myUrl, getProperty( 'Non-Refill Challenge Deck' ) )
     var myChallenge = playCard( myUrl + '&message=startChallenge&challenge_id=' + getChallengeId( myUrl, 103001 ) );
-    setDeck( myUrl, getProperty( 'propDeck' ) )
+    setDeck( myUrl, getProperty( '_deck' ) )
     return myChallenge
 }
+
 /**
- * Gets challenge ID from challenge token
- * return challenge id
- */
-function getChallengeId( aUrl, aId ) {
+* Gets challenge ID from challenge token
+* return challenge id
+*/
+function getChallengeId( aUrl, aId ) { 
     var myEventsSite = UrlFetchApp.fetch( aUrl + '&message=startChallenge' );
     var myEventsJson = JSON.parse( myEventsSite );
     var myActiveEventsId = myEventsJson.active_events[ aId ].challenge;

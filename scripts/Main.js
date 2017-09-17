@@ -6,11 +6,58 @@ var theProperties;
 var theSheet;
 /**
  * On sheet load add Throwdown menu. --> Menu > Throwdown
+ * Cant be renamed.. this is a Google call onOpen
  */
-function addBotMenuItems() {
+function onOpen() {
     var ui = SpreadsheetApp.getUi();
-    ui.createMenu( 'Throwdown' ).addSeparator().addItem( 'Enable & Refresh', '_Enable' ).addItem( 'Disable', '_Disable' ).addItem( 'Manual Run', '_Run' ).addSubMenu( SpreadsheetApp.getUi().createMenu( 'Auto Rumble' ).addItem( 'Enable', 'enableRumble' ).addItem( 'Disable', 'disableRumble' ).addItem( 'Manual Run', 'manualeRumble' ) ).addToUi();
-    ui.createMenu( 'Custom Decks' ).addSeparator().addItem( 'Import to sheet', 'SaveUserDeck' ).addItem( 'Export to throwdown', 'LoadUserDeck' ).addItem( 'Display in sheet', 'DisplayUserDeck' ).addToUi();
+    ui.createMenu( 'Throwdown' )
+    .addItem( 'Enable & Refresh', 'refreshEnableBot' )
+    .addItem( 'Disable', 'disableBot' )
+    .addItem( 'Manual Run', '_Run' )
+    .addSubMenu( SpreadsheetApp.getUi()
+                .createMenu( 'Auto Rumble' )
+                .addItem( 'Enable', 'enableRumble' )
+                .addItem( 'Disable', 'disableRumble' )
+                .addItem( 'Manual Run', 'fightRumbleManually' ) )
+    .addToUi();
+    ui.createMenu( 'Custom Decks' )
+    .addItem( 'Import to sheet', 'SaveUserDeck' )
+    .addItem( 'Export to throwdown', 'LoadUserDeck' ).
+    addItem( 'Display in sheet', 'DisplayUserDeck' )
+    .addToUi();
+}
+
+/**
+ * On edit for Mobile controls.
+ */
+function onEditCustom(e) {
+  if (e.range.getA1Notation() == 'H4') {
+   var myValue = e.range.getValue();
+    e.range.setValue('Loading task');
+    if(myValue == 'Import to sheet'){SaveUserDeck()}
+    if(myValue == 'Export to throwdown'){LoadUserDeck()}
+    if(myValue == 'Display in sheet'){DisplayUserDeck()}
+    e.range.setValue('Select a task');
+    return
+  }
+    if (e.range.getA1Notation() == 'D11') {
+   var myValue = e.range.getValue();
+    e.range.setValue('Loading task');
+    if(myValue == 'Enable & Refresh'){refreshEnableBot()}
+    if(myValue == 'Disable'){disableBot()}
+    if(myValue == 'Manual Run'){runManually()}
+    e.range.setValue('Select a task');
+      return
+  }
+      if (e.range.getA1Notation() == 'D12') {
+   var myValue = e.range.getValue();
+    e.range.setValue('Loading task');
+    if(myValue == 'Enable'){enableRumble()}
+    if(myValue == 'Disable'){disableRumble()}
+    if(myValue == 'Manual Run'){manualeRumble()}
+    e.range.setValue('Select a task');
+      return
+  }
 }
 /**
  * Runs when Enable & Refresh calls it. --> Menu > Throwdown > Enable & Refresh

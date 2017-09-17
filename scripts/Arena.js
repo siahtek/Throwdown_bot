@@ -1,9 +1,9 @@
 /**
- * Checks if arena attack parameters are met then attacks.
- * return false/rewards.
- */
+* Checks if arena attack parameters are met then attacks.
+* return false/rewards.
+*/
 function playArena() {
-    var myUrl = getProperty( 'propUrl' );
+    var myUrl = getProperty( '_url' );
     if ( checkIfActive( myUrl ) == true ) {
         return false
     }
@@ -17,19 +17,20 @@ function playArena() {
         return false
     }
     var myReturn = playArenaAttack( myUrl );
-    setDeck( myUrl, getProperty( 'propDeck' ) );
+    setDeck( myUrl, getProperty( '_deck' ) );
     return myReturn
 }
+
 /**
- * Search Arena until token is found or limit is reached.
- * return false/[search count,found token]
- */
+* Search Arena until token is found or limit is reached.
+* return false/[search count,found token]
+*/
 function searchArena() {
     var myTarget = getProperty( 'Arena_Target' ).split( "," );
     if ( myTarget.length < 2 ) {
         return false
     }
-    var myUrl = getProperty( 'propUrl' );
+    var myUrl = getProperty( '_url' );
     for ( var i = 1; i < getProperty( 'Search Timeout' ); i++ ) {
         var myArenaSearchSite = UrlFetchApp.fetch( myUrl + '&message=getHuntingTargets' );
         var myArenaSearchJson = JSON.parse( myArenaSearchSite );
@@ -49,17 +50,19 @@ function searchArena() {
     }
     return false
 }
+
 /**
- * Checks if array contains a string.
- * return true/false
- */
+* Checks if array contains a string.
+* return true/false
+*/
 function isInArray( In, For ) {
     return ( In.indexOf( For ) > -1 );
 }
+
 /**
- * Arena attack function.
- * return false/rewards.
- */
+* Arena attack function.
+* return false/rewards.
+*/
 function playArenaAttack( aUrl ) { //Attack script..
     var myFindSite = UrlFetchApp.fetch( aUrl + '&message=getHuntingTargets' );
     var myFindJson = JSON.parse( myFindSite );
@@ -70,7 +73,7 @@ function playArenaAttack( aUrl ) { //Attack script..
         return false
     }
     var myBattleId = myStartJson.battle_data.battle_id;
-    var myEndSite = UrlFetchApp.fetch( getProperty( 'propUrl' ) + '&message=playCard&battle_id=' + myBattleId + '&skip=True' );
+    var myEndSite = UrlFetchApp.fetch( getProperty( '_url' ) + '&message=playCard&battle_id=' + myBattleId + '&skip=True' );
     var myEndJson = JSON.parse( myEndSite );
     var myRewards = JSON.stringify( myEndJson.battle_data.rewards );
     return myRewards

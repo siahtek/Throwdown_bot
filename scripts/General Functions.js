@@ -1,12 +1,16 @@
-function playCard( aUrl ) { //Attack script..
+/**
+* Starts an attack and Auto skip.
+* return false/Attack rewards.
+*/
+function playCard( aUrl ) {
     var myStart = UrlFetchApp.fetch( aUrl );
     var myStartJson = JSON.parse( myStart );
     if ( myStartJson.result_message != null ) {
         return false
     }
-    if ( myStartJson.hasOwnProperty( 'battle_data' ) != false ) {
+    if ( myStartJson.hasOwnProperty('battle_data') != false ) {
         var myBattleId = myStartJson.battle_data.battle_id;
-        var myEnd = UrlFetchApp.fetch( getProperty( 'propUrl' ) + '&message=playCard&battle_id=' + myBattleId + '&skip=True' );
+        var myEnd = UrlFetchApp.fetch( getProperty( '_url' ) + '&message=playCard&battle_id=' + myBattleId + '&skip=True' );
         var myEndJson = JSON.parse( myEnd );
         var myRewards = JSON.stringify( myEndJson.battle_data.rewards );
         return myRewards
@@ -15,17 +19,25 @@ function playCard( aUrl ) { //Attack script..
     }
 }
 
-function setProperty( aLoc, aData ) { //Save data to google sheet
-    // var _properties = PropertiesService.getScriptProperties();
+/**
+* Create or set a google setting by key.
+*/
+function setProperty( aLoc, aData ) { 
     theProperties.setProperty( aLoc, aData );
 }
 
-function getProperty( aLoc ) { //get data from google sheet
-    // var _properties = PropertiesService.getScriptProperties();
+/**
+* Load a google setting by key.
+*/
+function getProperty( aLoc ) {
     return theProperties.getProperty( aLoc );
 }
 
-function getTime() { //return formated time
+/**
+* get current time and format.
+* return formated time.
+*/
+function formattedTime() {
     var myDate = new Date();
     var ampm = 'AM'
     var myHours = myDate.getHours();
@@ -37,7 +49,11 @@ function getTime() { //return formated time
     return myTime
 }
 
-function getUpcomingTime() { //return formated time
+/**
+* get time in 30 minutes and format.
+* return formated time.
+*/
+function myFormattedTimeNext() {
     var mydate = new Date();
     mydate.setMinutes( mydate.getMinutes() + 30 );
     var ampm = 'AM'
@@ -49,28 +65,56 @@ function getUpcomingTime() { //return formated time
     var myTime = ( "0" + ( mydate.getMonth() + 1 ) ).slice( -2 ) + "-" + ( "0" + mydate.getDate() ).slice( -2 ) + "-" + mydate.getFullYear() + " " + ( "0" + myHours ).slice( -2 ) + ":" + ( "0" + mydate.getMinutes() ).slice( -2 ) + ' ' + ampm;
     return myTime
 }
-
-function checkIfActive( aUrl ) { //True = Found battle.
-    var myActiveSite = UrlFetchApp.fetch( aUrl + '&message=playCard' );
-    var myActiveJson = JSON.parse( myActiveSite );
-    if ( myActiveJson.battle_data.upkept != null ) {
-        return true;
-    } else {
-        return false;
+/**
+* Format Time from variable.
+* return formated time.
+*/
+function formattedTimeDate(aDate) {
+    var myDate = aDate;
+    var ampm = 'AM'
+    var myHours = myDate.getHours();
+    if ( myHours > 12 ) {
+        ampm = 'PM';
+        myHours -= 12
     }
+    var myTime = ( "0" + ( myDate.getMonth() + 1 ) ).slice( -2 ) + "-" + ( "0" + myDate.getDate() ).slice( -2 ) + "-" + myDate.getFullYear() + " " + ( "0" + myHours ).slice( -2 ) + ":" + ( "0" + myDate.getMinutes() ).slice( -2 ) + ' ' + ampm;
+    return myTime
 }
 
-function saveDeck( aUrl ) { //Save starting attack deck
+/**
+* Checks if an active attack is going
+* if the bot attacks during an active attack the active attack will be forfeit.
+* return true/false
+*/
+function checkIfActive( aUrl ) {
+    var myActiveSite = UrlFetchApp.fetch( aUrl + '&message=playCard' );
+    var myActiveJson = JSON.parse( myActiveSite );
+  if ( myActiveJson.hasOwnProperty( 'result_message' ) == false ) {
+  if ( myActiveJson.battle_data.upkept != null ){return true;}else{return false;}
+  }else{return false;}
+}
+
+/**
+* Loads and saves the current deck a user is running.
+*/
+function saveDeck( aUrl ) {
     var myUseItemSite = UrlFetchApp.fetch( aUrl + '&message=getUserAccount' );
     var myUseItemJson = JSON.parse( myUseItemSite );
     var myDeck = myUseItemJson.user_data.active_deck;
-    setProperty( 'propDeck', myDeck );
+    setProperty( '_deck', myDeck );
 }
 
-function setDeck( aUrl, aDeck ) { //Change attack deck
+/**
+* Change active deck to users choice.
+*/
+function setDeck( aUrl, aDeck ) {
     var myUseItem = UrlFetchApp.fetch( aUrl + '&message=setActiveDeck&deck_id=' + aDeck );
 }
 
+/**
+* Loads, Completes, and checks if Achievements is finished.
+* return true/false
+*/
 function checkAchievements( aUrl, aId ) {
     //5001 - Daily - Nine to Five
     //5007 - Daily - playAdventure Battles
@@ -88,6 +132,9 @@ function checkAchievements( aUrl, aId ) {
     }
 }
 
+/**
+* Complete Achievement if they are finished.
+*/
 function completeAchievements( aUrl, aId ) {
     UrlFetchApp.fetch( aUrl + '&message=completeAchievement&achievement_id=' + aId );
 }

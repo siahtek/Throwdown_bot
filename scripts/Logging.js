@@ -1,9 +1,9 @@
 /**
- * Save info on cards to logs for writing later.
- */
+* Save info on cards to logs for writing later.
+*/
 function AddLogCards( aSection, aReward ) {
     var myString = getProperty( aSection );
-    var myCount = getProperty( aSection + 'propCount' );
+    var myCount = getProperty( aSection + '_count' );
     if ( myString == null ) {
         myString = ''
     }
@@ -12,11 +12,12 @@ function AddLogCards( aSection, aReward ) {
     }
     myString = myString + aReward + '\n';
     setProperty( aSection, myString );
-    setProperty( aSection + 'propCount', parseInt( myCount ) + 1 );
+    setProperty( aSection + '_count', parseInt( myCount ) + 1 );
 }
+
 /**
- * Updated Gui with Arena or Adventure energy.
- */
+* Updated Gui with Arena or Adventure energy.
+*/
 function updateEnergy( aCheck, aMax, aSection ) {
     var mySheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName( "Settings" );
     if ( aSection == 'Arena' ) {
@@ -25,62 +26,67 @@ function updateEnergy( aCheck, aMax, aSection ) {
         mySheet.getRange( "C6" ).setValue( 'Adventure Energy: ' + aCheck + '/' + aMax );
     }
 }
+
 /**
- * Update Gui with time to next check.
- */
+* Update Gui with time to next check.
+*/
 function updateNext( aCheck ) {
     var mySheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName( "Settings" );
     if ( aCheck == true ) {
-        mySheet.getRange( "C7" ).setValue( 'Next check ' + getUpcomingTime() );
+        mySheet.getRange( "C7" ).setValue( 'Next check ' + myFormattedTimeNext() );
     } else {
-        mySheet.getRange( "C7" ).setValue( 'Disabled at ' + getTime() );
+        mySheet.getRange( "C7" ).setValue( 'Disabled at ' + formattedTime() );
     }
 }
+
 /**
- * Update Gui with time to next rumble.
- */
-function updateNextRumble( aCheck, aTime ) {
+* Update Gui with time to next rumble.
+*/
+function updateNextRumble( aCheck,aTime ) {
     var mySheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName( "Settings" );
     if ( aCheck == true ) {
         mySheet.getRange( "C8" ).setValue( 'Next Rumble Check ' + aTime );
     } else {
-        mySheet.getRange( "C8" ).setValue( 'Disabled at ' + getTime() );
+        mySheet.getRange( "C8" ).setValue( 'Disabled at ' + formattedTime() );
     }
 }
+
 /**
- * Save info on attack rewards to logs.
- */
+* Save info on attack rewards to logs.
+*/
 function addLog( aSection, aReward ) {
     var myRewards = parseRewards( aReward );
     var myString = ''
     var myCount = 0
     myString = getProperty( aSection );
-    myCount = getProperty( aSection + 'propCount' );
+    myCount = getProperty( aSection + '_count' );
     myString = myString + myRewards + '\n';
     setProperty( aSection, myString );
-    setProperty( aSection + 'propCount', parseInt( myCount ) + 1 );
+    setProperty( aSection + '_count', parseInt( myCount ) + 1 );
 }
+
 /**
- * Write logs to Logs in sheet.
- */
+* Write logs to Logs in sheet.
+*/
 function writeLogs( aSection, aRow ) {
     var myEmptyRow = getFirstEmptyRow();
     var myCount = 0
     var myString = ''
     var myString = getProperty( aSection );
-    myCount = getProperty( aSection + 'propCount' );
+    myCount = getProperty( aSection + '_count' );
     var mySheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName( 'Logs' );
     if ( myString != null ) {
         mySheet.getRange( aRow + "" + myEmptyRow ).setNote( myString );
     }
     mySheet.getRange( aRow + "" + myEmptyRow ).setValue( myCount );
     setProperty( aSection, '' )
-    setProperty( aSection + 'propCount', 0 );
+    setProperty( aSection + '_count', 0 );
 }
+
 /**
- * find the first empty row on logs for writing logs.
- * return first empty row
- */
+* find the first empty row on logs for writing logs.
+* return first empty row
+*/
 function getFirstEmptyRow() {
     var spr = SpreadsheetApp.getActiveSpreadsheet().getSheetByName( "Logs" );
     var column = spr.getRange( 'A:A' );
@@ -91,34 +97,36 @@ function getFirstEmptyRow() {
     }
     return ( ct + 1 );
 }
+
+
 /**
- * Write Logs to sheet Logs.
- */
-function writeLogs() {
-    var myCheck = false;
-    if ( getProperty( '_logs_RefillChallenge' + 'propCount' ) != 0 || "" ) {
+* Write Logs to sheet Logs.
+*/
+function WriteLogs() { 
+  var myCheck = false;
+    if ( getProperty( '_logs_RefillChallenge' + '_count' ) != 0 || "" ) {
         myCheck = true;
     }
-    if ( getProperty( '_logs_NoneRefillChallenge' + 'propCount' ) != 0 || "" ) {
+    if ( getProperty( '_logs_NoneRefillChallenge' + '_count' ) != 0 || "" ) {
         myCheck = true;
     }
-    if ( getProperty( '_logs_Adventure' + 'propCount' ) != 0 || "" ) {
+    if ( getProperty( '_logs_Adventure' + '_count' ) != 0 || "" ) {
         myCheck = true;
     }
-    if ( getProperty( '_logs_Arena' + 'propCount' ) != 0 || "" ) {
+    if ( getProperty( '_logs_Arena' + '_count' ) != 0 || "" ) {
         myCheck = true;
     }
-    if ( getProperty( 'BuyCardAndUpgrade' + 'propCount' ) != 0 || "" ) {
+    if ( getProperty( 'BuyCardAndUpgrade' + '_count' ) != 0 || "" ) {
         myCheck = true;
     }
-    if ( getProperty( 'BuyCardAndRecycle' + 'propCount' ) != 0 || "" ) {
+    if ( getProperty( 'BuyCardAndRecycle' + '_count' ) != 0 || "" ) {
         myCheck = true;
     }
-    if ( getProperty( '_logs_Rumble' + 'propCount' ) != 0 || "" ) {
+     if ( getProperty( '_logs_Rumble' + '_count' ) != 0 || "" ) {
         myCheck = true;
     }
     if ( myCheck == true ) {
-        updateStatus( 'Account ' + getProperty( 'propName' ) + ' Writing Logs ' + getTime() );
+        updateStatus( 'Account ' + getProperty( '_name' ) + ' Writing Logs ' + formattedTime() );
         writeLogs( '_logs_RefillChallenge', 'B' );
         writeLogs( '_logs_NoneRefillChallenge', 'C' );
         writeLogs( '_logs_Adventure', 'D' );
@@ -129,78 +137,79 @@ function writeLogs() {
         writeLogs( '_time', 'A' );
     }
 }
+
 /**
- * Parse/Convert attack rewards to string.
- * return error/rewards string
- */
+* Parse/Convert attack rewards to string.
+* return error/rewards string
+*/
 function parseRewards( aRewards ) {
-    var myItemInfo = UrlFetchApp.fetch( getProperty( 'propUrl' ) + '&message=useItem' );
-    var myItemInfoJson = JSON.parse( myItemInfo );
-    var myRewardsJson = JSON.parse( aRewards )[ 0 ]
-    if ( myRewardsJson.gold != null ) {
-        var myGold = myRewardsJson.gold
+    var ItemInfo = UrlFetchApp.fetch( getProperty( '_url' ) + '&message=useItem' );
+    var ItemInfo_json = JSON.parse( ItemInfo );
+    var rewards_Json = JSON.parse( aRewards )[ 0 ]
+    if ( rewards_Json.gold != null ) {
+        var Gold = rewards_Json.gold
     } else {
-        var myGold = 0
+        var Gold = 0
     }
-    if ( myRewardsJson.sp != null ) {
-        var myWatts = myRewardsJson.sp
+    if ( rewards_Json.sp != null ) {
+        var Sp = rewards_Json.sp
     } else {
-        var myWatts = 0
+        var Sp = 0
     }
-    if ( myRewardsJson.xp != null ) {
-        var myXp = myRewardsJson.xp
+    if ( rewards_Json.xp != null ) {
+        var xp = rewards_Json.xp
     } else {
-        var myXp = 0
+        var xp = 0
     }
-    if ( myRewardsJson.rating_change != null ) {
-        var myRatingChange = myRewardsJson.rating_change
+    if ( rewards_Json.rating_change != null ) {
+        var RatingChange = rewards_Json.rating_change
     } else {
-        var myRatingChange = 0
+        var RatingChange = 0
     }
-    if ( myRewardsJson.guild_war_points != null ) {
-        var myGuildWarPoints = myRewardsJson.guild_war_points
+    if ( rewards_Json.guild_war_points != null ) {
+        var GuildWarPoints = rewards_Json.guild_war_points
     } else {
-        var myGuildWarPoints = 0
+        var GuildWarPoints = 0
     }
-    var myListOfItems = ''
-    var myString = ''
-    if ( myRewardsJson.item != null ) {
-        var myListOfItems = myRewardsJson.item
-    } else if ( myRewardsJson.items != null ) {
-        var myListOfItems = myRewardsJson.items
+    var items = ''
+    var string = ''
+    if ( rewards_Json.item != null ) {
+        var itemlist = rewards_Json.item
+    } else if ( rewards_Json.items != null ) {
+        var itemlist = rewards_Json.items
     }
-    if ( myListOfItems != null ) {
-        for ( var i = 0; i < myListOfItems.length; i++ ) {
-            var myItem = myListOfItems[ i ].id;
-            var myAmount = myListOfItems[ i ].number;
-            if ( myItem == 30001 || myItem == 30002 ) {
-                var myItemName = 'Adcrate'
+    if ( itemlist != null ) {
+        for ( var i = 0; i < itemlist.length; i++ ) {
+            var item = itemlist[ i ].id;
+            var Number = itemlist[ i ].number;
+            if ( item == 30001 || item == 30002 ) {
+                var item_name = 'Adcrate'
             } else { //They are removed from the inventory before it can id them.
-                var myItemName = myItemInfoJson.user_items[ myItem ].name;
+                var item_name = ItemInfo_json.user_items[ item ].name;
             }
-            myListOfItems = myListOfItems + ' [' + myItemName + ':' + myAmount + ']'
+            items = items + ' [' + item_name + ':' + Number + ']'
         }
     }
-    if ( myGold != 0 ) {
-        myString = myString + ' Gold:' + myGold
+    if ( Gold != 0 ) {
+        string = string + ' Gold:' + Gold
     }
-    if ( myWatts != 0 ) {
-        myString = myString + ' Watts:' + myWatts
+    if ( Sp != 0 ) {
+        string = string + ' Wats:' + Sp
     }
-    if ( myGuildWarPoints != 0 ) {
-        myString = myString + ' Guild War Points:' + myGuildWarPoints
+    if ( GuildWarPoints != 0 ) {
+        string = string + ' Guild War Points:' + GuildWarPoints
     }
-    if ( myXp != 0 ) {
-        myString = myString + ' xp:' + myXp
+    if ( xp != 0 ) {
+        string = string + ' xp:' + xp
     }
-    if ( myRatingChange != 0 ) {
-        myString = myString + ' RatingChange:' + myRatingChange
+    if ( RatingChange != 0 ) {
+        string = string + ' RatingChange:' + RatingChange
     }
-    if ( myListOfItems != '' ) {
-        myString = myString + ' items:' + myListOfItems
+    if ( items != '' ) {
+        string = string + ' items:' + items
     }
-    if ( myString == '' ) {
-        myString = 'No rewards/Failed to load rewards'
+    if ( string == '' ) {
+        string = 'No rewards/Failed to load rewards'
     }
-    return myString
+    return string
 }
