@@ -1,7 +1,7 @@
 /**
-* Checks if parameters are met then buys, upgrades and recycles cards.
-* return true
-*/
+ * Checks if parameters are met then buys, upgrades and recycles cards.
+ * return true
+ */
 function buyAndUpgradeCards() {
     var myUrl = getProperty( '_url' );
     for ( var z = 0; z < 3; z++ ) {
@@ -24,11 +24,10 @@ function buyAndUpgradeCards() {
     completeAchievements( myUrl, '5010' );
     return true
 }
-
 /**
-* Checks if parameters are met then buys and recycles cards.
-* return true
-*/
+ * Checks if parameters are met then buys and recycles cards.
+ * return true
+ */
 function buyAndRecycleCards() {
     var myMoney = Math.round( getMoney() / 1000 ) * 1000; //Get current money and round to nearest thousand.
     var myMathZ = ( myMoney - getProperty( 'Auto buy limit' ) ) / 1000; //Get the amount of cards you can buy,
@@ -54,11 +53,10 @@ function buyAndRecycleCards() {
     completeAchievements( myUrl, '5010' );
     return true
 }
-
 /**
-* Return users current coin count.
-* return Money
-*/
+ * Return users current coin count.
+ * return Money
+ */
 function getMoney() {
     var myUrl = getProperty( '_url' );
     var myEnergy = UrlFetchApp.fetch( myUrl + '&message=getUserAccount' );
@@ -66,11 +64,10 @@ function getMoney() {
     var myMoney = myEnergyJson.user_data.money
     return myMoney
 }
-
 /**
-* Converts card ID to rarity and name.
-* return [card Rarity,card name]
-*/
+ * Converts card ID to rarity and name.
+ * return [card Rarity,card name]
+ */
 function getCardRarity( aId ) {
     var myDoc = XmlService.parse( theXml );
     var myRootElement = myDoc.getRootElement();
@@ -78,61 +75,57 @@ function getCardRarity( aId ) {
     for ( var i = 0; i < myEntries.length; i++ ) {
         var myId = myEntries[ i ].getChild( 'id' ).getText();
         if ( myId == aId ) {
-            var GetRarity = myEntries[ i ].getChild( 'rarity' ).getText();
-            var GetName = myEntries[ i ].getChild( 'name' ).getText();
-            return [ GetRarity, GetName ];
+            var myRarity = myEntries[ i ].getChild( 'rarity' ).getText();
+            var myName = myEntries[ i ].getChild( 'name' ).getText();
+            return [ myRarity, myName ];
         }
     }
-      myDoc = XmlService.parse( theXmlCombo );
-      myRootElement = myDoc.getRootElement();
-      myEntries = myDoc.getRootElement().getChildren( 'unit' );
-      for ( var i = 0; i < myEntries.length; i++ ) {
+    myDoc = XmlService.parse( theXmlCombo );
+    myRootElement = myDoc.getRootElement();
+    myEntries = myDoc.getRootElement().getChildren( 'unit' );
+    for ( var i = 0; i < myEntries.length; i++ ) {
         var myId = myEntries[ i ].getChild( 'id' ).getText();
         if ( myId == aId ) {
-            var GetRarity = myEntries[ i ].getChild( 'rarity' ).getText();
-            var GetName = myEntries[ i ].getChild( 'name' ).getText();
-            return [ GetRarity, GetName ];
+            var myRarity = myEntries[ i ].getChild( 'rarity' ).getText();
+            var myName = myEntries[ i ].getChild( 'name' ).getText();
+            return [ myRarity, myName ];
         }
     }
-  myDoc = XmlService.parse( theXmlMythic );
-      myRootElement = myDoc.getRootElement();
-      myEntries = myDoc.getRootElement().getChildren( 'unit' );
-      for ( var i = 0; i < myEntries.length; i++ ) {
+    myDoc = XmlService.parse( theXmlMythic );
+    myRootElement = myDoc.getRootElement();
+    myEntries = myDoc.getRootElement().getChildren( 'unit' );
+    for ( var i = 0; i < myEntries.length; i++ ) {
         var myId = myEntries[ i ].getChild( 'id' ).getText();
         if ( myId == aId ) {
-            var GetRarity = myEntries[ i ].getChild( 'rarity' ).getText();
-            var GetName = myEntries[ i ].getChild( 'name' ).getText();
-            return [ GetRarity, 'Mythic '+GetName ];
+            var myRarity = myEntries[ i ].getChild( 'rarity' ).getText();
+            var myName = myEntries[ i ].getChild( 'name' ).getText();
+            return [ myRarity, 'Mythic ' + myName ];
         }
     }
-  return [ 9, 'Unknown' ];
-
+    return [ 9, 'Unknown' ];
 }
-
 /**
-* Recycle card by Index
-* return recycle Watt value.
-*/
+ * Recycle card by Index
+ * return recycle Watt value.
+ */
 function recycleCard( aUrl, aCard ) { //Recycle card by Index
     var mySalvageSite = UrlFetchApp.fetch( aUrl + '&message=salvageUnitList&units=%5b' + aCard + '%5d' );
     var mySalvageJson = JSON.parse( mySalvageSite );
     return mySalvageJson.rewards.sp
 }
-
 /**
-* Upgrade card by Index
-* return upgrade level
-*/
+ * Upgrade card by Index
+ * return upgrade level
+ */
 function upgradeCard( aUrl, aCard ) { //Upgrade card by Index
     var myUpgradeSite = UrlFetchApp.fetch( aUrl + '&message=upgradeUnit&unit_index=' + aCard );
     var myUpgradeJson = JSON.parse( myUpgradeSite );
     return myUpgradeJson.user_units[ aCard ].level
 }
-
 /**
-* Buy 1 card pack from the store and return Index list.
-* return false/card list
-*/
+ * Buy 1 card pack from the store and return Index list.
+ * return false/card list
+ */
 function buyCard( aUrl, aXml ) { // 1 = Rarity, 2 = Index, 3 = item id
     var myBoughtPackSite = UrlFetchApp.fetch( aUrl + '&message=buyStoreItem&data_usage=0&expected_cost=1000&cost_type=2&item_id=1' );
     var myBoughtPackJson = JSON.parse( myBoughtPackSite );

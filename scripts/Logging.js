@@ -1,6 +1,6 @@
 /**
-* Save info on cards to logs for writing later.
-*/
+ * Save info on cards to logs for writing later.
+ */
 function AddLogCards( aSection, aReward ) {
     var myString = getProperty( aSection );
     var myCount = getProperty( aSection + '_count' );
@@ -14,10 +14,9 @@ function AddLogCards( aSection, aReward ) {
     setProperty( aSection, myString );
     setProperty( aSection + '_count', parseInt( myCount ) + 1 );
 }
-
 /**
-* Updated Gui with Arena or Adventure energy.
-*/
+ * Updated Gui with Arena or Adventure energy.
+ */
 function updateEnergy( aCheck, aMax, aSection ) {
     var mySheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName( "Settings" );
     if ( aSection == 'Arena' ) {
@@ -26,10 +25,9 @@ function updateEnergy( aCheck, aMax, aSection ) {
         mySheet.getRange( "C6" ).setValue( 'Adventure Energy: ' + aCheck + '/' + aMax );
     }
 }
-
 /**
-* Update Gui with time to next check.
-*/
+ * Update Gui with time to next check.
+ */
 function updateNext( aCheck ) {
     var mySheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName( "Settings" );
     if ( aCheck == true ) {
@@ -38,11 +36,10 @@ function updateNext( aCheck ) {
         mySheet.getRange( "C7" ).setValue( 'Disabled at ' + formattedTime() );
     }
 }
-
 /**
-* Update Gui with time to next rumble.
-*/
-function updateNextRumble( aCheck,aTime ) {
+ * Update Gui with time to next rumble.
+ */
+function updateNextRumble( aCheck, aTime ) {
     var mySheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName( "Settings" );
     if ( aCheck == true ) {
         mySheet.getRange( "C8" ).setValue( 'Next Rumble Check ' + aTime );
@@ -50,10 +47,9 @@ function updateNextRumble( aCheck,aTime ) {
         mySheet.getRange( "C8" ).setValue( 'Disabled at ' + formattedTime() );
     }
 }
-
 /**
-* Save info on attack rewards to logs.
-*/
+ * Save info on attack rewards to logs.
+ */
 function addLog( aSection, aReward ) {
     var myRewards = parseRewards( aReward );
     var myString = ''
@@ -64,10 +60,9 @@ function addLog( aSection, aReward ) {
     setProperty( aSection, myString );
     setProperty( aSection + '_count', parseInt( myCount ) + 1 );
 }
-
 /**
-* Write logs to Logs in sheet.
-*/
+ * Write logs to Logs in sheet.
+ */
 function writeLogs( aSection, aRow ) {
     var myEmptyRow = getFirstEmptyRow();
     var myCount = 0
@@ -82,11 +77,10 @@ function writeLogs( aSection, aRow ) {
     setProperty( aSection, '' )
     setProperty( aSection + '_count', 0 );
 }
-
 /**
-* find the first empty row on logs for writing logs.
-* return first empty row
-*/
+ * find the first empty row on logs for writing logs.
+ * return first empty row
+ */
 function getFirstEmptyRow() {
     var spr = SpreadsheetApp.getActiveSpreadsheet().getSheetByName( "Logs" );
     var column = spr.getRange( 'A:A' );
@@ -97,13 +91,11 @@ function getFirstEmptyRow() {
     }
     return ( ct + 1 );
 }
-
-
 /**
-* Write Logs to sheet Logs.
-*/
-function WriteLogs() { 
-  var myCheck = false;
+ * Write Logs to sheet Logs.
+ */
+function WriteLogs() {
+    var myCheck = false;
     if ( getProperty( '_logs_RefillChallenge' + '_count' ) != 0 || "" ) {
         myCheck = true;
     }
@@ -122,7 +114,7 @@ function WriteLogs() {
     if ( getProperty( 'BuyCardAndRecycle' + '_count' ) != 0 || "" ) {
         myCheck = true;
     }
-     if ( getProperty( '_logs_Rumble' + '_count' ) != 0 || "" ) {
+    if ( getProperty( '_logs_Rumble' + '_count' ) != 0 || "" ) {
         myCheck = true;
     }
     if ( myCheck == true ) {
@@ -137,11 +129,10 @@ function WriteLogs() {
         writeLogs( '_time', 'A' );
     }
 }
-
 /**
-* Parse/Convert attack rewards to string.
-* return error/rewards string
-*/
+ * Parse/Convert attack rewards to string.
+ * return error/rewards string
+ */
 function parseRewards( aRewards ) {
     var ItemInfo = UrlFetchApp.fetch( getProperty( '_url' ) + '&message=useItem' );
     var ItemInfo_json = JSON.parse( ItemInfo );
