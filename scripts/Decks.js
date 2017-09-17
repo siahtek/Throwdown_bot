@@ -66,7 +66,7 @@ function loadUserDeck() {
     if ( myAuth == false ) {
         return false
     }
-    var myUrl = getProperty( '_url' );
+    var myUrl = getProperty( 'propUrl' );
     var mySheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName( "Custom Decks" );
     var myDeck = mySheet.getRange( "I" + ( parseInt( getProperty( 'SaveLocation' ) ) + 8 ) ).getValue();
     Logger.log( myDeck )
@@ -88,7 +88,7 @@ function loadUserDeck() {
  * return loaded deck
  */
 function getUserDeck( aDeck ) {
-    var myUrl = getProperty( '_url' );
+    var myUrl = getProperty( 'propUrl' );
     var myDeck = UrlFetchApp.fetch( myUrl + '&message=setDeckUnits' );
     var myDeckJson = JSON.parse( myDeck );
     var myDeck = myDeckJson.user_decks[ aDeck ].units;

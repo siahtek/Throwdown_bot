@@ -3,7 +3,7 @@
  * return false/rewards.
  */
 function playAdventure() {
-    var myUrl = getProperty( '_url' );
+    var myUrl = getProperty( 'propUrl' );
     if ( checkIfActive( myUrl ) == true ) {
         return false
     }
@@ -11,7 +11,7 @@ function playAdventure() {
     setDeck( myUrl, getProperty( 'Adventure Deck' ) );
     Logger.log( 'island: ' + myUrl + '&message=startMission&mission_id=' + getProperty( 'Island to farm' ) )
     var myReturn = playCard( myUrl + '&message=startMission&mission_id=' + getProperty( 'Island to farm' ) );
-    setDeck( myUrl, getProperty( '_deck' ) );
+    setDeck( myUrl, getProperty( 'propDeck' ) );
     return myReturn
 }
 /**
