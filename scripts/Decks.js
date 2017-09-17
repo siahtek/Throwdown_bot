@@ -1,7 +1,7 @@
 /**
 * Load needed function.
 */
-function UserDeckInit(){
+function initUserDeck(){
   theProperties = PropertiesService.getScriptProperties()
   theSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName( 'Settings' );
   loadUserSettings(); 
@@ -22,8 +22,8 @@ function UserDeckInit(){
 /**
 * Save deck to save location// Import
 */
-function SaveUserDeck() {
- var myAuth = UserDeckInit();
+function saveUserDeck() {
+ var myAuth = initUserDeck();
   if(myAuth == false){return false}
 var myDeck = getUserDeck(getProperty('DeckToSave'));
 var mySheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName( "Custom Decks" );
@@ -34,8 +34,8 @@ mySheet.getRange( "C6" ).setValue('Deck '+getProperty('DeckToSave')+' Saved to '
 /**
 * Show user deck from save.//Display
 */
-function DisplayUserDeck() {
- var myAuth = UserDeckInit();
+function displayUserDeck() {
+ var myAuth = initUserDeck();
   if(myAuth == false){return false}
 var mySheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName( "Custom Decks" );
 var myDeck = mySheet.getRange( "I"+(parseInt(getProperty('SaveLocation'))+8) ).getValue();
@@ -59,8 +59,8 @@ for ( var i = 10; i < 45; i++ ) {
 /**
 * Set selected deck to save// Export
 */
-function LoadUserDeck() {
- var myAuth = UserDeckInit();
+function loadUserDeck() {
+ var myAuth = initUserDeck();
   if(myAuth == false){return false}
 var myUrl = getProperty( '_url' );
 var mySheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName( "Custom Decks" );
