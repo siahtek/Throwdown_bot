@@ -75,9 +75,9 @@ function getCardRarity( aId ) {
     for ( var i = 0; i < myEntries.length; i++ ) {
         var myId = myEntries[ i ].getChild( 'id' ).getText();
         if ( myId == aId ) {
-            var GetRarity = myEntries[ i ].getChild( 'rarity' ).getText();
-            var GetName = myEntries[ i ].getChild( 'name' ).getText();
-            return [ GetRarity, GetName ];
+            var myRarity = myEntries[ i ].getChild( 'rarity' ).getText();
+            var myName = myEntries[ i ].getChild( 'name' ).getText();
+            return [ myRarity, myName ];
         }
     }
     myDoc = XmlService.parse( theXmlCombo );
@@ -86,9 +86,9 @@ function getCardRarity( aId ) {
     for ( var i = 0; i < myEntries.length; i++ ) {
         var myId = myEntries[ i ].getChild( 'id' ).getText();
         if ( myId == aId ) {
-            var GetRarity = myEntries[ i ].getChild( 'rarity' ).getText();
-            var GetName = myEntries[ i ].getChild( 'name' ).getText();
-            return [ GetRarity, GetName ];
+            var myRarity = myEntries[ i ].getChild( 'rarity' ).getText();
+            var myName = myEntries[ i ].getChild( 'name' ).getText();
+            return [ myRarity, myName ];
         }
     }
     myDoc = XmlService.parse( theXmlMythic );
@@ -97,9 +97,9 @@ function getCardRarity( aId ) {
     for ( var i = 0; i < myEntries.length; i++ ) {
         var myId = myEntries[ i ].getChild( 'id' ).getText();
         if ( myId == aId ) {
-            var GetRarity = myEntries[ i ].getChild( 'rarity' ).getText();
-            var GetName = myEntries[ i ].getChild( 'name' ).getText();
-            return [ GetRarity, 'Mythic ' + GetName ];
+            var myRarity = myEntries[ i ].getChild( 'rarity' ).getText();
+            var myName = myEntries[ i ].getChild( 'name' ).getText();
+            return [ myRarity, 'Mythic ' + myName ];
         }
     }
     return [ 9, 'Unknown' ];
