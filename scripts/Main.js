@@ -25,8 +25,8 @@ function onOpen() {
     .addToUi();
    ui.createMenu( 'Custom Decks' )
     .addSeparator()
-    .addItem( 'Import to sheet', 'SaveUserDeck' )
-    .addItem( 'Export to throwdown', 'LoadUserDeck' )
+    .addItem( 'Import to sheet', 'ImportToSheet' )
+    .addItem( 'Export to throwdown', 'ExportToThrowdown' )
     .addItem( 'Display in sheet', 'DisplayUserDeck' )
     .addToUi();
 }
@@ -35,12 +35,12 @@ function onOpen() {
  * On edit for Mobile controls.
  */
 function onEditCustom(e) {
-  if (e.range.getA1Notation() == 'H4') {
+  if (e.range.getA1Notation() == 'I4') {
    var myValue = e.range.getValue();
     e.range.setValue('Loading task');
-    if(myValue == 'Import to sheet'){saveUserDeck()}
-    if(myValue == 'Export to throwdown'){loadUserDeck()}
-    if(myValue == 'Display in sheet'){displayUserDeck()}
+    if(myValue == 'Import to sheet'){ImportToSheet()}
+    if(myValue == 'Export to throwdown'){ExportToThrowdown()}
+    if(myValue == 'Display in sheet'){DisplayUserDeck()}
     e.range.setValue('Select a task');
     return
   }
