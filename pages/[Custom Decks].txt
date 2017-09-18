@@ -1,4 +1,5 @@
-
+#Edited "custom decks" sheet
+#https://docs.google.com/spreadsheets/d/1_0OfpY3w7tI9RhSIhW6UbGnXs7_tXtxC1gw4LLgpmek/edit?usp=sharing
 
 				Options	
 	Deck to import or export		1
