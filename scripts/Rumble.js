@@ -20,21 +20,26 @@ function enableRumble() {
 /**
 * Update Trigger.
 */
+
 function Rumble_update() {
-    theProperties = PropertiesService.getScriptProperties()
+  theProperties = PropertiesService.getScriptProperties()
   theSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName( 'Settings' );
   var myTriggers = ScriptApp.getProjectTriggers();
-  for ( var i = 0; i < myTriggers.length; i++ ) {
-    if ( myTriggers[ i ].getHandlerFunction() == 'Rumble_loaded' ) {
-      ScriptApp.deleteTrigger( myTriggers[ i ] );
-    }
-  }
   var myRumbleTime = getRumbleTime();
-  if(myRumbleTime != false){
-    ScriptApp.newTrigger("Rumble_loaded").timeBased().at(myRumbleTime).create();
+  if(myRumbleTime != getProperty('myRumbleTime')){
+    for ( var i = 0; i < myTriggers.length; i++ ) {
+      if ( myTriggers[ i ].getHandlerFunction() == 'Rumble_loaded' ) {
+        ScriptApp.deleteTrigger( myTriggers[ i ] );
+      }
+    }
+    if(myRumbleTime != false){
+      ScriptApp.newTrigger("Rumble_loaded").timeBased().at(myRumbleTime).create();
+    }
+    setProperty('myRumbleTime',myRumbleTime+"")
   }
+  
   if(checkTrigger( 'Rumble_update' ) == false){
-  ScriptApp.newTrigger( 'Rumble_update' ).timeBased().everyMinutes( 30 ).create();
+    ScriptApp.newTrigger( 'Rumble_update' ).timeBased().everyMinutes( 30 ).create();
   }
   updateNextRumble(true,formattedTimeDate(myRumbleTime))
 }
