@@ -12,8 +12,8 @@ function loadUserSettings() { //Read settings
 	//	load and bulk save user settings to google.
     myProperties.setProperties( { 
         //User info
-        'User_ID': getSetting( myRange, 'User_ID' ),
-        'User_Token': getSetting( myRange, 'User_Token' ),
+        'User_ID': getSetting( myRange, 'Username/Email' ),
+        'User_Token': getSetting( myRange, 'Password' ),
         //Options
         'Energy Check': getSetting( myRange, 'Energy Check' ),
         'Energy Check section': getSetting( myRange, 'Energy Check section' ),
@@ -99,23 +99,96 @@ function convertIsland( aInfo ) {
 }
 
 /**
+* Converts Kong login to Kong token
+* return KongID,KongToken
+*/
+function convertKongLogin(aUserName,aPassword){
+  
+   var mypayload = {
+        "username" : aUserName,
+        "password" : aPassword,
+        "game_id" : "271381"
+  }; 
+  
+    var myoptions = {
+        "payload" : mypayload,
+        "method" : "POST",
+        "followRedirects" : false
+      };
+ 
+  var myUrl = 'https://www.kongregate.com/session';
+var myResult = UrlFetchApp.fetch(myUrl, myoptions); 
+var cookie = myResult.getAllHeaders()['Set-Cookie'];     
+var myUrl = myResult.getHeaders()['Location']
+ for (var i = 0; i < cookie.length; i++) {
+    cookie[i] = cookie[i].split( ';' )[0];
+  };
+   var myoptions = {
+    "method" : "get", 
+    "headers": {
+      "Cookie": cookie.join(';')
+    },
+    "followRedirects" : false    
+  };
+  
+var myResult = UrlFetchApp.fetch(myUrl, myoptions);
+   var myCookieJson = JSON.parse( myResult );
+  var myID = myCookieJson.user_id
+  var myPASS = myCookieJson.game_auth_token
+  if(myID != null){
+  return [myID ,myPASS]
+  }else{
+    return [false ,false]
+  }
+}
+
+/**
+* Converts Kong Token to Synapse Hash
+* return SynapseID,SynapseHash
+*/
+function convertKongToken(aID,aToken){
+   var KONGURL = 'https://cb-live.synapse-games.com/api.php?';
+    var myUserAuth = UrlFetchApp.fetch( KONGURL + 'message=getUserAccount&kong_id=' + aID + '&kong_token=' + aToken );
+    var myUserAuthJson = JSON.parse( myUserAuth );
+    var myUserId = myUserAuthJson.new_user;
+    var myUserPass = myUserAuthJson.new_password;
+    var myResult = myUserAuthJson.result;
+  if ( myResult == true ) {
+    return [false,false]
+  }
+  return [myUserId,myUserPass]
+}
+
+/**
 * Check if user login is valid and generate user URL.
 * return true/false
 */
 function authenticateUser( aId, aToken ) { //Check if use is valid & create user myUrl
-    var KONGURL = 'https://cb-live.synapse-games.com/api.php?';
-    var myUserAuth = UrlFetchApp.fetch( KONGURL + 'message=getUserAccount&kong_id=' + aId + '&kong_token=' + aToken );
-    var myUserAuthJson = JSON.parse( myUserAuth );
-    var myUserId = myUserAuthJson.new_user;
-    var myUserPass = myUserAuthJson.new_password;
-    var myUserName = myUserAuthJson.new_name;
-    var myResult = myUserAuthJson.result;
-      if ( myResult == true ) {
-        updateStatus( 'Login failed.. Check User_ID & User_Token ' + formattedTime() );
+ var myConvertKong = convertKongLogin(aId,aToken)
+ if(myConvertKong[0] != false){
+   aId = myConvertKong[0]+''
+   aToken = myConvertKong[1]+''
+ }
+  
+ var myConvert = convertKongToken(aId,aToken)
+ if(myConvert[0] != false){
+   aId = myConvert[0]+''
+   aToken = myConvert[1]+''
+ }
+  
+ var myURLtmp = 'https://cb-live.synapse-games.com/api.php?';
+ var myUserAuth = UrlFetchApp.fetch( myURLtmp + 'message=getUserAccount&user_id=' + aId + '&password=' + aToken );
+ var myUserAuthJson = JSON.parse( myUserAuth );
+ var myCheck = myUserAuthJson.result;
+ var myUserName = myUserAuthJson.user_data.name;
+  if(myCheck == true){
+    Logger.log('Login Failed')
+        updateStatus( 'Login failed.. Check Login info ' + formattedTime() );
         Logger.log( 'User Auth fail' );
         return false
-    }
-    var myUrl = KONGURL + 'user_id=' + myUserId + '&password=' + myUserPass;
+  }
+    
+    var myUrl = myURLtmp + 'user_id=' + aId + '&password=' + aToken;
     setProperty( '_url', myUrl );
     setProperty( '_name', myUserName );
   

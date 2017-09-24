@@ -11,6 +11,7 @@ function enableRumble() {
   }
   Rumble_update()
   var myRumbleTime = getRumbleTime();
+ 
   if(myRumbleTime != false){
     updateNextRumble(true,formattedTimeDate(myRumbleTime))
     updateStatus( 'Account ' + getProperty( '_name' ) + ' Rumble Enabled' );
@@ -20,12 +21,19 @@ function enableRumble() {
 /**
 * Update Trigger.
 */
-
 function Rumble_update() {
   theProperties = PropertiesService.getScriptProperties()
   theSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName( 'Settings' );
   var myTriggers = ScriptApp.getProjectTriggers();
+    if(checkTrigger( 'Rumble_update' ) == false){
+    ScriptApp.newTrigger( 'Rumble_update' ).timeBased().everyMinutes( 30 ).create();
+  }
+  
   var myRumbleTime = getRumbleTime();
+  if(myRumbleTime == false){
+     theSheet.getRange( "C8" ).setValue( 'Enabled, Waiting for next rumble. ' );
+    return false
+  }
   if(myRumbleTime != getProperty('myRumbleTime')){
     for ( var i = 0; i < myTriggers.length; i++ ) {
       if ( myTriggers[ i ].getHandlerFunction() == 'Rumble_loaded' ) {
@@ -38,9 +46,7 @@ function Rumble_update() {
     setProperty('myRumbleTime',myRumbleTime+"")
   }
   
-  if(checkTrigger( 'Rumble_update' ) == false){
-    ScriptApp.newTrigger( 'Rumble_update' ).timeBased().everyMinutes( 30 ).create();
-  }
+
   updateNextRumble(true,formattedTimeDate(myRumbleTime))
 }
 
@@ -58,7 +64,7 @@ function getRumbleTime() {
     var myEndTime = myRumbleJson.guild_war_current_match.end_time;
     var myRumbleTime = new Date((myEndTime - (myPanicTime * 60)) * 1000);
     return myRumbleTime;
-  }else{false}
+  }else{return false}
 }
 
 /**
