@@ -1,22 +1,25 @@
 - [x] Add TODO
-- [ ] Enhance/create GUI
 - [ ] Enhance custom deck page
-- [ ] Create mobile app
-- [ ] Find alternative to Google sheets
 - [ ] Automate combo research
 - [ ] Automate swole training
 - [ ] Automate swole fighting
-- [ ] Add option to only run challenges X time before they finish
-- [ ] Automate siege
-- [ ] Create a donation link
-- [ ] Create a self-contained website
-- [ ] Onload create trigger (does this mean automatically enable upon first load?)
-- [ ] Add option to use energy/stamina refills
+- [X] Add option to only run challenges X time before they finish (done, not committed)
+- [ ] Automate siege (Almost done, not committed)
+- [X] Create a donation link (done, not committed)
+- [ ] Add option to use energy/stamina refills -> still Broke from what i can tell.
 - [ ] Enhance error catching
 - [ ] Enhance logging - add token reward info for arena battles (done, not committed)
 - [ ] Enhance logging - color-code "card buy" cell to denote card rarity (done, not committed)
 - [ ] Update readme
-- [ ] Individual energy check options
+- [X] Individual energy check options (done, not committed)
 - [ ] Refactor energy check - change from array to object (done, not committed)
-- [ ] Hide password after use
-- [ ] Fix energy check function
+- [X] Hide password after use (done, not committed)
+- [X] Fix energy check function (done, not committed)
+- [ ] Import/Export settings
+
+- Ideas -
+- [ ] Create mobile app
+- [ ] Find alternative to Google sheets
+- [ ] Enhance/create GUI
+- [ ] Create a self-contained website
+- [ ] Onload create trigger (My research says it cant be done.)
