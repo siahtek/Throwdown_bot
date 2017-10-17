@@ -1,5 +1,6 @@
+- Active
 - [x] Add TODO
-- [ ] Enhance custom deck page
+- [X] Enhance custom deck page (done, not committed)
 - [ ] Automate combo research
 - [ ] Automate swole training
 - [ ] Automate swole fighting
@@ -17,7 +18,7 @@
 - [X] Fix energy check function (done, not committed)
 - [ ] Import/Export settings
 
-- Ideas -
+- Ideas
 - [ ] Create mobile app
 - [ ] Find alternative to Google sheets
 - [ ] Enhance/create GUI
