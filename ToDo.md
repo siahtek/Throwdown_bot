@@ -1,0 +1,22 @@
+- [x] Add TODO
+- [ ] Enhance/create GUI
+- [ ] Enhance custom deck page
+- [ ] Create mobile app
+- [ ] Find alternative to Google sheets
+- [ ] Automate combo research
+- [ ] Automate swole training
+- [ ] Automate swole fighting
+- [ ] Add option to only run challenges X time before they finish
+- [ ] Automate siege
+- [ ] Create a donation link
+- [ ] Create a self-contained website
+- [ ] Onload create trigger (does this mean automatically enable upon first load?)
+- [ ] Add option to use energy/stamina refills
+- [ ] Enhance error catching
+- [ ] Enhance logging - add token reward info for arena battles (done, not committed)
+- [ ] Enhance logging - color-code "card buy" cell to denote card rarity (done, not committed)
+- [ ] Update readme
+- [ ] Individual energy check options
+- [ ] Refactor energy check - change from array to object (done, not committed)
+- [ ] Hide password after use
+- [ ] Fix energy check function
