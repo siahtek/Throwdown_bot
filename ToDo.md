@@ -5,15 +5,15 @@
 - [ ] Automate swole training
 - [ ] Automate swole fighting
 - [X] Add option to only run challenges X time before they finish (done, not committed)
-- [ ] Automate siege (Almost done, not committed)
+- [x] Automate siege (Almost done, not committed)
 - [X] Create a donation link (done, not committed)
 - [ ] Add option to use energy/stamina refills -> still Broke from what i can tell.
 - [ ] Enhance error catching
-- [ ] Enhance logging - add token reward info for arena battles (done, not committed)
-- [ ] Enhance logging - color-code "card buy" cell to denote card rarity (done, not committed)
+- [x] Enhance logging - add token reward info for arena battles (done, not committed)
+- [x] Enhance logging - color-code "card buy" cell to denote card rarity (done, not committed)
 - [ ] Update readme
 - [X] Individual energy check options (done, not committed)
-- [ ] Refactor energy check - change from array to object (done, not committed)
+- [x] Refactor energy check - change from array to object (done, not committed)
 - [X] Hide password after use (done, not committed)
 - [X] Fix energy check function (done, not committed)
 - [ ] Import/Export settings
