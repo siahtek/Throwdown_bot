@@ -1,22 +1,24 @@
-- Active
-- [x] Add TODO
-- [X] Enhance custom deck page (done, not committed)
+- Todo
 - [ ] Automate combo research
 - [ ] Automate swole training
 - [ ] Automate swole fighting
+- [ ] Add option to use energy/stamina refills -> still Broke from what i can tell.
+- [ ] Enhance error catching
+- [ ] Update readme
+- [ ] Import/Export settings
+
+- Finished
+- [x] Add TODO
+- [X] Enhance custom deck page (done, not committed)
 - [X] Add option to only run challenges X time before they finish (done, not committed)
 - [x] Automate siege (Almost done, not committed)
 - [X] Create a donation link (done, not committed)
-- [ ] Add option to use energy/stamina refills -> still Broke from what i can tell.
-- [ ] Enhance error catching
-- [x] Enhance logging - add token reward info for arena battles (done, not committed)
-- [x] Enhance logging - color-code "card buy" cell to denote card rarity (done, not committed)
-- [ ] Update readme
 - [X] Individual energy check options (done, not committed)
 - [x] Refactor energy check - change from array to object (done, not committed)
 - [X] Hide password after use (done, not committed)
 - [X] Fix energy check function (done, not committed)
-- [ ] Import/Export settings
+- [x] Enhance logging - add token reward info for arena battles (done, not committed)
+- [x] Enhance logging - color-code "card buy" cell to denote card rarity (done, not committed)
 
 - Ideas
 - [ ] Create mobile app
