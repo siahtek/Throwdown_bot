@@ -20,43 +20,60 @@ function UserDeckInit(){
 }
 
 /**
-* Save deck to save location// Import
+* Save deck to save location  // Import
 */
 function ImportToSheet() {
- var myAuth = UserDeckInit();
+  var myAuth = UserDeckInit();
   if(myAuth == false){return false}
-var myDeck = getUserDeck(getProperty('GameDeck'));
-var mySheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName( "Custom Decks" );
-mySheet.getRange( "H"+(parseInt(getProperty('SheetDeck'))+9) ).setValue(myDeck.name);
-mySheet.getRange( "I"+(parseInt(getProperty('SheetDeck'))+9) ).setValue(myDeck.commander);
-mySheet.getRange( "J"+(parseInt(getProperty('SheetDeck'))+9) ).setValue(myDeck.units);
-mySheet.getRange( "C6" ).setValue('Deck '+getProperty('GameDeck')+' Saved to '+getProperty('SheetDeck'));
+  var myDeck = getUserDeck(getProperty('GameDeck'));
+  var mySheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName( "Custom Decks" );
+  mySheet.getRange( "H"+(parseInt(getProperty('SheetDeck'))+9) ).setValue(myDeck.name);
+  mySheet.getRange( "I"+(parseInt(getProperty('SheetDeck'))+9) ).setValue(myDeck.commander);
+  mySheet.getRange( "J"+(parseInt(getProperty('SheetDeck'))+9) ).setValue(myDeck.units);
+  mySheet.getRange( "C6" ).setValue('Deck '+getProperty('GameDeck')+' Saved to '+getProperty('SheetDeck'));
+}
+
+/**
+* Save all decks to 1/2/3  // Import
+*/
+function ImportAllToSheet() {
+  var myAuth = UserDeckInit();
+  if (myAuth == false) {return false}
+  for (var deck=1; deck <= 3; deck++) {
+    var myDeck = getUserDeck(deck);
+    var mySheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName( "Custom Decks" );
+    mySheet.getRange( "C6" ).setValue('Saving game deck ' + deck + ' to sheet deck '+ deck);
+    mySheet.getRange( "H"+(parseInt(deck)+9) ).setValue(myDeck.name);
+    mySheet.getRange( "I"+(parseInt(deck)+9) ).setValue(myDeck.commander);
+    mySheet.getRange( "J"+(parseInt(deck)+9) ).setValue(myDeck.units);
+    mySheet.getRange( "C6" ).setValue('All decks saved.');
+  }
 }
 
 /**
 * Show user deck from save.//Display
 */
 function DisplayUserDeck() {
- var myAuth = UserDeckInit();
+  var myAuth = UserDeckInit();
   if(myAuth == false){return false}
-var mySheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName( "Custom Decks" );
-var myDeckName = mySheet.getRange( "H"+(parseInt(getProperty('SheetDeck'))+9) ).getValue();
-var myDeck = mySheet.getRange( "J"+(parseInt(getProperty('SheetDeck'))+9) ).getValue();
+  var mySheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName( "Custom Decks" );
+  var myDeckName = mySheet.getRange( "H"+(parseInt(getProperty('SheetDeck'))+9) ).getValue();
+  var myDeck = mySheet.getRange( "J"+(parseInt(getProperty('SheetDeck'))+9) ).getValue();
   if(myDeck == ""){
-   mySheet.getRange( "C6" ).setValue('No deck found at save location '+getProperty('SheetDeck'));
-  return;
+    mySheet.getRange( "C6" ).setValue('No deck found at save location '+getProperty('SheetDeck'));
+    return;
   }
-myDeck = myDeck.split(',');
-mySheet.getRange( "C8" ).setValue('Loading deck: '+getProperty('SheetDeck'));
-mySheet.getRange( "C9" ).setValue('Deck Name: Loading...');
+  myDeck = myDeck.split(',');
+  mySheet.getRange( "C8" ).setValue('Loading deck: '+getProperty('SheetDeck'));
+  mySheet.getRange( "C9" ).setValue('Deck Name: Loading...');
   for ( var i = 11; i < 45; i++ ) {
-  if(myDeck[i-9] != null){
-  mySheet.getRange( "C"+i ).setValue(myDeck[i-9].split(':')[2]);
-  mySheet.getRange( "D"+i ).setValue(myDeck[i-9].split(':')[1]);  
-  }else{
-    mySheet.getRange( "C"+i ).setValue('') 
+    if(myDeck[i-9] != null){
+      mySheet.getRange( "C"+i ).setValue(myDeck[i-9].split(':')[2]);
+      mySheet.getRange( "D"+i ).setValue(myDeck[i-9].split(':')[1]);  
+    } else {
+      mySheet.getRange( "C"+i ).setValue('') 
+    }
   }
-}
   mySheet.getRange( "C8" ).setValue('Deck Display #'+getProperty('SheetDeck'));
   mySheet.getRange( "C9" ).setValue('Deck Name: '+myDeckName) 
 }
@@ -96,7 +113,7 @@ function getUserDeck(aDeck) {
   var myUrl = getProperty( '_url' );
   var myDeck = UrlFetchApp.fetch( myUrl + '&message=setDeckUnits' );
   var myDeckJson = JSON.parse( myDeck );
-   var myCards = myDeckJson.user_decks[ aDeck ].units;
+  var myCards = myDeckJson.user_decks[ aDeck ].units;
   var myDeck = {name:myDeckJson.user_decks[ aDeck ].name, commander:myDeckJson.user_decks[ aDeck ].commander.unit_id, units:""};
   var cardList = "";
   for ( var i = 0; i < myCards.length; i++ ) {
