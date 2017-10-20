@@ -117,7 +117,7 @@ function setDeck( aUrl, aDeck ) {
 */
 function checkAchievements( aUrl, aId ) {
     //5001 - Daily - Nine to Five
-    //5007 - Daily - playAdventure Battles
+    //5007 - Daily - Adventure Battles
     //5008 - Daily - To The Arena
     //5009 - Daily - Upgrade Cards
     //5010 - Daily - Buy Packs
