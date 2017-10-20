@@ -4,19 +4,24 @@
 */
 function loadUserSettings() { //Read settings
     var mySheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName( 'Settings' );
-    var myRange = mySheet.getRange( "C1:D80" ).getValues();
+    var myRange = mySheet.getRange( "C1:D97" ).getValues();
     var myProperties = PropertiesService.getScriptProperties();
     var myXml = UrlFetchApp.fetch( 'https://cb-live.synapse-games.com/assets/cards.xml' ).getContentText();
     var mySearch = getCharacterTokens(myRange);
     createOnEditTrigger()
 	//	load and bulk save user settings to google.
-    myProperties.setProperties( { 
-        //User info
+    if(getSetting( myRange, 'Password' ) != '******'){
+        myProperties.setProperties( { 
         'User_ID': getSetting( myRange, 'Username/Email' ),
-        'User_Token': getSetting( myRange, 'Password' ),
+        'User_Token': getSetting( myRange, 'Password' )
+        })
+        var myPos = getSettingPOS( myRange, 'Password' )
+        mySheet.getRange( "D"+myPos ).setValue("******");
+    }  
+  
+    myProperties.setProperties( { 
         //Options
         'Energy Check': getSetting( myRange, 'Energy Check' ),
-        'Energy Check section': getSetting( myRange, 'Energy Check section' ),
         'Ad Crate': getSetting( myRange, 'Ad Crate' ),
         'Ad Boost': getSetting( myRange, 'Ad Boost' ),
         //Cards
@@ -26,9 +31,13 @@ function loadUserSettings() { //Read settings
         'Auto Buy/Upgrade Mission': getSetting( myRange, 'Auto Buy/Upgrade Mission' ),
         //Refill Challenge
         'Auto Refill Challenge': getSetting( myRange, 'Auto Refill Challenge' ),
+        'Refill Challenge Energy check': getSetting( myRange, 'Refill Challenge Energy check' ),
+        'Refill Challenge Delay': getSetting( myRange, 'Refill Challenge Delay' ),
         'Refill Challenge Deck': getSetting( myRange, 'Refill Challenge Deck' ),
         //Non-Refill Challenge
         'Auto Non-Refill Challenge': getSetting( myRange, 'Auto Non-Refill Challenge' ),
+        'Non-Refill Challenge Energy Check': getSetting( myRange, 'Non-Refill Challenge Energy Check' ),
+        'Non-Refill Challenge Delay': getSetting( myRange, 'Non-Refill Challenge Delay' ),
         'Non-Refill Challenge Deck': getSetting( myRange, 'Non-Refill Challenge Deck' ),
         //Rumble
         'Rumble Deck': getSetting( myRange, 'Rumble Deck' ),
@@ -36,10 +45,12 @@ function loadUserSettings() { //Read settings
         'Panic time': getSetting( myRange, 'Panic time' ),
         //Adventure
         'Auto Adventure': getSetting( myRange, 'Auto Adventure' ),
+        'Adventure Energy Check': getSetting( myRange, 'Adventure Energy Check' ),
         'Adventure Deck': getSetting( myRange, 'Adventure Deck' ),
         'Island to farm': convertIsland( getSetting( myRange, 'Island to farm' ) ) + '',
         //Arena
         'Auto Arena': getSetting( myRange, 'Auto Arena' ),
+        'Arena Energy Check': getSetting( myRange, 'Arena Energy Check' ),
         'Arena Deck': getSetting( myRange, 'Arena Deck' ),
         //Token Search
         'Token Search': getSetting( myRange, 'Token Search' ),
@@ -67,9 +78,25 @@ function loadUserSettings() { //Read settings
         'BuyCardAndRecycle_count': 0,
         'BuyCardAndUpgrade': '',
         'BuyCardAndUpgrade_count': 0,
-      
+         //Siege
+        'Auto Siege': getSetting( myRange, 'Auto Siege' ),
+        'Siege Energy Check': getSetting( myRange, 'Siege Energy Check' ),
+        'Siege Deck': getSetting( myRange, 'Siege Deck' ),
+        'Siege Delay': getSetting( myRange, 'Siege Delay' ),
+        'Island to Attack': getSetting( myRange, 'Island to Attack' )
     } )
     return true
+}
+/**
+* Searches the sheet for the settings location and sets the setting.
+* Return settings Location
+*/
+function getSettingPOS( aArray, aSetting ) {
+  for ( var i = 0; i < aArray.length; i++ ) {
+    if ( aArray[ i ][ 0 ] == aSetting ) {
+      return i+1
+    }
+  }
 }
 
 /**

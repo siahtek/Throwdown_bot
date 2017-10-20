@@ -48,11 +48,11 @@ var myDeck = mySheet.getRange( "J"+(parseInt(getProperty('SheetDeck'))+9) ).getV
   }
 myDeck = myDeck.split(',');
 mySheet.getRange( "C8" ).setValue('Loading deck: '+getProperty('SheetDeck'));
-mySheet.getRange( "C9" ).setValue('');
-  for ( var i = 10; i < 45; i++ ) {
+mySheet.getRange( "C9" ).setValue('Deck Name: Loading...');
+  for ( var i = 11; i < 45; i++ ) {
   if(myDeck[i-9] != null){
-  mySheet.getRange( "C"+i ).setValue(myDeck[i-9].split(':')[1]);
-   
+  mySheet.getRange( "C"+i ).setValue(myDeck[i-9].split(':')[2]);
+  mySheet.getRange( "D"+i ).setValue(myDeck[i-9].split(':')[1]);  
   }else{
     mySheet.getRange( "C"+i ).setValue('') 
   }
@@ -97,15 +97,15 @@ function getUserDeck(aDeck) {
   var myDeck = UrlFetchApp.fetch( myUrl + '&message=setDeckUnits' );
   var myDeckJson = JSON.parse( myDeck );
    var myCards = myDeckJson.user_decks[ aDeck ].units;
-   //var myCommander = myDeckJson.user_decks[ aDeck ].commander.unit_id;
   var myDeck = {name:myDeckJson.user_decks[ aDeck ].name, commander:myDeckJson.user_decks[ aDeck ].commander.unit_id, units:""};
   var cardList = "";
   for ( var i = 0; i < myCards.length; i++ ) {
     var myID = myCards[i].unit_id;
+    var myLevel = myCards[i].level;
     var myIndex = myCards[i].unit_index;
     Logger.log(myID);
     var myCardInfo = getCardRarity(myID);
-    cardList = cardList + ','+myIndex+':'+myCardInfo[1] 
+    cardList = cardList + ','+myIndex+':'+myLevel+':'+myCardInfo[1] 
   }
   myDeck.units = cardList.substr(1);
 return myDeck

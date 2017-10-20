@@ -12,8 +12,8 @@ function buyAndUpgradeCards() {
             var myUpgradedCard = upgradeCard( myUrl, myCardInfo[ 1 ] );
             if ( myCardInfo[ 0 ] <= getProperty( 'Cards rarities to recycle' ) ) {
                 var myrecycledCard = recycleCard( myUrl, myCardInfo[ 1 ] );
-                Logger.log( 'Rarity:' + myCardInfo[ 0 ] + ',Card:' + myCardInfo[ 3 ] + ',Wats:' + myrecycledCard );
-                AddLogCards( 'BuyCardAndUpgrade', 'Rarity:' + myCardInfo[ 0 ] + ',Card:' + myCardInfo[ 3 ] + ',Wats:' + myrecycledCard )
+                Logger.log( 'Rarity:' + myCardInfo[ 0 ] + ',Card:' + myCardInfo[ 3 ] + ',Watts:' + myrecycledCard );
+                AddLogCards( 'BuyCardAndUpgrade', 'Rarity:' + myCardInfo[ 0 ] + ',Card:' + myCardInfo[ 3 ] + ',Watts:' + myrecycledCard )
             } else {
                 Logger.log( 'Rarity:' + myCardInfo[ 0 ] + ' Card:' + myCardInfo[ 3 ] );
                 AddLogCards( 'BuyCardAndUpgrade', 'Rarity:' + myCardInfo[ 0 ] + ',Card:' + myCardInfo[ 3 ] )
@@ -31,20 +31,29 @@ function buyAndUpgradeCards() {
 */
 function buyAndRecycleCards() {
     var myMoney = Math.round( getMoney() / 1000 ) * 1000; //Get current money and round to nearest thousand.
-    var myMathZ = ( myMoney - getProperty( 'Auto buy limit' ) ) / 1000; //Get the amount of cards you can buy,
-    if ( myMathZ <= 0 ) {
-        return false
+    var cardsICanAfford = ( myMoney - getProperty( 'Auto buy limit' ) ) / 1000; //Get the amount of cards you can buy,
+    var freeCardSpace = getFreeCardSpace();
+    if ( cardsICanAfford <= 0 ) {
+        Logger.log('Not enough money to spend on cards (' + myMoney + ').');
+        return false;
     }
+    if (freeCardSpace <= 0) {
+        Logger.log('Not enough card room for new cards (' + freeCardSpace + ' open slots).');
+        return false;
+    }
+    Logger.log('I can afford ' + cardsICanAfford + ' cards.');
+    var cardsToBuy = Math.min(cardsICanAfford, freeCardSpace);
+    Logger.log('Attempting to buy ' + cardsToBuy + ' cards.');
     var myUrl = getProperty( '_url' );
-    for ( var z = 0; z < myMathZ; z++ ) {
+    for ( var z = 0; z < cardsToBuy; z++ ) {
         updateStatus( 'Account ' + getProperty( '_name' ) + ' Buying & Recycling cards ' + formattedTime() );
         var myBoughtCard = buyCard( myUrl, theXml );
         for ( var i = 1; i < myBoughtCard.length; i++ ) {
             var myCardInfo = myBoughtCard[ i ].split( ',' );
             if ( myCardInfo[ 0 ] <= getProperty( 'Cards rarities to recycle' ) ) {
                 var myRecycledCard = recycleCard( myUrl, myCardInfo[ 1 ] );
-                AddLogCards( 'BuyCardAndRecycle', 'Rarity:' + myCardInfo[ 0 ] + ',Card:' + myCardInfo[ 3 ] + ',Wats:' + myRecycledCard )
-                Logger.log( 'Rarity:' + myCardInfo[ 0 ] + ' Card:' + myCardInfo[ 3 ] + ' Wats:' + myRecycledCard );
+                AddLogCards( 'BuyCardAndRecycle', 'Rarity:' + myCardInfo[ 0 ] + ',Card:' + myCardInfo[ 3 ] + ',Watts:' + myRecycledCard )
+                Logger.log( 'Rarity:' + myCardInfo[ 0 ] + ' Card:' + myCardInfo[ 3 ] + ' Watts:' + myRecycledCard );
             } else {
                 AddLogCards( 'BuyCardAndRecycle', 'Rarity:' + myCardInfo[ 0 ] + ',Card:' + myCardInfo[ 3 ] )
                 Logger.log( 'Rarity:' + myCardInfo[ 0 ] + ' Card:' + myCardInfo[ 3 ] );
@@ -61,9 +70,9 @@ function buyAndRecycleCards() {
 */
 function getMoney() {
     var myUrl = getProperty( '_url' );
-    var myEnergy = UrlFetchApp.fetch( myUrl + '&message=getUserAccount' );
-    var myEnergyJson = JSON.parse( myEnergy );
-    var myMoney = myEnergyJson.user_data.money
+    var userAccount = UrlFetchApp.fetch( myUrl + '&message=getUserAccount' );
+    var userAccountJson = JSON.parse( userAccount );
+    var myMoney = userAccountJson.user_data.money
     return myMoney
 }
 
@@ -147,4 +156,15 @@ function buyCard( aUrl, aXml ) { // 1 = Rarity, 2 = Index, 3 = item id
         myCards = myCards + '|' + [ myRarity[ 0 ], myUnitIndex, myUnitId, myRarity[ 1 ] ]
     }
     return myCards.split( '|' )
+}
+
+function getFreeCardSpace() {
+    var myUrl = getProperty( '_url' );
+    var init = UrlFetchApp.fetch( myUrl + '&message=init' );
+    var initJson = JSON.parse( init );
+    var maxCards = initJson.config_data.max_inventory_size;
+    var userAccount = UrlFetchApp.fetch( myUrl + '&message=getUserAccount' );
+    var userAccountJson = JSON.parse( userAccount );
+    var ownedCards = userAccountJson.common_fields.total_card_count
+    return (maxCards - ownedCards);
 }

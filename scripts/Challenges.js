@@ -29,6 +29,22 @@ function playNonRefillChallenge() {
     setDeck( myUrl, getProperty( '_deck' ) )
     return myChallenge
 }
+/**
+* Gets challenge time left
+* return challenge time left
+*/
+function getChallengeTimeLeft( aUrl, aId ) { 
+    var myEventsSite = UrlFetchApp.fetch( aUrl + '&message=startChallenge' );
+    var myEventsJson = JSON.parse( myEventsSite );
+    var myTime = myEventsJson.time;
+    var myRechargeTime = myEventsJson.active_events[ aId ].challenge_data.energy.recharge_time;
+    var myLastRechargeTime = myEventsJson.active_events[ aId ].challenge_data.energy.last_recharge_time;
+    var myEndTime = myLastRechargeTime+myRechargeTime-3600
+    if(myEndTime < myTime){
+      return true
+    }
+    return false
+}
 
 /**
 * Gets challenge ID from challenge token
