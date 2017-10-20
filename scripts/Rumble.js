@@ -31,7 +31,7 @@ function Rumble_update() {
   
   var myRumbleTime = getRumbleTime();
   if(myRumbleTime == false){
-     theSheet.getRange( "C8" ).setValue( 'Enabled, Waiting for next rumble. ' );
+     theSheet.getRange( "C9" ).setValue( 'Enabled, Waiting for next rumble. ' );
     return false
   }
   if(myRumbleTime != getProperty('myRumbleTime')){
