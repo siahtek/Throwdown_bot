@@ -104,7 +104,7 @@ function writeLogs( aSection, aRow ) {
               mySheet.getRange( aRow + "" + myEmptyRow ).setBackground('#87d97a');
               mySheet.getRange( aRow + "" + myEmptyRow ).setFontColor('white');
             } else {
-              mySheet.getRange( aRow + "" + myEmptyRow ).setBackground('#efe3e3');
+              mySheet.getRange( aRow + "" + myEmptyRow ).setBackground('#d9d9d9');
               //mySheet.getRange( aRow + "" + myEmptyRow ).setFontColor('white');
             }
         }
