@@ -55,8 +55,8 @@ var heroToId = {
 * Cant be renamed.. this is a Google call onOpen
 */
 function onOpen() {
-    var ui = SpreadsheetApp.getUi();
-    theSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName( 'Settings' );
+  var ui = SpreadsheetApp.getUi();
+  theSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName( 'Settings' );
   ui.createMenu( 'Throwdown' )
     .addSeparator()
     .addItem( 'Enable & Refresh', '_Enable' )
@@ -71,7 +71,9 @@ function onOpen() {
    ui.createMenu( 'Custom Decks' )
     .addSeparator()
     .addItem( 'Import to sheet', 'ImportToSheet' )
+    .addItem( 'Import all to sheet (1-3)', 'ImportAllToSheet' )
     .addItem( 'Export to throwdown', 'ExportToThrowdown' )
+//    .addItem( 'Export all to throwdown (1-3)', 'ExportAllToThrowdown' )
     .addItem( 'Display in sheet', 'DisplayUserDeck' )
     .addToUi();
   if (theSheet.getRange("A2:F2").getValue() == 'debug'){
@@ -88,31 +90,32 @@ function onOpen() {
  */
 function onEditCustom(e) {
   if (e.range.getA1Notation() == 'I4') {
-   var myValue = e.range.getValue();
+    var myValue = e.range.getValue();
     e.range.setValue('Loading task');
     if(myValue == 'Import to sheet'){ImportToSheet()}
+    if(myValue == 'Import all to sheet (1-3)'){ImportAllToSheet()}
     if(myValue == 'Export to throwdown'){ExportToThrowdown()}
     if(myValue == 'Display in sheet'){DisplayUserDeck()}
     e.range.setValue('Select a task');
     return
   }
-    if (e.range.getA1Notation() == 'D11') {
-   var myValue = e.range.getValue();
+  if (e.range.getA1Notation() == 'D11') {
+    var myValue = e.range.getValue();
     e.range.setValue('Loading task');
     if(myValue == 'Enable & Refresh'){_Enable()}
     if(myValue == 'Disable'){_Disable()}
     if(myValue == 'Manual Run'){_Run()}
     e.range.setValue('Select a task');
-      return
+    return
   }
-      if (e.range.getA1Notation() == 'D12') {
-   var myValue = e.range.getValue();
+  if (e.range.getA1Notation() == 'D12') {
+    var myValue = e.range.getValue();
     e.range.setValue('Loading task');
     if(myValue == 'Enable'){enableRumble()}
     if(myValue == 'Disable'){disableRumble()}
     if(myValue == 'Manual Run'){manualeRumble()}
     e.range.setValue('Select a task');
-      return
+    return
   }
 }
 
