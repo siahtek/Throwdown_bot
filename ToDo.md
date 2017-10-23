@@ -4,10 +4,10 @@
 - [ ] Automate swole fighting
 - [ ] Add option to use energy/stamina refills -> still Broke from what i can tell.
 - [ ] Enhance error catching
-- [ ] Update readme
 - [ ] Import/Export settings
 
 - Finished
+- [X] Update readme
 - [x] Add TODO
 - [X] Enhance custom deck page (done, not committed)
 - [X] Add option to only run challenges X time before they finish (done, not committed)
