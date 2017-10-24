@@ -4,7 +4,7 @@
 - [ ] Automate swole fighting
 - [ ] Add option to use energy/stamina refills -> still Broke from what i can tell.
 - [ ] Enhance error catching
-- [ ] Import/Export settings
+
 
 - Finished
 - [X] Update readme
@@ -19,6 +19,7 @@
 - [X] Fix energy check function (done, not committed)
 - [x] Enhance logging - add token reward info for arena battles (done, not committed)
 - [x] Enhance logging - color-code "card buy" cell to denote card rarity (done, not committed)
+- [X] Import/Export settings
 
 - Ideas
 - [ ] Create mobile app
