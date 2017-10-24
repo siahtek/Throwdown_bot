@@ -85,79 +85,161 @@ function loadUserSettings() { //Read settings
     } )
     return true
 }
+/**
+* Import Settings
+*/
+function ImportSettings() {
+  var ui = SpreadsheetApp.getUi(); 
+    var result = ui.prompt(
+      'Settings Import (This might be slow)',
+      'Enter Your settings string:',
+      ui.ButtonSet.OK_CANCEL);
+ var button = result.getSelectedButton();
+ var text = result.getResponseText();
+if (button == ui.Button.OK) {
+ var mySettings = JSON.parse(text)
+  }else{
+   return false 
+  }
+      var mySheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName( 'Settings' );
+    var myRange = mySheet.getRange( "C1:D97" ).getValues();
+        //Options
+ mySheet.getRange( "D"+getSettingPOS( myRange, 'Ad Crate')).setValue(mySettings['Ad Crate']);
+ mySheet.getRange( "D"+getSettingPOS( myRange, 'Ad Boost')).setValue(mySettings['Ad Boost']);
+    //Cards
+ mySheet.getRange( "D"+getSettingPOS( myRange, 'Auto buy and recycle')).setValue(mySettings['Auto buy and recycle']);
+ mySheet.getRange( "D"+getSettingPOS( myRange, 'Cards rarities to recycle')).setValue(mySettings['Cards rarities to recycle']);
+ mySheet.getRange( "D"+getSettingPOS( myRange, 'Auto buy limit')).setValue(mySettings['Auto buy limit']);
+ mySheet.getRange( "D"+getSettingPOS( myRange, 'Auto Buy/Upgrade Mission')).setValue(mySettings['Auto Buy/Upgrade Mission']);
+    //Refill Challenge
+ mySheet.getRange( "D"+getSettingPOS( myRange, 'Auto Refill Challenge')).setValue(mySettings['Auto Refill Challenge']);
+ mySheet.getRange( "D"+getSettingPOS( myRange, 'Refill Challenge Energy check')).setValue(mySettings['Refill Challenge Energy check']);
+ mySheet.getRange( "D"+getSettingPOS( myRange, 'Refill Challenge Delay')).setValue(mySettings['Refill Challenge Delay']);
+ mySheet.getRange( "D"+getSettingPOS( myRange, 'Refill Challenge Deck')).setValue(mySettings['Refill Challenge Deck']);
+    //Non-Refill Challenge
+ mySheet.getRange( "D"+getSettingPOS( myRange, 'Auto Non-Refill Challenge')).setValue(mySettings['Auto Non-Refill Challenge']);
+ mySheet.getRange( "D"+getSettingPOS( myRange, 'Non-Refill Challenge Energy Check')).setValue(mySettings['Non-Refill Challenge Energy Check']);
+ mySheet.getRange( "D"+getSettingPOS( myRange, 'Non-Refill Challenge Delay')).setValue(mySettings['Non-Refill Challenge Delay']);
+ mySheet.getRange( "D"+getSettingPOS( myRange, 'Non-Refill Challenge Deck')).setValue(mySettings['Non-Refill Challenge Deck']);
+    //Rumble
+ mySheet.getRange( "D"+getSettingPOS( myRange, 'Rumble Deck')).setValue(mySettings['Rumble Deck']);
+ mySheet.getRange( "D"+getSettingPOS( myRange, 'Rumble Energy Check')).setValue(mySettings['Rumble Energy Check']);
+ mySheet.getRange( "D"+getSettingPOS( myRange, 'Panic time')).setValue(mySettings['Panic time']);
+    //Adventure
+ mySheet.getRange( "D"+getSettingPOS( myRange, 'Auto Adventure')).setValue(mySettings['Auto Adventure']);
+ mySheet.getRange( "D"+getSettingPOS( myRange, 'Adventure Energy Check')).setValue(mySettings['Adventure Energy Check']);
+ mySheet.getRange( "D"+getSettingPOS( myRange, 'Adventure Deck')).setValue(mySettings['Adventure Deck']);
+ mySheet.getRange( "D"+getSettingPOS( myRange, 'Island to farm')).setValue(mySettings['Island to farm']);
+    //Arena
+ mySheet.getRange( "D"+getSettingPOS( myRange, 'Auto Arena')).setValue(mySettings['Auto Arena']);
+ mySheet.getRange( "D"+getSettingPOS( myRange, 'Arena Energy Check')).setValue(mySettings['Arena Energy Check']);
+ mySheet.getRange( "D"+getSettingPOS( myRange, 'Arena Deck')).setValue(mySettings['Arena Deck']);
+ mySheet.getRange( "D"+getSettingPOS( myRange, 'Token Search')).setValue(mySettings['Token Search']);
+ mySheet.getRange( "D"+getSettingPOS( myRange, 'Search Timeout')).setValue(mySettings['Search Timeout']);
+ mySheet.getRange( "D"+getSettingPOS( myRange, 'Brian')).setValue(mySettings['Brian']);
+ mySheet.getRange( "D"+getSettingPOS( myRange, 'Stewie')).setValue(mySettings['Stewie']);
+ mySheet.getRange( "D"+getSettingPOS( myRange, 'Louise')).setValue(mySettings['Louise']);
+ mySheet.getRange( "D"+getSettingPOS( myRange, 'Steve')).setValue(mySettings['Steve']);
+ mySheet.getRange( "D"+getSettingPOS( myRange, 'Bender')).setValue(mySettings['Bender']);
+ mySheet.getRange( "D"+getSettingPOS( myRange, 'Dale')).setValue(mySettings['Dale']);
+ mySheet.getRange( "D"+getSettingPOS( myRange, 'Bob')).setValue(mySettings['Bob']);
+ mySheet.getRange( "D"+getSettingPOS( myRange, 'Roger')).setValue(mySettings['Roger']);
+ mySheet.getRange( "D"+getSettingPOS( myRange, 'Leela')).setValue(mySettings['Leela']);
+ mySheet.getRange( "D"+getSettingPOS( myRange, 'Bobby')).setValue(mySettings['Bobby']);
+ mySheet.getRange( "D"+getSettingPOS( myRange, 'Peter')).setValue(mySettings['Peter']);
+ mySheet.getRange( "D"+getSettingPOS( myRange, 'Tina')).setValue(mySettings['Tina']);
+ mySheet.getRange( "D"+getSettingPOS( myRange, 'Stan')).setValue(mySettings['Stan']);
+ mySheet.getRange( "D"+getSettingPOS( myRange, 'Fry')).setValue(mySettings['Fry']);
+ mySheet.getRange( "D"+getSettingPOS( myRange, 'Hank')).setValue(mySettings['Hank']);
+ mySheet.getRange( "D"+getSettingPOS( myRange, 'Consuela')).setValue(mySettings['Consuela']);
+ mySheet.getRange( "D"+getSettingPOS( myRange, 'Ricky Spanish')).setValue(mySettings['Ricky Spanish']);
+ mySheet.getRange( "D"+getSettingPOS( myRange, 'Gene')).setValue(mySettings['Gene']);
+ mySheet.getRange( "D"+getSettingPOS( myRange, 'Zapp Brannigan')).setValue(mySettings['Zapp Brannigan']);
+ mySheet.getRange( "D"+getSettingPOS( myRange, 'The Giant Chicken')).setValue(mySettings['The Giant Chicken']);
+ mySheet.getRange( "D"+getSettingPOS( myRange, 'John Redcorn')).setValue(mySettings['John Redcorn']);
+    
+    //Siege
+ mySheet.getRange( "D"+getSettingPOS( myRange, 'Auto Siege')).setValue(mySettings['Auto Siege']);
+ mySheet.getRange( "D"+getSettingPOS( myRange, 'Siege Energy Check')).setValue(mySettings['Siege Energy Check']);
+ mySheet.getRange( "D"+getSettingPOS( myRange, 'Siege Deck')).setValue(mySettings['Siege Deck']);
+ mySheet.getRange( "D"+getSettingPOS( myRange, 'Siege Delay')).setValue(mySettings['Siege Delay']);
+ mySheet.getRange( "D"+getSettingPOS( myRange, 'Island to Attack')).setValue(mySettings['Island to Attack']);
+ui.alert('Settings Imported!');
+
+}
 
 /**
-* Export User settins
+* Export User Settings
 */
 function ExportSettings() {
     var mySheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName( 'Settings' );
     var myRange = mySheet.getRange( "C1:D97" ).getValues();
-    var mySearch = getCharacterTokens(myRange);
-  
-    myProperties.setProperties( { 
-        //Options
-        'Ad Crate': getSetting( myRange, 'Ad Crate' ),
-        'Ad Boost': getSetting( myRange, 'Ad Boost' ),
-        //Cards
-        'Auto buy and recycle': getSetting( myRange, 'Auto buy and recycle' ),
-        'Cards rarities to recycle': getSetting( myRange, 'Cards rarities to recycle' ),
-        'Auto buy limit': getSetting( myRange, 'Auto buy limit' ),
-        'Auto Buy/Upgrade Mission': getSetting( myRange, 'Auto Buy/Upgrade Mission' ),
-        //Refill Challenge
-        'Auto Refill Challenge': getSetting( myRange, 'Auto Refill Challenge' ),
-        'Refill Challenge Energy check': getSetting( myRange, 'Refill Challenge Energy check' ),
-        'Refill Challenge Delay': getSetting( myRange, 'Refill Challenge Delay' ),
-        'Refill Challenge Deck': getSetting( myRange, 'Refill Challenge Deck' ),
-        //Non-Refill Challenge
-        'Auto Non-Refill Challenge': getSetting( myRange, 'Auto Non-Refill Challenge' ),
-        'Non-Refill Challenge Energy Check': getSetting( myRange, 'Non-Refill Challenge Energy Check' ),
-        'Non-Refill Challenge Delay': getSetting( myRange, 'Non-Refill Challenge Delay' ),
-        'Non-Refill Challenge Deck': getSetting( myRange, 'Non-Refill Challenge Deck' ),
-        //Rumble
-        'Rumble Deck': getSetting( myRange, 'Rumble Deck' ),
-        'Rumble Energy Check': getSetting( myRange, 'Rumble Energy Check' ),
-        'Panic time': getSetting( myRange, 'Panic time' ),
-        //Adventure
-        'Auto Adventure': getSetting( myRange, 'Auto Adventure' ),
-        'Adventure Energy Check': getSetting( myRange, 'Adventure Energy Check' ),
-        'Adventure Deck': getSetting( myRange, 'Adventure Deck' ),
-        'Island to farm': convertIsland( getSetting( myRange, 'Island to farm' ) ) + '',
-        //Arena
-        'Auto Arena': getSetting( myRange, 'Auto Arena' ),
-        'Arena Energy Check': getSetting( myRange, 'Arena Energy Check' ),
-        'Arena Deck': getSetting( myRange, 'Arena Deck' ),
-        //Token Search
-        'Token Search': getSetting( myRange, 'Token Search' ),
-        'Search Timeout': getSetting( myRange, 'Search Timeout' ),
-        'Arena_Target': mySearch,
-        //Other
-        '_currenttime': formattedTime(),
-        '_time_count': formattedTime(),
-        //Logging
-        '_logs_RefillChallenge': '',
-        '_logs_RefillChallenge_count': 0,
-        '_logs_NoneRefillChallenge': '',
-        '_logs_NoneRefillChallenge_count': 0,
-        '_logs_Adventure': '',
-        '_logs_Adventure_count': 0,
-        '_logs_Arena': '',
-        '_logs_Arena_count': 0,
-        '_logs_Rumble' : '',
-        '_logs_Rumble_count' : 0,
-        '_logs_Siege' : '',
-        '_logs_Siege_count' : 0,
-        'BuyCardAndRecycle': '',
-        'BuyCardAndRecycle_count': 0,
-        'BuyCardAndUpgrade': '',
-        'BuyCardAndUpgrade_count': 0,
-         //Siege
-        'Auto Siege': getSetting( myRange, 'Auto Siege' ),
-        'Siege Energy Check': getSetting( myRange, 'Siege Energy Check' ),
-        'Siege Deck': getSetting( myRange, 'Siege Deck' ),
-        'Siege Delay': getSetting( myRange, 'Siege Delay' ),
-        'Island to Attack': getSetting( myRange, 'Island to Attack' )
-    } )
-    return true
+  var Settings = {
+      //Options
+    'Ad Crate' : getSetting( myRange, 'Ad Crate' ),
+    'Ad Boost' : getSetting( myRange, 'Ad Boost' ),
+    //Cards
+    'Auto buy and recycle' : getSetting( myRange, 'Auto buy and recycle' ),
+    'Cards rarities to recycle' : getSetting( myRange, 'Cards rarities to recycle' ),
+    'Auto buy limit' : getSetting( myRange, 'Auto buy limit' ),
+    'Auto Buy/Upgrade Mission' : getSetting( myRange, 'Auto Buy/Upgrade Mission' ),
+    //Refill Challenge
+    'Auto Refill Challenge' : getSetting( myRange, 'Auto Refill Challenge' ),
+    'Refill Challenge Energy check' : getSetting( myRange, 'Refill Challenge Energy check' ),
+    'Refill Challenge Delay' : getSetting( myRange, 'Refill Challenge Delay' ),
+    'Refill Challenge Deck' : getSetting( myRange, 'Refill Challenge Deck' ),
+    //Non-Refill Challenge
+    'Auto Non-Refill Challenge' : getSetting( myRange, 'Auto Non-Refill Challenge' ),
+    'Non-Refill Challenge Energy Check' : getSetting( myRange, 'Non-Refill Challenge Energy Check' ),
+    'Non-Refill Challenge Delay' : getSetting( myRange, 'Non-Refill Challenge Delay' ),
+    'Non-Refill Challenge Deck' : getSetting( myRange, 'Non-Refill Challenge Deck' ),
+    //Rumble
+    'Rumble Deck' : getSetting( myRange, 'Rumble Deck' ),
+    'Rumble Energy Check' : getSetting( myRange, 'Rumble Energy Check' ),
+    'Panic time' : getSetting( myRange, 'Panic time' ),
+    //Adventure
+    'Auto Adventure' : getSetting( myRange, 'Auto Adventure' ),
+    'Adventure Energy Check' : getSetting( myRange, 'Adventure Energy Check' ),
+    'Adventure Deck' : getSetting( myRange, 'Adventure Deck' ),
+    'Island to farm' : getSetting( myRange, 'Island to farm' ),
+    //Arena
+    'Auto Arena' : getSetting( myRange, 'Auto Arena' ),
+    'Arena Energy Check' : getSetting( myRange, 'Arena Energy Check' ),
+    'Arena Deck' : getSetting( myRange, 'Arena Deck' ),
+    'Token Search' : getSetting( myRange, 'Token Search' ),
+    'Search Timeout' : getSetting( myRange, 'Search Timeout' ),
+    'Brian' : getSetting( myRange, 'Brian' ),
+    'Stewie' : getSetting( myRange, 'Stewie' ),
+    'Louise' : getSetting( myRange, 'Louise' ),
+    'Steve' : getSetting( myRange, 'Steve' ),
+    'Bender' : getSetting( myRange, 'Bender' ),
+    'Dale' : getSetting( myRange, 'Dale' ),
+    'Bob' : getSetting( myRange, 'Bob' ),
+    'Roger' : getSetting( myRange, 'Roger' ),
+    'Leela' : getSetting( myRange, 'Leela' ),
+    'Bobby' : getSetting( myRange, 'Bobby' ),
+    'Peter' : getSetting( myRange, 'Peter' ),
+    'Tina' : getSetting( myRange, 'Tina' ),
+    'Stan' : getSetting( myRange, 'Stan' ),
+    'Fry' : getSetting( myRange, 'Fry' ),
+    'Hank' : getSetting( myRange, 'Hank' ),
+    'Consuela' : getSetting( myRange, 'Consuela' ),
+    'Ricky Spanish' : getSetting( myRange, 'Ricky Spanish' ),
+    'Gene' : getSetting( myRange, 'Gene' ),
+    'Zapp Brannigan' : getSetting( myRange, 'Zapp Brannigan' ),
+    'The Giant Chicken' : getSetting( myRange, 'The Giant Chicken' ),
+    'John Redcorn' : getSetting( myRange, 'John Redcorn' ),
+    
+    //Siege
+    'Auto Siege' : getSetting( myRange, 'Auto Siege' ),
+    'Siege Energy Check' : getSetting( myRange, 'Siege Energy Check' ),
+    'Siege Deck' : getSetting( myRange, 'Siege Deck' ),
+    'Siege Delay' : getSetting( myRange, 'Siege Delay' ),
+    'Island to Attack' : getSetting( myRange, 'Island to Attack' )
+
+  }
+var ui = SpreadsheetApp.getUi(); 
+ui.alert(JSON.stringify(Settings) );
 }
 
 /**

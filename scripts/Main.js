@@ -24,6 +24,10 @@ function onOpen() {
                 .addItem( 'Disable', 'disableRumble' )
                 .addItem( 'Manual Run', 'manualeRumble' )
                )
+  .addSubMenu(SpreadsheetApp.getUi().createMenu('Settings Import/Export')
+                .addItem( 'Settings Export', 'ExportSettings' )
+                .addItem( 'Settings Import', 'ImportSettings' )
+               )
     .addToUi();
    ui.createMenu( 'Custom Decks' )
     .addSeparator()
@@ -482,6 +486,7 @@ var idToHero = {
   5018:"Leela",
   5019:"Zapp Brannigan"
 };
+
 var heroToId = {
   "Peter":1001,
   "Stewie":1002,
