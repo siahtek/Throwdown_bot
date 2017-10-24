@@ -3,60 +3,17 @@ var theXmlCombo;
 var theXmlMythic;
 var theProperties;
 var theSheet;
-var idToHero = { 
-  1001:"Peter",
-  1002:"Stewie",
-  1003:"Brian",
-  1004:"Consuela",
-  1005:"The Giant Chicken",
-  2001:"Roger",
-  2002:"Stan",
-  2003:"Steve",
-  2005:"Ricky Spanish",
-  3001:"Bob",
-  3002:"Louise",
-  3003:"Tina",
-  3004:"Gene",
-  4001:"Hank",
-  4002:"Bobby",
-  4003:"Dale",
-  4004:"John Redcorn",
-  5016:"Bender",
-  5017:"Fry",
-  5018:"Leela",
-  5019:"Zapp Brannigan"
-};
-var heroToId = {
-  "Peter":1001,
-  "Stewie":1002,
-  "Brian":1003,
-  "Consuela":1004,
-  "The Giant Chicken":1005,
-  "Roger":2001,
-  "Stan":2002,
-  "Steve":2003,
-  "Ricky Spanish":2005,
-  "Bob":3001,
-  "Louise":3002,
-  "Tina":3003,
-  "Gene":3004,
-  "Hank":4001,
-  "Bobby":4002,
-  "Dale":4003,
-  "John Redcorn":4004,
-  "Bender":5016,
-  "Fry":5017,
-  "Leela":5018,
-  "Zapp Brannigan":5019
-};
+
+
 
 /**
 * On sheet load add Throwdown menu. --> Menu > Throwdown
 * Cant be renamed.. this is a Google call onOpen
 */
 function onOpen() {
-  var ui = SpreadsheetApp.getUi();
-  theSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName( 'Settings' );
+    var ui = SpreadsheetApp.getUi();
+    theSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName( 'Settings' );
+  
   ui.createMenu( 'Throwdown' )
     .addSeparator()
     .addItem( 'Enable & Refresh', '_Enable' )
@@ -71,10 +28,9 @@ function onOpen() {
    ui.createMenu( 'Custom Decks' )
     .addSeparator()
     .addItem( 'Import to sheet', 'ImportToSheet' )
-    .addItem( 'Import all to sheet (1-3)', 'ImportAllToSheet' )
     .addItem( 'Export to throwdown', 'ExportToThrowdown' )
-//    .addItem( 'Export all to throwdown (1-3)', 'ExportAllToThrowdown' )
     .addItem( 'Display in sheet', 'DisplayUserDeck' )
+    .addItem( 'All Cards Import', 'ImportAllCards' )
     .addToUi();
   if (theSheet.getRange("A2:F2").getValue() == 'debug'){
     ui.createMenu( 'Debug' )
@@ -83,6 +39,7 @@ function onOpen() {
       .addItem( 'Test Arena', 'testArena' )
       .addToUi();
   }
+
 }
 
 /**
@@ -90,32 +47,32 @@ function onOpen() {
  */
 function onEditCustom(e) {
   if (e.range.getA1Notation() == 'I4') {
-    var myValue = e.range.getValue();
+   var myValue = e.range.getValue();
     e.range.setValue('Loading task');
     if(myValue == 'Import to sheet'){ImportToSheet()}
-    if(myValue == 'Import all to sheet (1-3)'){ImportAllToSheet()}
     if(myValue == 'Export to throwdown'){ExportToThrowdown()}
     if(myValue == 'Display in sheet'){DisplayUserDeck()}
+     if(myValue == 'All Cards Import'){ImportAllCards()}
     e.range.setValue('Select a task');
     return
   }
-  if (e.range.getA1Notation() == 'D11') {
-    var myValue = e.range.getValue();
+    if (e.range.getA1Notation() == 'D11') {
+   var myValue = e.range.getValue();
     e.range.setValue('Loading task');
     if(myValue == 'Enable & Refresh'){_Enable()}
     if(myValue == 'Disable'){_Disable()}
     if(myValue == 'Manual Run'){_Run()}
     e.range.setValue('Select a task');
-    return
+      return
   }
-  if (e.range.getA1Notation() == 'D12') {
-    var myValue = e.range.getValue();
+      if (e.range.getA1Notation() == 'D12') {
+   var myValue = e.range.getValue();
     e.range.setValue('Loading task');
     if(myValue == 'Enable'){enableRumble()}
     if(myValue == 'Disable'){disableRumble()}
     if(myValue == 'Manual Run'){manualeRumble()}
     e.range.setValue('Select a task');
-    return
+      return
   }
 }
 
@@ -361,11 +318,11 @@ function _Farming() {
         Logger.log( '- - - - Arena End - - - -' );
     }
 	// ======================================== Arena =========================================
-	
+  
 	// ======================================== Siege =========================================
     var myStatus = getStatus();
-    if(EnergyCheck('Auto Siege', 'Siege Energy Check', 1, myStatus.arena, myStatus.arenaMax) == true){
-    if(getProperty( 'Siege Delay' ) == 'Enabled' && getSiegeTime() == true){
+    if(EnergyCheck('Auto Siege', 'Siege Energy Check', 1, myStatus.siege, myStatus.siegeMax) == true){
+    if(getProperty( 'Siege Delay' ) == 'Enabled' && getSiegeTime() == true || (getProperty( 'Siege Delay' ) == 'Disabled')){
         Logger.log( '- - - - Siege Start - - - -' );
         for ( var i = 0; i < myStatus.siege; i++ ) {
             updateStatus( 'Account ' + getProperty( '_name' ) + ' Loading Siege ' + formattedTime() );
@@ -433,6 +390,8 @@ function getStatus() { //Returns Current and Max energy.
     var userAccountJson = JSON.parse( userAccount );
     var challenge = UrlFetchApp.fetch( myUrl + '&message=startChallenge' );
     var challengeJson = JSON.parse( challenge );
+    var Siege = UrlFetchApp.fetch( myUrl + '&message=getGuildSiegeStatus' );
+    var SiegeJson = JSON.parse( Siege );
     var arenaEnergy = userAccountJson.user_data.stamina
     var arenaEnergyMax = userAccountJson.user_data.max_stamina
     var adventureEnergy = userAccountJson.user_data.energy
@@ -459,6 +418,14 @@ function getStatus() { //Returns Current and Max energy.
             var nonRefillChallengeEnergy = 0;
             var nonRefillChallengeEnergyMax = 10;
         }
+       var mySiegeID = getSiegeID()
+        if ( challengeJson.active_events.hasOwnProperty( mySiegeID ) ) {
+            var SiegeEnergy = SiegeJson.guild_siege_status.num_attacks;
+            var SiegeEnergyMax = SiegeJson.guild_siege_status.max_attacks;
+        } else {
+            var SiegeEnergy = 0;
+            var SiegeEnergyMax = 10;
+        }
 		if ( challengeJson.active_events.hasOwnProperty( '900001' ) ) {
 			var swoleChallengeEnergy = challengeJson.active_events[ 900001 ].challenge_data.energy.current_value;
 			var swoleChallengeEnergyMax = challengeJson.active_events[ 900001 ].challenge_data.energy.max_value;
@@ -475,7 +442,7 @@ function getStatus() { //Returns Current and Max energy.
         var swoleChallengeEnergy = 0;
         var swoleChallengeEnergyMax = 8;
     }
-	var myStatus = {adventure:parseInt(adventureEnergy), arena:parseInt(arenaEnergy), refillChallenge:parseInt(refillChallengeEnergy), nonRefillChallenge:parseInt(nonRefillChallengeEnergy), adventureMax:parseInt(adventureEnergyMax), arenaMax:parseInt(arenaEnergyMax), refillChallengeMax:parseInt(refillChallengeEnergyMax), nonRefillChallengeMax:parseInt(nonRefillChallengeEnergyMax), swoleChallenge:parseInt(swoleChallengeEnergy), swoleChallengeMax:parseInt(swoleChallengeEnergyMax), swoleTimeLeft:parseInt(swoleTimeLeft), swoleHero:parseInt(swoleHero)};
+	var myStatus = {siege:parseInt(SiegeEnergy),siegeMax:parseInt(SiegeEnergyMax),adventure:parseInt(adventureEnergy), arena:parseInt(arenaEnergy), refillChallenge:parseInt(refillChallengeEnergy), nonRefillChallenge:parseInt(nonRefillChallengeEnergy), adventureMax:parseInt(adventureEnergyMax), arenaMax:parseInt(arenaEnergyMax), refillChallengeMax:parseInt(refillChallengeEnergyMax), nonRefillChallengeMax:parseInt(nonRefillChallengeEnergyMax), swoleChallenge:parseInt(swoleChallengeEnergy), swoleChallengeMax:parseInt(swoleChallengeEnergyMax), swoleTimeLeft:parseInt(swoleTimeLeft), swoleHero:parseInt(swoleHero)};
     return myStatus
 }
 
@@ -491,3 +458,50 @@ function checkVersion() {
         myActiveSheet.getRange( 'C1' ).setValue( 'New Version Available -> http://tiny.cc/atbot' );
     }
 }
+
+var idToHero = { 
+  1001:"Peter",
+  1002:"Stewie",
+  1003:"Brian",
+  1004:"Consuela",
+  1005:"The Giant Chicken",
+  2001:"Roger",
+  2002:"Stan",
+  2003:"Steve",
+  2005:"Ricky Spanish",
+  3001:"Bob",
+  3002:"Louise",
+  3003:"Tina",
+  3004:"Gene",
+  4001:"Hank",
+  4002:"Bobby",
+  4003:"Dale",
+  4004:"John Redcorn",
+  5016:"Bender",
+  5017:"Fry",
+  5018:"Leela",
+  5019:"Zapp Brannigan"
+};
+var heroToId = {
+  "Peter":1001,
+  "Stewie":1002,
+  "Brian":1003,
+  "Consuela":1004,
+  "The Giant Chicken":1005,
+  "Roger":2001,
+  "Stan":2002,
+  "Steve":2003,
+  "Ricky Spanish":2005,
+  "Bob":3001,
+  "Louise":3002,
+  "Tina":3003,
+  "Gene":3004,
+  "Hank":4001,
+  "Bobby":4002,
+  "Dale":4003,
+  "John Redcorn":4004,
+  "Bender":5016,
+  "Fry":5017,
+  "Leela":5018,
+  "Zapp Brannigan":5019
+};

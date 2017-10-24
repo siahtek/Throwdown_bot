@@ -56,10 +56,6 @@ function loadUserSettings() { //Read settings
         'Token Search': getSetting( myRange, 'Token Search' ),
         'Search Timeout': getSetting( myRange, 'Search Timeout' ),
         'Arena_Target': mySearch,
-        'Consuela': getSetting( myRange, 'Consuela' ),
-        'Ricky Spanish': getSetting( myRange, 'Ricky Spanish' ),
-        'Gene': getSetting( myRange, 'Gene' ),
-        'Zapp Brannigan': getSetting( myRange, 'Zapp Brannigan' ),
         //Other
         '_currenttime': formattedTime(),
         '_time_count': formattedTime(),
@@ -74,6 +70,8 @@ function loadUserSettings() { //Read settings
         '_logs_Arena_count': 0,
         '_logs_Rumble' : '',
         '_logs_Rumble_count' : 0,
+        '_logs_Siege' : '',
+        '_logs_Siege_count' : 0,
         'BuyCardAndRecycle': '',
         'BuyCardAndRecycle_count': 0,
         'BuyCardAndUpgrade': '',
@@ -87,6 +85,81 @@ function loadUserSettings() { //Read settings
     } )
     return true
 }
+
+/**
+* Export User settins
+*/
+function ExportSettings() {
+    var mySheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName( 'Settings' );
+    var myRange = mySheet.getRange( "C1:D97" ).getValues();
+    var mySearch = getCharacterTokens(myRange);
+  
+    myProperties.setProperties( { 
+        //Options
+        'Ad Crate': getSetting( myRange, 'Ad Crate' ),
+        'Ad Boost': getSetting( myRange, 'Ad Boost' ),
+        //Cards
+        'Auto buy and recycle': getSetting( myRange, 'Auto buy and recycle' ),
+        'Cards rarities to recycle': getSetting( myRange, 'Cards rarities to recycle' ),
+        'Auto buy limit': getSetting( myRange, 'Auto buy limit' ),
+        'Auto Buy/Upgrade Mission': getSetting( myRange, 'Auto Buy/Upgrade Mission' ),
+        //Refill Challenge
+        'Auto Refill Challenge': getSetting( myRange, 'Auto Refill Challenge' ),
+        'Refill Challenge Energy check': getSetting( myRange, 'Refill Challenge Energy check' ),
+        'Refill Challenge Delay': getSetting( myRange, 'Refill Challenge Delay' ),
+        'Refill Challenge Deck': getSetting( myRange, 'Refill Challenge Deck' ),
+        //Non-Refill Challenge
+        'Auto Non-Refill Challenge': getSetting( myRange, 'Auto Non-Refill Challenge' ),
+        'Non-Refill Challenge Energy Check': getSetting( myRange, 'Non-Refill Challenge Energy Check' ),
+        'Non-Refill Challenge Delay': getSetting( myRange, 'Non-Refill Challenge Delay' ),
+        'Non-Refill Challenge Deck': getSetting( myRange, 'Non-Refill Challenge Deck' ),
+        //Rumble
+        'Rumble Deck': getSetting( myRange, 'Rumble Deck' ),
+        'Rumble Energy Check': getSetting( myRange, 'Rumble Energy Check' ),
+        'Panic time': getSetting( myRange, 'Panic time' ),
+        //Adventure
+        'Auto Adventure': getSetting( myRange, 'Auto Adventure' ),
+        'Adventure Energy Check': getSetting( myRange, 'Adventure Energy Check' ),
+        'Adventure Deck': getSetting( myRange, 'Adventure Deck' ),
+        'Island to farm': convertIsland( getSetting( myRange, 'Island to farm' ) ) + '',
+        //Arena
+        'Auto Arena': getSetting( myRange, 'Auto Arena' ),
+        'Arena Energy Check': getSetting( myRange, 'Arena Energy Check' ),
+        'Arena Deck': getSetting( myRange, 'Arena Deck' ),
+        //Token Search
+        'Token Search': getSetting( myRange, 'Token Search' ),
+        'Search Timeout': getSetting( myRange, 'Search Timeout' ),
+        'Arena_Target': mySearch,
+        //Other
+        '_currenttime': formattedTime(),
+        '_time_count': formattedTime(),
+        //Logging
+        '_logs_RefillChallenge': '',
+        '_logs_RefillChallenge_count': 0,
+        '_logs_NoneRefillChallenge': '',
+        '_logs_NoneRefillChallenge_count': 0,
+        '_logs_Adventure': '',
+        '_logs_Adventure_count': 0,
+        '_logs_Arena': '',
+        '_logs_Arena_count': 0,
+        '_logs_Rumble' : '',
+        '_logs_Rumble_count' : 0,
+        '_logs_Siege' : '',
+        '_logs_Siege_count' : 0,
+        'BuyCardAndRecycle': '',
+        'BuyCardAndRecycle_count': 0,
+        'BuyCardAndUpgrade': '',
+        'BuyCardAndUpgrade_count': 0,
+         //Siege
+        'Auto Siege': getSetting( myRange, 'Auto Siege' ),
+        'Siege Energy Check': getSetting( myRange, 'Siege Energy Check' ),
+        'Siege Deck': getSetting( myRange, 'Siege Deck' ),
+        'Siege Delay': getSetting( myRange, 'Siege Delay' ),
+        'Island to Attack': getSetting( myRange, 'Island to Attack' )
+    } )
+    return true
+}
+
 /**
 * Searches the sheet for the settings location and sets the setting.
 * Return settings Location

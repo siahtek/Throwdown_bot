@@ -94,13 +94,13 @@ function writeLogs( aSection, aRow ) {
     if ( myString != null ) {
         mySheet.getRange( aRow + "" + myEmptyRow ).setNote( myString );
         if (aSection == "BuyCardAndRecycle") {
-            if (myString.indexOf("Rarity:4") >= 0) {
+            if (myString.indexOf("Rarity:4") > 0) {
               mySheet.getRange( aRow + "" + myEmptyRow ).setBackground('#b517dc');
               mySheet.getRange( aRow + "" + myEmptyRow ).setFontColor('white');
-            } else if (myString.indexOf("Rarity:3") >= 0) {
+            } else if (myString.indexOf("Rarity:3") > 0) {
               mySheet.getRange( aRow + "" + myEmptyRow ).setBackground('#26f2ff');
               mySheet.getRange( aRow + "" + myEmptyRow ).setFontColor('white');
-            } else if (myString.indexOf("Rarity:2") >= 0) {
+            } else if (myString.indexOf("Rarity:2") > 0) {
               mySheet.getRange( aRow + "" + myEmptyRow ).setBackground('#87d97a');
               mySheet.getRange( aRow + "" + myEmptyRow ).setFontColor('white');
             } else {
@@ -156,6 +156,9 @@ function WriteLogs() {
      if ( getProperty( '_logs_Rumble' + '_count' ) != 0 || "" ) {
         myCheck = true;
     }
+    if ( getProperty( '_logs_Siege' + '_count' ) != 0 || "" ) {
+        myCheck = true;
+    }
     if ( myCheck == true ) {
         updateStatus( 'Account ' + getProperty( '_name' ) + ' Writing Logs ' + formattedTime() );
         writeLogs( '_logs_RefillChallenge', 'B' );
@@ -165,7 +168,9 @@ function WriteLogs() {
         writeLogs( 'BuyCardAndUpgrade', 'F' );
         writeLogs( 'BuyCardAndRecycle', 'G' );
         writeLogs( '_logs_Rumble', 'H' );
+        writeLogs( '_logs_Siege', 'I' );
         writeLogs( '_time', 'A' );
+      
     }
 }
 
