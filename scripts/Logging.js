@@ -94,13 +94,13 @@ function writeLogs( aSection, aRow ) {
     if ( myString != null ) {
         mySheet.getRange( aRow + "" + myEmptyRow ).setNote( myString );
         if (aSection == "BuyCardAndRecycle") {
-            if (myString.indexOf("Rarity:4") > 0) {
+            if (myString.indexOf("Rarity:4") >= 0) {
               mySheet.getRange( aRow + "" + myEmptyRow ).setBackground('#b517dc');
               mySheet.getRange( aRow + "" + myEmptyRow ).setFontColor('white');
-            } else if (myString.indexOf("Rarity:3") > 0) {
+            } else if (myString.indexOf("Rarity:3") >= 0) {
               mySheet.getRange( aRow + "" + myEmptyRow ).setBackground('#26f2ff');
               mySheet.getRange( aRow + "" + myEmptyRow ).setFontColor('white');
-            } else if (myString.indexOf("Rarity:2") > 0) {
+            } else if (myString.indexOf("Rarity:2") >= 0) {
               mySheet.getRange( aRow + "" + myEmptyRow ).setBackground('#87d97a');
               mySheet.getRange( aRow + "" + myEmptyRow ).setFontColor('white');
             } else {
