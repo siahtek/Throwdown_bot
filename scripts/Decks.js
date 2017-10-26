@@ -1,3 +1,4 @@
+
 /**
 * Load needed function.
 */
@@ -40,29 +41,16 @@ mySheet.getRange( "C6" ).setValue('Deck '+getProperty('GameDeck')+' Saved to '+g
 * Return Level and Stars
 */
 function ConvertCardLevel(aRarity, aLevel) {
-     if(aRarity == '1'){
-      var myStars = Math.floor(aLevel/3)
-      var myLevel = aLevel-(myStars*3)
-      if(myLevel == "0"){ myLevel = 3 }
-    }else if(aRarity == '2'){
-      var myStars = Math.floor(aLevel/4)
-      var myLevel = aLevel-(myStars*4)
-      if(myLevel == "0"){ myLevel = 4 }
-    }else if(aRarity == '3'){
-      var myStars = Math.floor(aLevel/5)
-      var myLevel = aLevel-(myStars*5)
-      if(myLevel == "0"){ myLevel = 5 }
-    }else if(aRarity == '4'){
-      var myStars = Math.floor(aLevel/6)
-      var myLevel = aLevel-(myStars*6)
-      if(myLevel == "0"){ myLevel = 6 }
-    }else if(aRarity == '5'){
-      var myStars = Math.floor(aLevel/7)
-      var myLevel = aLevel-(myStars*7)
-      if(myLevel == "0"){ myLevel = 7 }
-    } 
-  return myLevel+""+Array(myStars).join("*")
+  var theFactor = parseInt(aRarity)+2;
+  var myStars = Math.floor( aLevel/theFactor );
+  var myLevel = aLevel - ( myStars*theFactor );
+  if ( myLevel == "0" ){ 
+    myLevel = theFactor;
+  } else {myStars++};
+  return myLevel+""+Array(myStars).join("*");
 }
+
+
 /**
 * Generate Cartoonbattle Url
 * Return Cartoon Battle Url
@@ -103,13 +91,14 @@ myDeck = myDeck.split(',');
 mySheet.getRange( "C8" ).setValue('Loading deck: '+getProperty('SheetDeck'));
 mySheet.getRange( "C9" ).setValue('Deck Name: Loading...');
   for ( var i = 11; i < 45; i++ ) {
-  if(myDeck[i-9] != null){ 
-  mySheet.getRange( "C"+i ).setValue(myDeck[i-9].split('|')[2]);
-  mySheet.getRange( "D"+i ).setValue(ConvertCardLevel(myDeck[i-9].split('|')[3], myDeck[i-9].split('|')[1]));  
+  if(myDeck[i-11] != null){ 
+  mySheet.getRange( "C"+i ).setValue(myDeck[i-11].split('|')[2]);
+  mySheet.getRange( "D"+i ).setValue(ConvertCardLevel(myDeck[i-11].split('|')[3], myDeck[i-11].split('|')[1]));  
   }else{
     mySheet.getRange( "C"+i ).setValue('') 
   }
 }
+  mySheet.getRange( "C11:D46" ).sort(3); // so stupid. A=0...C=3
   mySheet.getRange( "C8" ).setValue('Deck Display #'+getProperty('SheetDeck'));
   mySheet.getRange( "C9" ).setValue('Deck Name: '+myDeckName) 
 }

@@ -271,12 +271,14 @@ function getSetting( aArray, aSetting ) {
 * return island ID
 */
 function convertIsland( aInfo ) {
+  Logger.log("Test: "+aInfo)
     if ( aInfo.length < 4 ) {
         aInfo = "0" + aInfo
     }
-    var myIsland = parseInt( aInfo.substring( 0, 2 ) );
-    var myPos = parseInt( aInfo.substring( 3, 4 ) );
+    var myIsland = parseInt( aInfo.substring( 0, 2 ) , 10);
+    var myPos = parseInt( aInfo.substring( 3, 4 ), 10 );
     var myMath = ( myIsland * 3 ) - ( 3 - myPos ) + ( 100 ) + '';
+  
     return myMath;
 }
 

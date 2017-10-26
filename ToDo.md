@@ -1,4 +1,5 @@
 - Todo
+- [ ] Fix timezone(Pull from kong?)
 - [ ] Automate combo research
 - [ ] Automate swole training
 - [ ] Automate swole fighting

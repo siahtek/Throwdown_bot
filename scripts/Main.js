@@ -60,7 +60,7 @@ function onEditCustom(e) {
     e.range.setValue('Select a task');
     return
   }
-    if (e.range.getA1Notation() == 'D11') {
+    if (e.range.getA1Notation() == 'D12') {
    var myValue = e.range.getValue();
     e.range.setValue('Loading task');
     if(myValue == 'Enable & Refresh'){_Enable()}
@@ -69,7 +69,7 @@ function onEditCustom(e) {
     e.range.setValue('Select a task');
       return
   }
-      if (e.range.getA1Notation() == 'D12') {
+      if (e.range.getA1Notation() == 'D13') {
    var myValue = e.range.getValue();
     e.range.setValue('Loading task');
     if(myValue == 'Enable'){enableRumble()}

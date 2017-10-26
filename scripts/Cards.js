@@ -162,7 +162,11 @@ function getFreeCardSpace() {
     var myUrl = getProperty( '_url' );
     var init = UrlFetchApp.fetch( myUrl + '&message=init' );
     var initJson = JSON.parse( init );
-    var maxCards = initJson.config_data.max_inventory_size;
+    var myUpgrade = 0
+   if ( initJson.user_items.hasOwnProperty( 207 ) != false ) {
+       myUpgrade = parseInt(initJson.user_items[207].number)*50
+    }
+  var maxCards = parseInt(initJson.config_data.max_inventory_size,10)+myUpgrade;
     var userAccount = UrlFetchApp.fetch( myUrl + '&message=getUserAccount' );
     var userAccountJson = JSON.parse( userAccount );
     var ownedCards = userAccountJson.common_fields.total_card_count

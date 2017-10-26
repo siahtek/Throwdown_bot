@@ -12,7 +12,7 @@ function AddLogCards( aSection, aReward ) {
     }
     myString = myString + aReward + '\n';
     setProperty( aSection, myString );
-    setProperty( aSection + '_count', parseInt( myCount ) + 1 );
+    setProperty( aSection + '_count', parseInt( myCount ,10) + 1 );
 }
 
 /**
@@ -79,7 +79,7 @@ function addLog( aSection, aReward ) {
     myCount = getProperty( aSection + '_count' );
     myString = myString + myRewards + '\n';
     setProperty( aSection, myString );
-    setProperty( aSection + '_count', parseInt( myCount ) + 1 );
+    setProperty( aSection + '_count', parseInt( myCount ,10) + 1 );
 }
 
 /**
@@ -192,7 +192,7 @@ function parseRewards( aRewards ) {
     Logger.log("rewardsJson.hero_xp = " + rewardsJson.hero_xp);
     if ( rewardsJson.hero_xp != null ) {
         Logger.log("found tokens");
-        var tokens = "" + idToHero[parseInt(rewardsJson.hero_xp.hero_id)] + ": " + rewardsJson.hero_xp.xp;
+        var tokens = "" + idToHero[parseInt(rewardsJson.hero_xp.hero_id,10)] + ": " + rewardsJson.hero_xp.xp;
     } else {
         Logger.log("no tokens found");
         var tokens = 0;

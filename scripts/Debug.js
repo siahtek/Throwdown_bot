@@ -1,3 +1,13 @@
+function testINIT(){
+    theSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName( 'Settings' );
+    theProperties = PropertiesService.getScriptProperties()
+    theXml = UrlFetchApp.fetch( 'https://cb-live.synapse-games.com/assets/cards.xml' ).getContentText();
+    theXmlCombo = UrlFetchApp.fetch( 'https://cb-live.synapse-games.com/assets/cards_finalform.xml' ).getContentText();
+    theXmlMythic = UrlFetchApp.fetch( 'https://cb-live.synapse-games.com/assets/cards_mythic.xml' ).getContentText();
+    loadUserSettings(); 
+  
+}
+
 function testBuyingCards() {
     Main();
     buyAndRecycleCards();
