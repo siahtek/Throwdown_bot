@@ -20,6 +20,7 @@ function loadUserSettings() { //Read settings
     }  
   
     myProperties.setProperties( { 
+        'Timezone': getSetting( myRange, 'Timezone' ),
         //Options
         'Energy Check': getSetting( myRange, 'Energy Check' ),
         'Ad Crate': getSetting( myRange, 'Ad Crate' ),
@@ -56,9 +57,6 @@ function loadUserSettings() { //Read settings
         'Token Search': getSetting( myRange, 'Token Search' ),
         'Search Timeout': getSetting( myRange, 'Search Timeout' ),
         'Arena_Target': mySearch,
-        //Other
-        '_currenttime': formattedTime(),
-        '_time_count': formattedTime(),
         //Logging
         '_logs_RefillChallenge': '',
         '_logs_RefillChallenge_count': 0,
@@ -103,6 +101,7 @@ if (button == ui.Button.OK) {
   }
       var mySheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName( 'Settings' );
     var myRange = mySheet.getRange( "C1:D97" ).getValues();
+ mySheet.getRange( "D"+getSettingPOS( myRange, 'Timezone')).setValue(mySettings['Timezone']);
         //Options
  mySheet.getRange( "D"+getSettingPOS( myRange, 'Ad Crate')).setValue(mySettings['Ad Crate']);
  mySheet.getRange( "D"+getSettingPOS( myRange, 'Ad Boost')).setValue(mySettings['Ad Boost']);
@@ -175,6 +174,7 @@ function ExportSettings() {
     var mySheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName( 'Settings' );
     var myRange = mySheet.getRange( "C1:D97" ).getValues();
   var Settings = {
+    'Timezone' : getSetting( myRange, 'Timezone' ),
       //Options
     'Ad Crate' : getSetting( myRange, 'Ad Crate' ),
     'Ad Boost' : getSetting( myRange, 'Ad Boost' ),
@@ -271,7 +271,6 @@ function getSetting( aArray, aSetting ) {
 * return island ID
 */
 function convertIsland( aInfo ) {
-  Logger.log("Test: "+aInfo)
     if ( aInfo.length < 4 ) {
         aInfo = "0" + aInfo
     }
@@ -367,7 +366,7 @@ function authenticateUser( aId, aToken ) { //Check if use is valid & create user
  var myUserName = myUserAuthJson.user_data.name;
   if(myCheck == true){
     Logger.log('Login Failed')
-        updateStatus( 'Login failed.. Check Login info ' + formattedTime() );
+        updateStatus( 'Login failed.. Check Login info' );
         Logger.log( 'User Auth fail' );
         return false
   }
@@ -381,7 +380,7 @@ function authenticateUser( aId, aToken ) { //Check if use is valid & create user
     if(myCheck != false){
       setProperty( '_IslandCost', myCheck+'');
     }else{
-      updateStatus( 'Account ' + getProperty( '_name' ) + ' Island unavailable to farm ' + formattedTime() );
+      updateStatus( 'Account ' + getProperty( '_name' ) + ' Island unavailable to farm ' );
       return false
     }
   }
@@ -468,3 +467,17 @@ function getCharacterTokens(aRange) {
 	
 	return mySearch
 	}
+
+function getNonMaxedCharacterTokens() {
+  var myUrl = getProperty( '_url' );
+  var myInit = UrlFetchApp.fetch( myUrl + '&message=init' );
+  var myInitJson = JSON.parse( myInit );
+  var myHeroes = myInitJson.user_heroes;
+  var mySearch = '';
+  for (var key in myHeroes) {
+    if (parseInt(myHeroes[key].level) < 10) {
+      mySearch += "," + myHeroes[key].unit_id;
+    }
+  }
+  return mySearch;
+}
