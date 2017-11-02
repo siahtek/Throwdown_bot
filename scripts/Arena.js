@@ -7,7 +7,7 @@ function playArena() {
     if ( checkIfActive( myUrl ) == true ) {
         return false
     }
-    if ( getProperty( 'Token Search' ) == "Enabled" ) {
+    if ( (getProperty( 'Token Search' ) == "Enabled") || (getProperty( 'Token Search' ) == "All Non-Maxed")) {
         var Search = searchArena();
         Logger.log( 'Search:' + Search )
     }
@@ -26,7 +26,11 @@ function playArena() {
 * return false/[search count,found token]
 */
 function searchArena() {
-    var myTarget = getProperty( 'Arena_Target' ).split( "," );
+    if (getProperty( 'Token Search' ) == "Enabled") {
+      var myTarget = getProperty( 'Arena_Target' ).split( "," );
+    } else {
+      var myTarget = getNonMaxedCharacterTokens().split(",");
+    }
     if ( myTarget.length < 2 ) {
         return false
     }
